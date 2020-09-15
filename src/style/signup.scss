@@ -1,0 +1,111 @@
+.signup-main-wrapper{  
+   .have-an-account{
+      background-color: $gray-bg-dealproduct;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .title{
+         p{
+            font-size: 1.5rem;
+            color: $gray-description;
+         }
+      }
+
+      a{
+         text-decoration: none;
+      }  
+
+      .login-button{
+         margin-left: 10px;
+         background-color: $orange-buttons;
+         padding: 3px 7px;
+         border-radius: 5px;
+         color: white;
+         font-size: 1.5rem;         
+         transition: 0.3s ease-in-out;
+
+         &:hover{
+            background-color: #F48C06;            
+         }         
+      }
+   }
+
+   .signup-form-wrapper{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .left-side{
+         .image{
+            img{        
+               width: 600px;
+               height: 700px;
+            }
+         }
+      }
+
+      .right-side{
+         text-align: left;
+
+         p{
+            margin: 20px 0px;
+            color: $gray-bg-content;
+            font-size: 2.5rem;
+         }
+
+         .signup-form{  
+            .form-group{
+               display: flex;
+               flex-direction: column;
+
+               label{                  
+                  color: $orange-buttons;
+                  font-size: 1.5rem;
+               }
+   
+               .new-entry-input{   
+                  width: 400px;
+                  font-size: 1.5rem;
+                  border: 1px solid $gray-bg-dealproduct;
+                  padding: 10px 15px;
+                  border-radius: 5px;  
+               }
+
+               .error-validation{
+                  margin-bottom: 8px;
+                  color: red;
+                  font-size: 1.3rem;
+               }
+            }
+
+             .message{            
+               p{
+                  width: 100%;
+                  position: absolute;
+                  font-size: 1.2em;
+                  color: black;
+               }
+            }
+   
+            .add-button{
+               margin-top: 50px;
+               width: 415px;
+               background-color: $orange-buttons;
+               border: 1px solid $orange-buttons;
+               border-radius: 5px;
+               color: white;
+               font-size: 2rem;
+               padding: 8px 10px;
+               outline: none;
+               transition: 0.3s ease-in-out;
+   
+               &:hover{
+                  cursor: pointer;
+                  background-color: #cc3c04;
+                  border: 1px solid #cc3c04;
+               }
+            }
+         }
+      }
+   }
+}

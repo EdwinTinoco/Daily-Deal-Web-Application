@@ -1,0 +1,108 @@
+.login-main-wrapper{    
+   .login-form-center{
+      display: flex;
+      justify-content: center;   
+      align-items: center;
+      height: calc(100vh - 200px);
+
+      .login-container{
+         height: 475px;
+         width: 430px;        
+         border-radius: 10px;
+         border: 1px solid #e7e4e4;
+         box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         text-align: center;
+
+         .logo{
+            margin: 20px 0px;
+
+            img{        
+               width: 180px;
+               height: 60px;
+            }
+         }     
+         
+         .title{
+            color: $gray-titles;
+            font-size: 2.5rem;
+         }
+         
+         .error-message{
+            position: absolute;
+            margin-top: 145px;
+            color: red;
+            font-size: 1.5rem;
+         }
+
+         .login-form{   
+            margin-top: 20px;
+            text-align: center;
+            padding: 30px 2px;   
+      
+            .form-group{
+               label{                  
+                  color: $orange-buttons;
+                  font-size: 1.5rem;
+               }
+   
+               .inputs{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+      
+                  svg{
+                     font-size: 3rem;
+                     color: #e7e4e4;
+                     margin-right: 3px;
+                 }
+      
+                 input{
+                     width: 300px;
+                     height: 30px;
+                     padding: 6px 15px;
+                     font-size: 1.8rem;
+                     border-radius: 5px;
+                     border: 1px solid $gray-bg-dealproduct;  
+                  }
+               }
+            }
+      
+           .btn{
+               margin-top: 15px;         
+               background-color: $orange-buttons;
+               border: 1px solid $orange-buttons;
+               border-radius: 5px;
+               padding: 8px 100px;
+               font-size: 2rem;    
+               color: white;     
+               transition: all 0.3s ease-in-out;
+               outline: none;
+      
+               &:hover{
+                  cursor: pointer;
+                  background-color: #cc3c04;
+                  border: 1px solid #cc3c04;
+               }              
+            }
+         }
+
+         .sign-up{ 
+            margin-top: 10px; 
+                       
+            a{
+               text-decoration: none;
+               color: $gray-titles;
+               font-size: 1.5rem;
+               transition: 0.3s ease-in-out;
+
+               &:hover{
+                  color: #c0bdbd;
+               }
+            }
+         }
+      }
+   }
+}
