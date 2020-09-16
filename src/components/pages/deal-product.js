@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DealProductDetail from "../product/deal-product-detail"
+import DealProductDetail from "../products/deal-product-detail"
 
 export default class DealProduct extends Component {
    constructor(props) {
@@ -30,7 +30,7 @@ export default class DealProduct extends Component {
 
    render() {
       return (
-         <div className="home-main-wrapper">
+         <div className="deal-product-main-wrapper">
             <div className="content">
                <DealProductDetail dealProduct={this.state.dealProduct} />
 

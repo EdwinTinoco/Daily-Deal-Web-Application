@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from '../../../static/assets/images/logo/daily-deal-logo.png'
 
 
-export default function MasterAdminNavbar(props) {
+export default function NavigationBar(props) {
    const [user, setUser] = useState({})
 
    const handleLogout = () => {
@@ -59,7 +59,7 @@ export default function MasterAdminNavbar(props) {
    }, [])
 
    return (
-      <div className="master-admin-main-navbar">
+      <div className="navigation-bar-main-wrapper">
          <div className="left-column">
             <img src={Logo} alt='Logo' />
          </div>
@@ -67,15 +67,50 @@ export default function MasterAdminNavbar(props) {
          <div className="center-column">
             <div className="links">
                <div className="link">
-                  <Link to="/ma-home">Home</Link>
+                  <Link to="/">Home</Link>
                </div>
+
+               {Object.entries(user).length > 0 ? user.role_title === "master_admin" ?
+                  (
+                     <div className="link">
+                        <Link to="/ma-home">Master Dashboard</Link>
+                     </div>
+                  )
+                  : user.role_title === "business_admin" ?
+                     (
+                        <div className="link">
+                           <Link to="/ba-home">Business Dashboard</Link>
+                        </div>
+                     )
+                     : null
+                  : null
+               }
             </div>
          </div>
 
          <div className="right-column">
-            <div className="user-info">
-               {`${user.user_name}  |  ${user.user_email}`}
-            </div>
+
+            {Object.entries(user).length > 0 ?
+               (
+                  <div className="user-info">
+                     {`${user.user_name}  |  ${user.user_email}`}
+                  </div>
+               )
+               :
+               (
+                  <div className="login">
+                     <div className="auth">
+                        <Link to="/auth">Login</Link>
+                     </div>
+
+                     <Link to="/auth">
+                        <div className="user-icon">
+                           <FontAwesomeIcon icon="user" />
+                        </div>
+                     </Link>
+                  </div>
+               )
+            }
          </div>
       </div>
    )

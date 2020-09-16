@@ -15,6 +15,7 @@ import {
    faStar,
    faAppleAlt,
    faPlusCircle,
+   faGlobeAmericas
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -36,6 +37,7 @@ const Icons = () => {
       faStar,
       faAppleAlt,
       faPlusCircle,
+      faGlobeAmericas
    );
 };
 

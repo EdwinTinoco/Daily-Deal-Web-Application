@@ -10,7 +10,7 @@ export default function DealProductDetail(props) {
    } = props.dealProduct
 
    return (
-      <div className="deal-product">
+      <div className="deal-product-detail-main-wrapper">
          <div className="image">
             <img src={image} alt="image" />
          </div>

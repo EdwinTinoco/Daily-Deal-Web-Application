@@ -1,24 +1,28 @@
 .login-main-wrapper{  
-   .login-header{
-      .link-product-deal{
-         background-color: $orange-buttons;
-         padding: 3px 0px;
+   .header{
+      height: 30px;
+      background-color: $gray-bg-dealproduct; 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .home-link{
+         margin-left: 10px;
 
          a{
-            margin-left: 15px;
             text-decoration: none;
             font-size: 1.5rem;
-            color: white;
+            color: $gray-description;
             transition: 0.3s ease-in-out;
 
             &:hover{
-               color: $gray-bg-dealproduct;
+               color: $orange-buttons;
             }
-         }  
+         }
       }
 
-      .have-an-account{      
-         background-color: $gray-bg-dealproduct;   
+      .have-an-account{ 
+         margin-right: 10px;     
          display: flex;
          justify-content: center;
          align-items: center;
@@ -34,10 +38,10 @@
             text-decoration: none;
          }  
    
-         .login-button{
+         .signup-button{
             margin-left: 10px;
             background-color: $orange-buttons;
-            padding: 3px 7px;
+            padding: 0px 7px;
             border-radius: 5px;
             color: white;
             font-size: 1.5rem;         
@@ -47,8 +51,8 @@
                background-color: #cc3c04;            
             }         
          }
-      }
-   }  
+      }   
+   }
    
    .login-form-center{
       display: flex;

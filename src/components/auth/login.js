@@ -69,9 +69,9 @@ export default class Login extends Component {
    render() {
       return (
          <div className="login-main-wrapper">
-            <div className="login-header">
-               <div className="link-product-deal">
-                  <Link to="/deal/product/:slug">See Product Deal</Link>
+            <div className="header">
+               <div className="home-link">
+                  <Link to='/'>Home</Link>
                </div>
 
                <div className="have-an-account">
@@ -80,17 +80,18 @@ export default class Login extends Component {
                   </div>
 
                   <Link to="/signup">
-                     <div className="login-button">
+                     <div className="signup-button">
                         Sign up
                      </div>
                   </Link>
                </div>
             </div>
 
+
             <div className="login-form-center">
                <div className="login-container">
                   <div className="logo">
-                     <Link to="/deal/product/:slug">
+                     <Link to="/">
                         <img src={Logo} alt='Logo' />
                      </Link>
                   </div>

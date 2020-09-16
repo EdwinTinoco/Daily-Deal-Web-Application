@@ -1,6 +1,6 @@
 import React from "react";
 
-import MasterAdminContainer from "../master-admin/master-admin-container"
+import MasterAdminContainer from "./master-container"
 
 export default function MasterAdminHome(props) {
    return (
