@@ -74,6 +74,7 @@ export default function NavigationBar(props) {
                   (
                      <div className="link">
                         <Link to="/ma-home">Master Dashboard</Link>
+                        <Link to='/create-account'>Create Account</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?

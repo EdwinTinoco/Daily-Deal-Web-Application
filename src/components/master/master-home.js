@@ -1,11 +1,11 @@
 import React from "react";
 
-import MasterAdminContainer from "./master-container"
+import MasterContainer from "./master-container"
 
-export default function MasterAdminHome(props) {
+export default function MasterHome(props) {
    return (
       <div className="master-admin-main-wrapper">
-         <MasterAdminContainer />
+         <MasterContainer />
       </div>
    )
 }

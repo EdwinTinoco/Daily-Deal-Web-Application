@@ -39,19 +39,23 @@ export default function Footer(props) {
                <p>Social Media</p>
 
                <div className="social-media">
-                  <a href="https://www.facebook.com/MHRenovationsUtah/" target="_blank">
+                  <a href="/" target="_blank">
                      <div className="facebook">
                         <FontAwesomeIcon icon={faFacebookF} />
                      </div>
                   </a>
 
-                  <div className="instagram">
-                     <FontAwesomeIcon icon={faInstagram} />
-                  </div>
+                  <a href="/" target="_blank">
+                     <div className="instagram">
+                        <FontAwesomeIcon icon={faInstagram} />
+                     </div>
+                  </a>
 
-                  <div className="google">
-                     <FontAwesomeIcon icon={faGoogle} />
-                  </div>
+                  <a href="/" target="_blank">
+                     <div className="google">
+                        <FontAwesomeIcon icon={faGoogle} />
+                     </div>
+                  </a>
                </div>
             </div>
          </div>

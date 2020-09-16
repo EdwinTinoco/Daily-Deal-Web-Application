@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function BusinessAdminHome(props) {
+export default function BusinessHome(props) {
    return (
       <h1>Business admin home</h1>
    )

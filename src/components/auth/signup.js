@@ -38,7 +38,8 @@ export default class SignUp extends Component {
             .post(
                'http://localhost:5000/api/user/signup',
                {
-                  role: "user",
+                  role: "master_admin",
+                  name: "Edwin Tinoco",
                   email: this.state.email,
                   password: this.state.password,
                   active: "Y"
@@ -111,16 +112,22 @@ export default class SignUp extends Component {
    render() {
       return (
          <div className="signup-main-wrapper" >
-            <div className="have-an-account">
-               <div className="title">
-                  <p>Already have an account?</p>
+            <div className="header">
+               <div className="home-link">
+                  <Link to='/'>Home</Link>
                </div>
 
-               <Link to="/auth">
-                  <div className="login-button">
-                     Login
+               <div className="have-an-account">
+                  <div className="title">
+                     <p>Don't have an account?</p>
                   </div>
-               </Link>
+
+                  <Link to="/auth">
+                     <div className="login-button">
+                        Login
+                     </div>
+                  </Link>
+               </div>
             </div>
 
             <div className="skewed-header">
@@ -172,7 +179,7 @@ export default class SignUp extends Component {
                         <p>{this.state.messageUser}</p>
                      </div>
 
-                     <button type='submit' className='add-button'>Sign up</button>
+                     <button type='submit' className='signup-button'>Sign up</button>
                   </form>
                </div>
             </div>

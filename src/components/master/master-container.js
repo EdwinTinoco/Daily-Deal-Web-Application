@@ -7,12 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NavigationBar from "../navigation-bar/navigation-bar"
 
 
-export default function MasterAdminContainer(props) {
+export default function MasterContainer(props) {
    return (
       <div className="master-main-wrapper">
-         <div className="navbar-wrapper">
-            <NavigationBar />
-         </div>
+         <NavigationBar />
 
          <div className="search-sales">
             <FontAwesomeIcon icon="search" />

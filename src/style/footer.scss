@@ -12,11 +12,11 @@
 
          .about{
             .title{
-               font-size: 1.8rem;
+               font-size: 1.4rem;
                color: $orange-buttons;
             }
             .about-info{
-               font-size: 1.5rem; 
+               font-size: 1.3rem; 
                color: $gray-description;              
             }
          }
@@ -24,7 +24,7 @@
 
       .center-column{  
          p{
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: $orange-buttons;
          }       
 
@@ -35,7 +35,7 @@
                a{
                   text-decoration: none;
                   color: $gray-bg-content;
-                  font-size: 1.5rem;
+                  font-size: 1.3rem;
                   transition: 0.3s ease-in-out;
 
                   &:hover{
@@ -48,7 +48,7 @@
 
       .right-column{
          p{
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: $orange-buttons;
          } 
 
@@ -124,16 +124,15 @@
 
       .info{
          p{
-            margin: 10px 0px 0px 0px;
-            font-size: 1.2rem;
+            margin-top: 5px;
+            font-size: 1rem;
          }
       }
 
       .powered-by{
          p{
-            margin: 0px 0px 10px 0px;
-            font-size: 1.2rem;
-            font-family: 'Open Sans', sans-serif;
+            margin-bottom: 5px;
+            font-size: 1rem;
          }
       }
    }

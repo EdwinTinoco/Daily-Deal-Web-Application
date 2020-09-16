@@ -1,12 +1,11 @@
 .content{  
    .deal-product-detail-main-wrapper{
-      width: 450px;
-      background-color: #e7e4e4;
-      
+      width: 370px;
+      background-color: #e7e4e4;     
 
       .image img{
-         width: 450px;
-         height: 650px;
+         width: 370px;
+         height: 510px;
       }
 
       .title-description{
@@ -15,15 +14,15 @@
          .title{
             margin-top: 20px;
             text-align: left;
-            color: #3d3c3c;
-            font-size: 2.1rem;
-            font-weight: 600;
+            color: #575555;
+            font-size: 1.8rem;
+            font-weight: 700;
          }
          
          .description{
             text-align: left;
             color: #858383;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
          }
       }   
       
@@ -34,7 +33,7 @@
          align-items: center;
 
          .price{    
-            margin-left: 150px;  
+            margin-left: 105px;  
             color: black;
             font-size: 3.5rem;
             font-weight: 700;
@@ -49,18 +48,18 @@
                text-align: center;
                margin-right: 3px;
                width: 30px;
-               height: 34px;
+               height: 30px;
                color: #f76d37;
-               font-size: 2.2rem;
-               font-weight: 600;
+               font-size: 1.8rem;
+               font-weight: 700;
                border: 6px solid white;
                border-radius: 48%;
             }
 
             .left{
-               font-size: 1.8rem;
+               font-size: 1.4rem;
                font-style: italic;
-               font-weight: 400;
+               font-weight: 600;
                color: #b8b6b6;
             }
          }

@@ -2,11 +2,11 @@
    display: flex;
    align-items: center;
    justify-content: center;   
-   height: calc(100vh - 90px);
+   height: calc(100vh - 20px);
 
    .content{
-      width: 465px;
-      height: 1000px;
+      width: 379px;
+      height: 835px;
       background-color: #d8d7d7;
       display: flex;
       flex-direction: column;
@@ -14,17 +14,17 @@
       align-items: center;
 
       .buy-button{
-         width: 450px;
+         width: 370px;
          background-color: #e7e4e4;
          text-align: center;
 
          button{
             margin-top: 20px;
-            padding: 10px 140px;
+            padding: 10px 120px;
             border-radius: 8px;
             border: 1.5px solid #f85312;
             background-color:  #f85312;
-            font-size: 3.5rem;
+            font-size: 3.3rem;
             color: white;
             outline: none;
             transition: 0.3s ease-in-out; 
@@ -36,21 +36,20 @@
             }
 
             &:active {
-               // border: 1.5px solid #cc3c04;
                box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
             }
          }
       }
    
       .links-wrapper{
-         width: 450px;
+         width: 370px;
          background-color: #e7e4e4;
          display: flex;
          justify-content: center;
          align-items: center;
    
          .link{
-            margin: 15px 0px;
+            margin: 13px 0px;
             padding: 10px 50px;
             border: 1.5px solid #e7e4e4;
             border-radius: 5px;
@@ -58,7 +57,7 @@
             
             a{
                text-decoration: none;
-               font-size: 1.8rem;
+               font-size: 1.5rem;
                color: #b8b6b6;
                font-weight: bold;
             }

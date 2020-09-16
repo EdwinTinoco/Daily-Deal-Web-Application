@@ -1,34 +1,57 @@
 .signup-main-wrapper{  
-   .have-an-account{
-      background-color: $gray-bg-dealproduct;
+   .header{
+      height: 30px;
+      background-color: $gray-bg-dealproduct; 
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
 
-      .title{
-         p{
-            font-size: 1.5rem;
+      .home-link{
+         margin-left: 10px;
+
+         a{
+            text-decoration: none;
+            font-size: 1.3rem;
             color: $gray-description;
+            transition: 0.3s ease-in-out;
+
+            &:hover{
+               color: $orange-buttons;
+            }
          }
       }
 
-      a{
-         text-decoration: none;
-      }  
-
-      .login-button{
-         margin-left: 10px;
-         background-color: $orange-buttons;
-         padding: 3px 7px;
-         border-radius: 5px;
-         color: white;
-         font-size: 1.5rem;         
-         transition: 0.3s ease-in-out;
-
-         &:hover{
-            background-color: #cc3c04;           
-         }         
-      }
+      .have-an-account{ 
+         margin-right: 10px;     
+         display: flex;
+         justify-content: center;
+         align-items: center;
+   
+         .title{
+            p{
+               font-size: 1.3rem;
+               color: $gray-description;
+            }
+         }
+   
+         a{
+            text-decoration: none;
+         }  
+   
+         .login-button{
+            margin-left: 10px;
+            background-color: $orange-buttons;
+            padding: 0px 7px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.3rem;         
+            transition: 0.3s ease-in-out;
+   
+            &:hover{
+               background-color: #cc3c04;            
+            }         
+         }
+      }   
    }
 
    .skewed-header{
@@ -64,10 +87,6 @@
 
          .signup-form{  
             border: 1px solid $gray-bg-content;
-            // display: flex;
-            // flex-direction: column;
-            // justify-content: center;
-            // align-items: center;
             
             .form-group{
                display: flex;
@@ -75,21 +94,21 @@
 
                label{                  
                   color: $orange-buttons;
-                  font-size: 1.5rem;
+                  font-size: 1.2rem;
                }
    
                .new-entry-input{   
-                  width: 400px;
-                  font-size: 1.8rem;
-                  border: 1px solid $gray-bg-dealproduct;
-                  padding: 10px 8px;
-                  border-radius: 5px;  
+                  width: 280px;
+                  padding: 8px 12px;
+                  font-size: 1.4rem;
+                  border-radius: 5px;
+                  border: 1px solid $gray-bg-dealproduct;    
                }
 
                .error-validation{
                   margin-bottom: 8px;
                   color: red;
-                  font-size: 1.5rem;
+                  font-size: 1.2rem;
                }
             }
 
@@ -97,20 +116,19 @@
                p{
                   width: 100%;
                   position: absolute;
-                  font-size: 1.2em;
+                  font-size: 1.3em;
                   color: black;
                }
             }
    
-            .add-button{
+            .signup-button{
                margin-top: 50px;
-               width: 400px;
                background-color: $orange-buttons;
                border: 1px solid $orange-buttons;
                border-radius: 5px;
                color: white;
-               font-size: 2rem;
-               padding: 8px 10px;
+               font-size: 1.5rem;
+               padding: 6px 80px;
                outline: none;
                transition: 0.3s ease-in-out;
    

@@ -11,8 +11,9 @@ import Cookies from 'js-cookie';
 import Icons from "../helpers/icons";
 
 import Home from './pages/home'
-import MasterAdminHome from "./master/master-home";
-import BusinessAdminHome from "./business/business-home";
+import MasterHome from "./master/master-home";
+import CreateAccount from "./master/create-account";
+import BusinessHome from "./business/business-home";
 import Auth from "./pages/auth";
 import SignUp from "./auth/signup";
 import DealProduct from "./pages/deal-product";
@@ -26,11 +27,15 @@ export default function App(props) {
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path='/ma-home' component={MasterAdminHome} />
-          <Route exact path='/ba-home' component={BusinessAdminHome} />
 
           <Route path='/auth' component={Auth} />
           <Route path='/signup' component={SignUp} />
+
+          <Route exact path='/ma-home' component={MasterHome} />
+          <Route path='/create-account' component={CreateAccount} />
+
+          <Route exact path='/ba-home' component={BusinessHome} />
+
 
           <Route path='/deal/product/:slug' component={DealProduct} />
 
