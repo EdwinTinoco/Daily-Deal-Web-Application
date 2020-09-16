@@ -1,0 +1,69 @@
+.content{  
+   .deal-product{
+      width: 450px;
+      background-color: #e7e4e4;
+      
+
+      .image img{
+         width: 450px;
+         height: 650px;
+      }
+
+      .title-description{
+         padding: 0px 50px;
+
+         .title{
+            margin-top: 20px;
+            text-align: left;
+            color: #3d3c3c;
+            font-size: 2.1rem;
+            font-weight: 600;
+         }
+         
+         .description{
+            text-align: left;
+            color: #858383;
+            font-size: 1.8rem;
+         }
+      }   
+      
+      .price-stock{ 
+         margin-top: 20px;
+         display: flex;
+         justify-content: space-around;
+         align-items: center;
+
+         .price{    
+            margin-left: 150px;  
+            color: black;
+            font-size: 3.5rem;
+            font-weight: 700;
+         }
+
+         .stock{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .number{
+               text-align: center;
+               margin-right: 3px;
+               width: 30px;
+               height: 34px;
+               color: #f76d37;
+               font-size: 2.2rem;
+               font-weight: 600;
+               border: 6px solid white;
+               border-radius: 48%;
+            }
+
+            .left{
+               font-size: 1.8rem;
+               font-style: italic;
+               font-weight: 400;
+               color: #b8b6b6;
+            }
+         }
+      }  
+   }
+}

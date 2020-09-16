@@ -1,14 +1,11 @@
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import MasterAdminContainer from "../master-admin/master-admin-container"
 
 export default function MasterAdminHome(props) {
    return (
       <div className="master-admin-main-wrapper">
-         <div className="search-sales">
-            <FontAwesomeIcon icon="search" />
-
-            <input type="text" placeholder="Search" />
-         </div>
+         <MasterAdminContainer />
       </div>
    )
 }
