@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DealProduct from "../product/deal-product"
+import DealProductDetail from "../product/deal-product-detail"
 
-export default class UserHome extends Component {
+export default class DealProduct extends Component {
    constructor(props) {
       super(props);
 
@@ -32,7 +32,7 @@ export default class UserHome extends Component {
       return (
          <div className="home-main-wrapper">
             <div className="content">
-               <DealProduct dealProduct={this.state.dealProduct} />
+               <DealProductDetail dealProduct={this.state.dealProduct} />
 
                <div className="buy-button">
                   <button type="button">BUY</button>

@@ -34,43 +34,32 @@ export default class SignUp extends Component {
       e.preventDefault();
 
       if (this.validate()) {
-         // axios
-         //    .post(
-         //       'http://localhost:8000/api/users/signup/',
-         //       {
-         //          email: this.state.email,
-         //          password: this.state.password
-         //       },
-         //    )
-         //    .then(response => {
-         //       console.log("new user", response.data)
+         axios
+            .post(
+               'http://localhost:5000/api/user/signup',
+               {
+                  role: "user",
+                  email: this.state.email,
+                  password: this.state.password,
+                  active: "Y"
+               },
+            )
+            .then(response => {
+               console.log("new user", response.data)
 
-         //       this.setState({
-         //          email: "",
-         //          password: "",
-         //          messageUser: "User Added Succesfully!"
-         //       })
+               this.setState({
+                  email: "",
+                  password: "",
+                  messageUser: response.data
+               })
 
-         //       axios.get('http://localhost:8000/api/users/id/')
-         //          .then(response => {
-         //             console.log("id last user", response.data[0][0])
+               // Cookies.set("_sb%_user%_session", `%encript%${response.data[0][0]}`, { expires: 2 })
 
-         //             this.setState({
-         //                idLastUser: response.data[0][0]
-         //             })
-
-         //             Cookies.set("_sb%_user%_session", `%encript%${response.data[0][0]}`, { expires: 2 })
-         //          })
-         //          .catch(error => {
-         //             console.log('handleSubmitRegisterNewUser error', error)
-         //          })
-
-         //       // this.props.history.push("/");
-         //       // window.location.reload(false);
-         //    })
-         //    .catch(error => {
-         //       console.log('handleSubmitRegisterNewUser error', error)
-         //    })
+               // this.props.history.push("/");
+            })
+            .catch(error => {
+               console.log('handleSubmitRegisterNewUser error', error)
+            })
 
       }
 

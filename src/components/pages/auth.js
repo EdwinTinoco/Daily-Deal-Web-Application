@@ -1,34 +1,25 @@
 import React, { Component } from 'react';
 import Login from "../auth/login";
 
-import loginImg from '../../../static/assets/images/logo/logo-1.png'
-
 export default class Auth extends Component {
-   constructor(props) {
-      super(props);
+   constructor() {
+      super();
 
       this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this)
    }
 
-   handleSuccessfulAuth() {
-      this.props.history.push("/");
+   handleSuccessfulAuth(user_role) {
+      if (user_role === "master_admin") {
+         this.props.history.push("/ma-home");
+      } else if (user_role === "business_admin") {
+         this.props.history.push("/ba-home");
+      }
    }
 
    render() {
       return (
          <div className="auth-page-wrapper">
-            <div
-               className="left-column"
-               style={{
-                  backgroundImage: `url(${loginImg})`
-               }}
-            />
-
-            <div className="right-column">
-               <Login
-                  handleSuccessfulAuth={this.handleSuccessfulAuth}
-               />
-            </div>
+            <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
          </div>
       );
    }

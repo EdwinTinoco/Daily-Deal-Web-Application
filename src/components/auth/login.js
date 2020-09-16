@@ -37,13 +37,12 @@ export default class Login extends Component {
          })
       } else {
 
-         axios.post("http://localhost:8000/api/users/login/",
+         axios.post("http://localhost:5000/api/user/login",
             {
                email: this.state.email,
-               passw: this.state.password
+               password: this.state.password
             }
          ).then(response => {
-
             console.log('response login', response.data);
 
             if (response.data.length > 0) {
@@ -51,10 +50,9 @@ export default class Login extends Component {
                   user: response.data[0]
                })
 
-               console.log('You can come in', this.state.user);
-               Cookies.set("_sb%_user%_session", `%encript%${this.state.user.id}`, { expires: 7 })
+               Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 7 })
 
-               this.props.handleSuccessfulAuth();
+               this.props.handleSuccessfulAuth(this.state.user.role_title);
             } else {
                this.setState({
                   errorMessage: "Email or password is wrong"
@@ -62,7 +60,7 @@ export default class Login extends Component {
             }
          }).catch(error => {
             this.setState({
-               errorMessage: "An error ocurred"
+               errorMessage: "An error ocurred. Try again later"
             })
          });
       }
@@ -73,9 +71,8 @@ export default class Login extends Component {
          <div className="login-main-wrapper">
             <div className="login-form-center">
                <div className="login-container">
-
                   <div className="logo">
-                     <Link to="/">
+                     <Link to="/deal/product/:slug">
                         <img src={Logo} alt='Logo' />
                      </Link>
                   </div>
@@ -91,7 +88,6 @@ export default class Login extends Component {
                   <form onSubmit={this.handleSubmit} className="login-form">
                      <div className="form-group">
                         <label htmlFor="email"><b>Email address</b></label>
-
                         <div className="inputs">
                            <FontAwesomeIcon icon="envelope" />
                            <input
@@ -106,7 +102,6 @@ export default class Login extends Component {
 
                      <div className="form-group">
                         <label htmlFor="password"><b>Password</b></label>
-
                         <div className="inputs">
                            <FontAwesomeIcon icon="lock" />
                            <input

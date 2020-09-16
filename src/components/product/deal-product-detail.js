@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function DealProduct(props) {
+export default function DealProductDetail(props) {
    const {
       title,
       image,

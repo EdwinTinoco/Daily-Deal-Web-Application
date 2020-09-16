@@ -32,9 +32,6 @@
    }
 
    .signup-form-wrapper{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-
       .left-side{
          .image{
             img{        
@@ -65,16 +62,16 @@
    
                .new-entry-input{   
                   width: 400px;
-                  font-size: 1.5rem;
+                  font-size: 1.8rem;
                   border: 1px solid $gray-bg-dealproduct;
-                  padding: 10px 15px;
+                  padding: 10px 8px;
                   border-radius: 5px;  
                }
 
                .error-validation{
                   margin-bottom: 8px;
                   color: red;
-                  font-size: 1.3rem;
+                  font-size: 1.5rem;
                }
             }
 
@@ -89,7 +86,7 @@
    
             .add-button{
                margin-top: 50px;
-               width: 415px;
+               width: 400px;
                background-color: $orange-buttons;
                border: 1px solid $orange-buttons;
                border-radius: 5px;
