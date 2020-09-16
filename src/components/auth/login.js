@@ -69,6 +69,24 @@ export default class Login extends Component {
    render() {
       return (
          <div className="login-main-wrapper">
+            <div className="login-header">
+               <div className="link-product-deal">
+                  <Link to="/deal/product/:slug">See Product Deal</Link>
+               </div>
+
+               <div className="have-an-account">
+                  <div className="title">
+                     <p>Don't have an account?</p>
+                  </div>
+
+                  <Link to="/signup">
+                     <div className="login-button">
+                        Sign up
+                     </div>
+                  </Link>
+               </div>
+            </div>
+
             <div className="login-form-center">
                <div className="login-container">
                   <div className="logo">
@@ -117,8 +135,8 @@ export default class Login extends Component {
                      <button className="btn" type="submit">Log In</button>
                   </form>
 
-                  <div className="sign-up">
-                     <Link to="/signup">Don't have an account? Sign up</Link>
+                  <div className="forgot-password">
+                     <Link to="/signup">Forgot your password?</Link>
                   </div>
                </div>
             </div>

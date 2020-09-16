@@ -1,4 +1,55 @@
-.login-main-wrapper{    
+.login-main-wrapper{  
+   .login-header{
+      .link-product-deal{
+         background-color: $orange-buttons;
+         padding: 3px 0px;
+
+         a{
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            color: white;
+            transition: 0.3s ease-in-out;
+
+            &:hover{
+               color: $gray-bg-dealproduct;
+            }
+         }  
+      }
+
+      .have-an-account{      
+         background-color: $gray-bg-dealproduct;   
+         display: flex;
+         justify-content: center;
+         align-items: center;
+   
+         .title{
+            p{
+               font-size: 1.5rem;
+               color: $gray-description;
+            }
+         }
+   
+         a{
+            text-decoration: none;
+         }  
+   
+         .login-button{
+            margin-left: 10px;
+            background-color: $orange-buttons;
+            padding: 3px 7px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.5rem;         
+            transition: 0.3s ease-in-out;
+   
+            &:hover{
+               background-color: #cc3c04;            
+            }         
+         }
+      }
+   }  
+   
    .login-form-center{
       display: flex;
       justify-content: center;   
@@ -89,11 +140,10 @@
             }
          }
 
-         .sign-up{ 
+         .forgot-password{ 
             margin-top: 10px; 
                        
             a{
-               text-decoration: none;
                color: $gray-titles;
                font-size: 1.5rem;
                transition: 0.3s ease-in-out;

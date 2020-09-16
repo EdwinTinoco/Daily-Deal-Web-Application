@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom";
 
-import Image1 from '../../../static/assets/images/pictures/pic-1.jpg'
+import Image1 from '../../../static/assets/images/pictures/pic-2.jpg'
 
 
 export default class SignUp extends Component {
@@ -123,12 +123,11 @@ export default class SignUp extends Component {
                </Link>
             </div>
 
+            <div className="skewed-header">
+               <div className="header-bg" style={{ backgroundImage: "url('../../../static/assets/images/pictures/pic-2.jpg')" }}></div>
+            </div>
+
             <div className="signup-form-wrapper">
-               <div className="left-side">
-                  <div className="image">
-                     <img src={Image1} alt='image' />
-                  </div>
-               </div>
                <div className="right-side">
                   <p>Sign up</p>
 
