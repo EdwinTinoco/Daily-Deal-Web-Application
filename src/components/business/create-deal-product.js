@@ -1,26 +1,26 @@
 import React, { useState } from "react"
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import PreviewDealProduct from "../business/preview-deal-product"
 
 export default function CreateDealProduct(props) {
+   const [userId, setUserId] = useState(0)
+   const [dealProductId, setDealProductId] = useState(0)
+   const [urlBase, setUrlBased] = useState("http://localhost:3000/deal/product/")
+   const [urlGenerated, setUrlGenerated] = useState(`http://localhost:3000/deal/product/${14}`)
    const [title, setTitle] = useState("")
    const [image, setImage] = useState("")
    const [description, setDescription] = useState("")
-   const [price, setPrice] = useState(0)
-   const [stock, setStock] = useState(0)
+   const [price, setPrice] = useState()
+   const [stock, setStock] = useState()
+   const [previewShow, setPreviewShow] = useState("none")
    const [errorsValidation, setErrorsValidation] = useState({})
 
    const handlePreviewDealProduct = () => {
-      return (
-         <PreviewDealProduct
-            image={image}
-            title={title}
-            description={description}
-            price={price}
-            stock={stock}
-         />
-      )
+      if (validate()) {
+         setPreviewShow("block")
+      }
    }
 
    const handleSubmitNewDeal = (e) => {
@@ -31,9 +31,10 @@ export default function CreateDealProduct(props) {
       if (validate()) {
          axios
             .post(
-               'http://localhost:5000/api/ba/new-deal',
+               'http://localhost:5000/api/product/new-deal',
                {
-                  title: title,
+                  userId: userId,
+                  title: title.toUpperCase(),
                   image: image,
                   description: description,
                   price: price,
@@ -42,6 +43,8 @@ export default function CreateDealProduct(props) {
             )
             .then(response => {
                console.log("new deal", response.data)
+
+               setUrlGenerated(`${urlBase}${14}`)
                setTitle("")
                setImage("")
                setDescription("")
@@ -63,10 +66,10 @@ export default function CreateDealProduct(props) {
          errors["title"] = "Please enter a title";
       }
 
-      if (!image) {
-         isValid = false;
-         errors["image"] = "Please enter an image";
-      }
+      // if (!image) {
+      //    isValid = false;
+      //    errors["image"] = "Please enter an image";
+      // }
 
       if (!description) {
          isValid = false;
@@ -76,6 +79,11 @@ export default function CreateDealProduct(props) {
       if (!price) {
          isValid = false;
          errors["price"] = "Please enter a price";
+      }
+
+      if (!stock) {
+         isValid = false;
+         errors["stock"] = "Please enter a stock";
       }
 
       setErrorsValidation(errors)
@@ -90,7 +98,11 @@ export default function CreateDealProduct(props) {
 
          <div className="form-preview-deal-product">
             <div className="deal-form">
-               <form onSubmit={handleSubmitNewDeal}>
+               <div className="title">
+                  Create new deal
+               </div>
+
+               <form onSubmit={handleSubmitNewDeal} className="form">
                   <div className="form-group">
                      <label htmlFor="title"><b>Title</b></label>
                      <input type='text'
@@ -122,7 +134,7 @@ export default function CreateDealProduct(props) {
                         value={description}
                         onChange={({ target }) => { setDescription(target.value) }}
                         name="description"
-                        placeholder='description'
+                        placeholder='Description'
                      />
                      <div className="error-validation">{errorsValidation.description}</div>
                   </div>
@@ -134,7 +146,7 @@ export default function CreateDealProduct(props) {
                         value={price}
                         onChange={({ target }) => { setPrice(target.value) }}
                         name="price"
-                        placeholder='price'
+                        placeholder='Price'
                      />
                      <div className="error-validation">{errorsValidation.price}</div>
                   </div>
@@ -146,7 +158,7 @@ export default function CreateDealProduct(props) {
                         value={stock}
                         onChange={({ target }) => { setStock(target.value) }}
                         name="stock"
-                        placeholder='stock'
+                        placeholder='Stock'
                      />
                      <div className="error-validation">{errorsValidation.stock}</div>
                   </div>
@@ -156,10 +168,40 @@ export default function CreateDealProduct(props) {
                      <button type="submit">Create Deal and Generate URL</button>
                   </div>
                </form>
+
+               <div className="url-generated">
+                  <p className="title">Deal Product URL</p>
+
+                  <div className="url-copy-button">
+                     <div className="url">
+                        <p>{urlGenerated}</p>
+                     </div>
+
+                     <div className="copy-button">
+                        <CopyToClipboard text={urlGenerated}>
+                           <button>Copy URL</button>
+                        </CopyToClipboard>
+                     </div>
+                  </div>
+               </div>
             </div>
 
             <div className="preview-deal">
-               {handlePreviewDealProduct()}
+               <div className="title">
+                  Preview
+               </div>
+
+               <div className="content">
+                  <div className="preview" style={{ display: `${previewShow}` }}>
+                     <PreviewDealProduct
+                        image={image}
+                        title={title}
+                        description={description}
+                        price={price}
+                        stock={stock}
+                     />
+                  </div>
+               </div>
             </div>
          </div>
       </div>
