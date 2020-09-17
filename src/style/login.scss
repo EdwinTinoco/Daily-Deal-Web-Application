@@ -58,11 +58,11 @@
       display: flex;
       justify-content: center;   
       align-items: center;
-      height: calc(100vh - 200px);
+      height: calc(100vh - 160px);
 
       .login-container{
+         width: 410px;        
          height: 445px;
-         width: 430px;        
          border-radius: 10px;
          border: 1px solid #e7e4e4;
          box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
