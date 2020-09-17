@@ -1,0 +1,126 @@
+.create-deal-product-main-wrapper{
+   .form-preview-deal-product{
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      justify-content: center;
+
+      .deal-form{
+         .title{
+            text-align: center;
+         }
+
+         .form{  
+            border: 1px solid $gray-bg-content;
+            
+            .form-group{
+               display: flex;
+               flex-direction: column;
+
+               label{                  
+                  color: $orange-buttons;
+                  font-size: 1.2rem;
+               }
+   
+               .new-entry-input{   
+                  padding: 8px 10px;
+                  font-size: 1.4rem;
+                  border-radius: 5px;
+                  border: 1px solid $gray-bg-dealproduct;    
+               }
+
+               .error-validation{
+                  margin-bottom: 8px;
+                  color: red;
+                  font-size: 1.2rem;
+               }
+            }             
+   
+            .buttons{
+               button{
+                  margin-top: 50px;
+                  background-color: $orange-buttons;
+                  border: 1px solid $orange-buttons;
+                  border-radius: 5px;
+                  color: white;
+                  font-size: 1.5rem;
+                  padding: 6px 80px;
+                  outline: none;
+                  transition: 0.3s ease-in-out;
+      
+                  &:hover{
+                     cursor: pointer;
+                     background-color: #cc3c04;
+                     border: 1px solid #cc3c04;
+                  }
+
+               }
+            }
+         }
+
+         .url-generated{
+            margin-top: 40px;
+            border: 1px solid $gray-bg-content;
+            border-radius: 6px;
+
+            .title{
+               margin: 10px 0px;
+               font-size: 2rem;
+               color: $gray-titles;
+            }
+            
+            .url-copy-button{
+               margin: 40px 0px;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+
+               .url{
+                  width: 500px;
+                  border: 1px solid $gray-bg-content;
+                  border-radius: 5px;
+                  padding: 8px 15px;
+   
+                  p{
+                     font-size: 1.5rem;
+                     color: $gray-description;
+                  }
+               }
+
+               .copy-button{
+                  button{
+                     background-color: $gray-description;
+                     border: 1px solid $gray-description;
+                     border-radius: 5px;
+                     color: white;
+                     font-size: 1.2rem;
+                     padding: 8px 5px;
+                     outline: none;
+                     transition: 0.3s ease-in-out;
+         
+                     &:hover{
+                        cursor: pointer;
+                        background-color: $gray-titles;
+                        border: 1px solid $gray-titles;
+                     }
+                  }
+               }
+            }
+         }
+      }
+
+      .preview-deal{
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+
+         .content{
+            width: 379px;
+            height: 835px;
+            background-color: #d8d7d7;
+            border-radius: 12px;
+         }
+      }
+   }
+}
