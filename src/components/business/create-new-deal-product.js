@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import Cookies, { set } from 'js-cookie';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import moment from 'moment';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import PreviewDealProduct from "./preview-deal-product"
 
 export default function CreateNewDealProduct(props) {
-   const [userId, setUserId] = useState(7)
+   const [user, setUser] = useState({})
    const [dealProductId, setDealProductId] = useState(0)
    const [urlGenerated, setUrlGenerated] = useState("")
    const [title, setTitle] = useState("")
@@ -15,9 +17,28 @@ export default function CreateNewDealProduct(props) {
    const [price, setPrice] = useState("")
    const [stock, setStock] = useState("")
    const [shippingType, setShippingType] = useState("")
+   const [startedDealDate, setStartedDealDate] = useState("")
+   const [finishedDealDate, setFinishedDealDate] = useState("")
    const [previewShow, setPreviewShow] = useState("none")
    const [shippingCatalog, setShippingCatalog] = useState([])
    const [errorsValidation, setErrorsValidation] = useState({})
+
+   const handleLogout = () => {
+      setUser({})
+      Cookies.remove("_sb%_user%_session")
+      window.location.reload(false);
+   }
+
+   const handleClearInputs = () => {
+      setTitle("")
+      setImage("")
+      setDescription("")
+      setPrice("")
+      setStock("")
+      setShippingType("")
+      setPreviewShow("none")
+      setErrorsValidation({})
+   }
 
    const handlePreviewDealProduct = () => {
       if (validate()) {
@@ -29,17 +50,27 @@ export default function CreateNewDealProduct(props) {
       e.preventDefault()
 
       if (validate()) {
+         let createDateDB = moment().format();
+         let startDateDB = createDateDB;
+         let finishDateDB = moment().add(1, 'days').format();
+
+         let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
+         let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
+
          axios
             .post(
                'http://localhost:5000/api/product/new-deal',
                {
-                  userId: userId,
+                  userId: user.user_id,
                   title: title.toUpperCase(),
                   image: image,
                   description: description,
                   price: parseFloat(price).toFixed(2),
                   stock: parseInt(stock),
                   shippingType: shippingType,
+                  createdDealDate: createDateDB,
+                  startedDealDate: startDateDB,
+                  finishedDealDate: finishDateDB,
                   dealStatus: "actived"
                },
             )
@@ -54,10 +85,49 @@ export default function CreateNewDealProduct(props) {
                setPrice("")
                setStock("")
                setShippingType("")
+               setStartedDealDate(startDate)
+               setFinishedDealDate(finishDate)
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
             })
+      }
+   }
+
+   const getCurrentUser = () => {
+      let userCookie = Cookies.get("_sb%_user%_session")
+      let temp = 0
+      let userIdArr = []
+
+      if (userCookie !== undefined) {
+         for (var i = 0; i < userCookie.length; i++) {
+            if (userCookie[i] == "%") {
+               temp += 1
+            }
+
+            if (temp === 2) {
+               if (userCookie[i] !== "%") {
+                  userIdArr.push(userCookie[i])
+               }
+            }
+         }
+
+         let userId = userIdArr.join('')
+
+         axios.get(`http://localhost:5000/api/user/${userId}`)
+            .then(response => {
+               console.log('current user', response.data);
+
+               if (response.data.length > 0) {
+                  setUser(
+                     response.data[0]
+                  )
+               } else {
+                  handleLogout()
+               }
+            }).catch(error => {
+               console.log('getCurrentUser error', error);
+            });
       }
    }
 
@@ -111,6 +181,7 @@ export default function CreateNewDealProduct(props) {
    }
 
    useEffect(() => {
+      getCurrentUser()
       getShippingTypes()
    }, [])
 
@@ -121,8 +192,9 @@ export default function CreateNewDealProduct(props) {
 
          <div className="form-preview-deal-product">
             <div className="deal-form">
-               <div className="title">
-                  Create new deal
+               <div className="title-clear-text">
+                  <p>Create new deal</p>
+                  <button type="button" onClick={handleClearInputs}>Clear text</button>
                </div>
 
                <form onSubmit={handleSubmitNewDeal} className="form">
@@ -213,6 +285,21 @@ export default function CreateNewDealProduct(props) {
                </form>
 
                <div className="url-generated">
+                  <div className="deal-info-title">
+                     Deal information
+                  </div>
+
+                  <div className="started-finished-deal-date">
+                     <div className="date">
+                        <p>Started Deal</p>
+                        <p>{startedDealDate}</p>
+                     </div>
+
+                     <div className="date">
+                        <p>Finished Deal</p>
+                        <p>{finishedDealDate}</p>
+                     </div>
+                  </div>
                   <p className="title">Deal Product URL</p>
 
                   <div className="url-copy-button">
@@ -231,19 +318,30 @@ export default function CreateNewDealProduct(props) {
 
             <div className="preview-deal">
                <div className="title">
-                  Preview
+                  Mobile Device
                </div>
 
                <div className="content">
-                  <div className="preview" style={{ display: `${previewShow}` }}>
-                     <PreviewDealProduct
-                        image={image}
-                        title={title}
-                        description={description}
-                        price={price}
-                        stock={stock}
-                     />
-                  </div>
+                  {previewShow === "none" ?
+                     (
+                        <div className="preview-text">
+                           <p>Preview</p>
+                        </div>
+                     )
+                     :
+                     (
+                        <div className="preview">
+                           <PreviewDealProduct
+                              image={image}
+                              title={title}
+                              description={description}
+                              price={price}
+                              stock={stock}
+                           />
+                        </div>
+                     )
+                  }
+
                </div>
             </div>
          </div>

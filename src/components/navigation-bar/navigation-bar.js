@@ -94,7 +94,8 @@ export default function NavigationBar(props) {
             {Object.entries(user).length > 0 ?
                (
                   <div className="user-info">
-                     {`${user.user_name}  |  ${user.user_email}`}
+                     <p>{`${user.user_name}  |  ${user.user_email}`}</p>
+                     {user.role_title === "master_admin" ? <p>Master Account</p> : <p>Business Account</p>}
                   </div>
                )
                :

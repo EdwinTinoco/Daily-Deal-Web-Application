@@ -1,18 +1,42 @@
 .create-deal-product-main-wrapper{
    .form-preview-deal-product{
-      margin-top: 15px;
+      margin-top: 8px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       justify-content: center;
-
+      
       .deal-form{
-         .title{
-            text-align: center;
+         margin-left: 55px;
+
+         .title-clear-text{
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p{
+               font-size: 1.5rem;
+               color: $gray-titles;
+            }
+
+            button{
+               background-color: $orange-buttons;
+               border: 1px solid $orange-buttons;
+               border-radius: 5px;
+               color: white;
+               font-size: 1.2rem;
+               outline: none;
+               transition: 0.3s ease-in-out;
+   
+               &:hover{
+                  cursor: pointer;
+                  background-color: #cc3c04;
+                  border: 1px solid #cc3c04;
+               }
+            }
          }
 
-         .form{  
-            border: 1px solid $gray-bg-content;
-            
+         .form{              
             .form-group{
                display: flex;
                flex-direction: column;
@@ -53,26 +77,45 @@
                      background-color: #cc3c04;
                      border: 1px solid #cc3c04;
                   }
-
                }
             }
          }
 
          .url-generated{
+            width: 620px;
+            height: 210px;
             margin-top: 40px;
             border: 1px solid $gray-bg-content;
             border-radius: 6px;
 
+            .deal-info-title{
+               background-color: $gray-description;
+               color: $gray-bg-dealproduct;
+               font-size: 1.5rem;    
+               padding: 3px 0px;           
+            }
+
+            .started-finished-deal-date{
+               text-align: center;
+               display: flex;
+               justify-content: space-around;
+               align-items: center;
+
+               .date{
+                  font-size: 2.2rem;
+                  color: $gray-description;
+               }
+            }
+
             .title{
-               margin: 10px 0px;
-               font-size: 2rem;
+               margin-top: 35px;
+               font-size: 1.6rem;
                color: $gray-titles;
             }
             
             .url-copy-button{
-               margin: 40px 0px;
                display: flex;
-               justify-content: center;
+               justify-content: left;
                align-items: center;
 
                .url{
@@ -93,7 +136,7 @@
                      background-color: $gray-description;
                      border: 1px solid $gray-description;
                      border-radius: 5px;
-                     color: white;
+                     color: $gray-bg-dealproduct;
                      font-size: 1.2rem;
                      padding: 8px 5px;
                      outline: none;
@@ -116,11 +159,22 @@
          justify-content: center;
          align-items: center;
 
+         .title{
+            font-size: 1.5rem;
+            color: $gray-titles;
+         }
+
          .content{
             width: 379px;
             height: 835px;
             background-color: #d8d7d7;
-            border-radius: 12px;
+
+            .preview-text{
+               p{
+                  font-size: 2.5rem;
+                  color: white;
+               }
+            }
          }
       }
    }
