@@ -1,20 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios";
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import NavigationBar from "../navigation-bar/navigation-bar"
-import PreviewDealProduct from "../business/preview-deal-product"
+import PreviewDealProduct from "./preview-deal-product"
 
-export default function CreateDealProduct(props) {
-   const [userId, setUserId] = useState(0)
+export default function CreateNewDealProduct(props) {
+   const [userId, setUserId] = useState(7)
    const [dealProductId, setDealProductId] = useState(0)
-   const [urlBase, setUrlBased] = useState("http://localhost:3000/deal/product/")
-   const [urlGenerated, setUrlGenerated] = useState(`http://localhost:3000/deal/product/${14}`)
+   const [urlGenerated, setUrlGenerated] = useState("")
    const [title, setTitle] = useState("")
    const [image, setImage] = useState("")
    const [description, setDescription] = useState("")
-   const [price, setPrice] = useState()
-   const [stock, setStock] = useState()
+   const [price, setPrice] = useState("")
+   const [stock, setStock] = useState("")
+   const [shippingType, setShippingType] = useState("")
    const [previewShow, setPreviewShow] = useState("none")
+   const [shippingCatalog, setShippingCatalog] = useState([])
    const [errorsValidation, setErrorsValidation] = useState({})
 
    const handlePreviewDealProduct = () => {
@@ -26,8 +28,6 @@ export default function CreateDealProduct(props) {
    const handleSubmitNewDeal = (e) => {
       e.preventDefault()
 
-      console.log('create new deal product');
-
       if (validate()) {
          axios
             .post(
@@ -37,24 +37,38 @@ export default function CreateDealProduct(props) {
                   title: title.toUpperCase(),
                   image: image,
                   description: description,
-                  price: price,
-                  stock: stock
+                  price: parseFloat(price).toFixed(2),
+                  stock: parseInt(stock),
+                  shippingType: shippingType,
+                  dealStatus: "actived"
                },
             )
             .then(response => {
-               console.log("new deal", response.data)
+               console.log("new deal, deal ProductId", response.data)
 
-               setUrlGenerated(`${urlBase}${14}`)
+               setDealProductId(response.data["@productId"])
+               setUrlGenerated(response.data["@generatedDealProductUrl"])
                setTitle("")
                setImage("")
                setDescription("")
-               setPrice(0)
-               setStock(0)
+               setPrice("")
+               setStock("")
+               setShippingType("")
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
             })
       }
+   }
+
+   const getShippingTypes = () => {
+      axios.get('http://localhost:5000/api/shipping-types')
+         .then(response => {
+            setShippingCatalog(response.data)
+         })
+         .catch(error => {
+            console.log('getShippingTypes error', error);
+         })
    }
 
    const validate = () => {
@@ -66,10 +80,10 @@ export default function CreateDealProduct(props) {
          errors["title"] = "Please enter a title";
       }
 
-      // if (!image) {
-      //    isValid = false;
-      //    errors["image"] = "Please enter an image";
-      // }
+      if (!image) {
+         isValid = false;
+         errors["image"] = "Please enter an image";
+      }
 
       if (!description) {
          isValid = false;
@@ -86,10 +100,19 @@ export default function CreateDealProduct(props) {
          errors["stock"] = "Please enter a stock";
       }
 
+      if (!shippingType) {
+         isValid = false;
+         errors["shippingType"] = "Please select a shipping type";
+      }
+
       setErrorsValidation(errors)
 
       return isValid;
    }
+
+   useEffect(() => {
+      getShippingTypes()
+   }, [])
 
 
    return (
@@ -161,6 +184,26 @@ export default function CreateDealProduct(props) {
                         placeholder='Stock'
                      />
                      <div className="error-validation">{errorsValidation.stock}</div>
+                  </div>
+
+                  <div className="form-group">
+                     <label htmlFor="shipping">Shipping Type</label>
+                     <select className='new-entry-input'
+                        value={shippingType}
+                        onChange={({ target }) => { setShippingType(target.value) }}
+                        id="shipping"
+                     >
+                        <option value=''>Select a shipping type</option>
+                        {shippingCatalog.map((item, index) =>
+                           <option
+                              value={item.shipping_id}
+                              key={index}
+                           >
+                              {item.shipping_title}
+                           </option>
+                        )}
+                     </select>
+                     <div className="error-validation">{errorsValidation.shippingType}</div>
                   </div>
 
                   <div className="buttons">

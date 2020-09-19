@@ -20,12 +20,13 @@ export default class DealProduct extends Component {
       }
    }
 
-   getDealProduct() {
+   getDealProductId() {
       // Aqui va axios get para traernos el producto de la API
    }
 
    // componentDidMount(){
-   //    getDealProduct()
+
+   //    getDealProductId()
    // }
 
    render() {

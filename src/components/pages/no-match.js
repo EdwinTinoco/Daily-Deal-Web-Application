@@ -5,7 +5,7 @@ export default function () {
    return (
       <div>
          <h2>We couldn't find that page!</h2>
-         <Link to="/deal/product/:slug">Return to Home Page</Link>
+         <Link to="/">Return to Home Page</Link>
       </div>
    );
 }

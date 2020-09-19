@@ -10,9 +10,9 @@ export default class Auth extends Component {
 
    handleSuccessfulAuth(user_role) {
       if (user_role === "master_admin") {
-         this.props.history.push("/ma-home");
+         this.props.history.push("/ma/home");
       } else if (user_role === "business_admin") {
-         this.props.history.push("/ba-home");
+         this.props.history.push("/ba/home");
       }
    }
 
