@@ -38,7 +38,7 @@ export default function NavigationBar(props) {
 
          axios.get(`http://localhost:5000/api/user/${userId}`)
             .then(response => {
-               console.log('current user', response.data);
+               console.log('Navigation Bar current user', response.data);
 
                if (response.data.length > 0) {
                   setUser(
@@ -73,14 +73,15 @@ export default function NavigationBar(props) {
                {Object.entries(user).length > 0 ? user.role_title === "master_admin" ?
                   (
                      <div className="link">
-                        <Link to="/ma-home">Master Dashboard</Link>
+                        <Link to="/ma/home">Dashboard</Link>
                         <Link to='/create-account'>Create Account</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?
                      (
                         <div className="link">
-                           <Link to="/ba-home">Business Dashboard</Link>
+                           <Link to="/ba/home">Dashboard</Link>
+                           <Link to="/ba/new-deal">Deals</Link>
                         </div>
                      )
                      : null
