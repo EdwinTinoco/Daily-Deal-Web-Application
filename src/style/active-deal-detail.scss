@@ -1,0 +1,12 @@
+.deal-detail-main-wrapper{
+   .deal-detail-info-charts{
+      display: grid;
+      grid-template-columns: 1fr 1.7fr;
+
+      .deal-detail-info{
+         p{
+            font-size: 1.5rem;
+         }
+      }
+   }
+}

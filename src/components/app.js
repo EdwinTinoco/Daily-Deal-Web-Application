@@ -15,6 +15,7 @@ import MasterHome from "./master/master-home";
 import CreateAccount from "./master/create-account";
 import BusinessHome from "./business/business-home";
 import CreateNewDealProduct from "./business/create-new-deal-product";
+import ActiveDealDetail from "./business/active-deal-detail";
 import Auth from "./pages/auth";
 import SignUp from "./auth/signup";
 import DealProduct from "./pages/deal-product";
@@ -37,6 +38,7 @@ export default function App(props) {
 
           <Route exact path='/ba/home' component={BusinessHome} />
           <Route path='/ba/new-deal' component={CreateNewDealProduct} />
+          <Route path='/ba/active-deal/detail/:slug' component={ActiveDealDetail} />
 
           <Route path='/deal/product/:slug' component={DealProduct} />
 

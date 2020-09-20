@@ -1,11 +1,13 @@
-.active-deals-list-wrapper{
+.active-deals-list{
    display: flex;
    justify-content: space-between;
    align-items: center;
 
    .deals-info-wrapper{
+      width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
+      padding: 8px 100px;
    }
 }

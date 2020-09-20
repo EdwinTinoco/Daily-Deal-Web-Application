@@ -21,9 +21,9 @@ export default class ActiveDealsList extends Component {
 
 
       return (
-         <div className="active-deals-list-wrapper">
+         <div className="active-deals-list">
             <div className="deals-info-wrapper">
-               <Link to={`/deal-active/${deal_id}`}>
+               <Link to={`/ba/active-deal/detail/${deal_id}`}>
                   <p>{product_title}</p>
                </Link>
                <p>{deal_started_date}</p>
