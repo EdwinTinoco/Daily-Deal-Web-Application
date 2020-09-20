@@ -2,10 +2,88 @@
    .deal-detail-info-charts{
       display: grid;
       grid-template-columns: 1fr 1.7fr;
+      gap: 10px;
 
       .deal-detail-info{
-         p{
-            font-size: 1.5rem;
+         padding: 20px 0px;
+         
+         .product-info{
+            text-align: center;
+            border: 1px solid $gray-bg-content;
+
+            .title{
+               margin-bottom: 20px;
+               background-color: #545454;
+               color: white;
+               font-size: 1.8rem;
+               font-weight: 700;
+            }
+   
+            .picture{
+               width: 250px;
+               height: 330px;
+               border-radius: 6px;            
+            }
+   
+            .product-title{
+               margin-top: 20px;
+               color: #575555;
+               font-size: 1.8rem;
+               font-weight: 700;
+            }
+   
+            .description{
+               margin-bottom: 20px;
+               color: #858383;
+               font-size: 1.6rem;
+            }
+   
+            .stock{
+               color: #858383;
+               font-size: 1.6rem;
+            }
+   
+            .price{
+               margin-top: 20px;
+               color: #858383;
+               font-size: 1.6rem;
+            }
+   
+            .shipping{
+               margin: 20px 0px;
+               color: #858383;
+               font-size: 1.6rem;
+            }
+         }
+
+         .deal-info{
+            background-color: #d1d0cd;   
+            text-align: center;     
+            
+            .title{
+               margin-bottom: 20px;
+               background-color: #545454;
+               color: white;
+               font-size: 1.8rem;
+               font-weight: 700;
+            }
+            
+            .url{  
+               margin-bottom: 20px;
+               color: #666565;
+               font-size: 1.6rem;
+            }
+
+            .dates{
+               color: #666565;
+               font-size: 1.6rem;
+            }
+            
+            .status{
+               padding: 20px 0px;  
+               color: #666565;
+               font-size: 1.6rem;
+            }
          }
       }
    }

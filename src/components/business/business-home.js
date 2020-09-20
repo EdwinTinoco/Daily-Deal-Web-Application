@@ -14,37 +14,37 @@ const state = {
    datasets: [
       {
          label: 'Rainfall',
-         backgroundColor: '#f85312',
+         backgroundColor: '#B21F00',
          borderColor: 'rgba(0,0,0,1)',
          data: [65, 59, 80, 81, 211]
       },
       {
          label: 'hola',
-         backgroundColor: '#858383',
+         backgroundColor: '#C9DE00',
          borderColor: 'rgba(0,0,0,1)',
          data: [26, 148, 66, 247, 206]
       },
       {
          label: 'otro',
-         backgroundColor: '#d8d7d7',
+         backgroundColor: '#2FDE00',
          borderColor: 'rgba(0,0,0,1)',
          data: [79, 202, 115, 183, 166]
       },
       {
          label: 'clocks',
-         backgroundColor: '#f85312',
+         backgroundColor: '#00A6B4',
          borderColor: 'rgba(0,0,0,1)',
          data: [87, 42, 93, 78, 191]
       },
       {
          label: 'jackets',
-         backgroundColor: '#858383',
+         backgroundColor: '#6800B4',
          borderColor: 'rgba(0,0,0,1)',
          data: [46, 221, 99, 188, 137]
       },
       {
          label: 'shoes',
-         backgroundColor: '#d8d7d7',
+         backgroundColor: '#f85312',
          borderColor: 'rgba(0,0,0,1)',
          data: [32, 176, 201, 474, 114]
       }
@@ -52,9 +52,13 @@ const state = {
 }
 
 export default function BusinessHome(props) {
-   const [activeDeal, setActiveDeal] = useState([])
+   const [userId, setUserId] = useState()
+   const [activeDeals, setActiveDeals] = useState([])
+   const [headerActiveDealsTotals, setHeaderActiveDealsTotals] = useState([])
+   const [activeDealsTotals, setActiveDealsTotals] = useState([])
+   const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
 
-   const getActiveDeal = () => {
+   const getActiveDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
       let userIdArr = []
@@ -75,11 +79,11 @@ export default function BusinessHome(props) {
          var userId = userIdArr.join('')
       }
 
-      axios.get(`http://localhost:5000/api/active-deal/${userId}`)
+      axios.get(`http://localhost:5000/api/active-deals/${userId}`)
          .then(response => {
             console.log('deal active', response.data);
 
-            setActiveDeal(
+            setActiveDeals(
                response.data
             )
          })
@@ -88,8 +92,62 @@ export default function BusinessHome(props) {
          })
    }
 
+   const getActiveDealsTotals = () => {
+      let userCookie = Cookies.get("_sb%_user%_session")
+      let temp = 0
+      let userIdArr = []
+
+      if (userCookie !== undefined) {
+         for (var i = 0; i < userCookie.length; i++) {
+            if (userCookie[i] == "%") {
+               temp += 1
+            }
+
+            if (temp === 2) {
+               if (userCookie[i] !== "%") {
+                  userIdArr.push(userCookie[i])
+               }
+            }
+         }
+
+         var userId = userIdArr.join('')
+
+         setUserId(userId)
+      }
+      axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
+         .then(response => {
+            console.log('deal active totals', response.data);
+
+            let granTotal = 0
+            for (var total of response.data) {
+               granTotal += parseFloat(total.total_sales)
+            }
+
+            setActiveDealsGranTotal(granTotal.toFixed(2))
+
+            let header = Object.keys(response.data[0])
+            header.shift()
+            setHeaderActiveDealsTotals(header)
+
+            setActiveDealsTotals(
+               response.data
+            )
+         })
+         .catch(error => {
+            console.log('getActiveDealsTotals error', error);
+         })
+   }
+
+   const tableHeaderActiveDeals = () => {
+      let headerActiveDeals = ["Product", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
+
+      return headerActiveDeals.map((key, index) => {
+         return <th key={index}>{key.toUpperCase()}</th>
+      })
+   }
+
    const acitveDealsItems = () => {
-      return activeDeal.map(item => {
+      return activeDeals.map(item => {
          return (
             <ActiveDealsList
                key={item.deal_id}
@@ -99,8 +157,26 @@ export default function BusinessHome(props) {
       })
    }
 
+   const tableHeaderActivateDealsTotals = () => {
+      return headerActiveDealsTotals.map((key, index) => {
+         return <th key={index}>{key.toUpperCase()}</th>
+      })
+   }
+
+   const acitveDealsTotals = () => {
+      return activeDealsTotals.map(item => {
+         return (
+            <ActiveDealsTotalsSalesList
+               key={item.product_id}
+               item={item}
+            />
+         )
+      })
+   }
+
    useEffect(() => {
-      getActiveDeal()
+      getActiveDealsTotals()
+      getActiveDealsList()
    }, [])
 
    return (
@@ -125,40 +201,55 @@ export default function BusinessHome(props) {
                />
             </div>
 
-            <div className="total-sales-info">
-               <div className="total-sales">
-                  <p>Total Sales: $14,234.45</p>
+            <div className="deals-total-sales-info">
+               <div className="gran-total-sales">
+                  <div className="title">
+                     <p>Total Sales</p>
+                  </div>
+
+                  <div className="total">
+                     <p>{`$${activeDealsGranTotal}`}</p>
+                  </div>
                </div>
 
-               <div className="total-sales-deals-list">
-                  <div className="product">
-                     <p>Fossil Watch</p>
-                     <p>Jordan XIII Shoes</p>
-                     <p>Star Wars T-Shirt</p>
-
+               <div className="deals-total-sales-list">
+                  <div className="title">
+                     <h2>Deals Sales</h2>
                   </div>
 
-                  <div className="quantity">
-                     <p>148</p>
-                     <p>76</p>
-                     <p>362</p>
-                  </div>
-
-                  <div className="sales">
-                     <p>$2,723.68</p>
-                     <p>$7,116.03</p>
-                     <p>$3,629.75</p>
-                  </div>
+                  <table id='totals-deals-sales-table'>
+                     <tbody>
+                        <tr>{tableHeaderActivateDealsTotals()}</tr>
+                        {acitveDealsTotals()}
+                     </tbody>
+                  </table>
                </div>
             </div>
          </div>
 
+         <div className="active-deals-wrapper">
+            <div className="title">
+               <h2>Acitve Deals List</h2>
+            </div>
 
-         <div className="active-deals-main-wrapper">
-            {acitveDealsItems()}
-
+            <table id='active-deals-table'>
+               <tbody>
+                  <tr>{tableHeaderActiveDeals()}</tr>
+                  {acitveDealsItems()}
+               </tbody>
+            </table>
          </div>
-
       </div>
+   )
+}
+
+
+const ActiveDealsTotalsSalesList = (props) => {
+   return (
+      <tr key={props.key}>
+         <td>{props.item.product_title}</td>
+         <td>{props.item.sales}</td>
+         <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
+      </tr>
    )
 }

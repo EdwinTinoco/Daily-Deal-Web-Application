@@ -2,43 +2,34 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class ActiveDealsList extends Component {
-   constructor(props) {
-      super(props);
-   }
+export default function ActiveDealsList(props) {
+   const {
+      deal_id,
+      deal_user_id,
+      deal_started_date,
+      deal_finished_date,
+      deal_status,
+      product_title,
+      product_price,
+      stock_quantity
+   } = props.item
 
-   render() {
-      const {
-         deal_id,
-         deal_user_id,
-         deal_started_date,
-         deal_finished_date,
-         deal_status,
-         product_title,
-         product_price,
-         stock_quantity
-      } = this.props.item
-
-
-      return (
-         <div className="active-deals-list">
-            <div className="deals-info-wrapper">
-               <Link to={`/ba/active-deal/detail/${deal_id}`}>
-                  <p>{product_title}</p>
-               </Link>
-               <p>{deal_started_date}</p>
-               <p>{deal_finished_date}</p>
-               <p>{product_price}</p>
-               <p>{stock_quantity}</p>
-               <p>{deal_status}</p>
-            </div>
-
-            <div className="icons-buttons">
-               <FontAwesomeIcon icon="edit" />
-               |
-               <FontAwesomeIcon icon="trash" />
-            </div>
-         </div>
-      )
-   }
+   return (
+      <tr key={props.key}>
+         <td>
+            <Link to={`/ba/active-deal/detail/${deal_id}`}>
+               {product_title}
+            </Link>
+         </td>
+         <td>{deal_started_date}</td>
+         <td>{deal_finished_date}</td>
+         <td>{stock_quantity}</td>
+         <td>{`$${product_price}`}</td>
+         <td>{deal_status}</td>
+         <td>
+            <FontAwesomeIcon icon="edit" />
+            <FontAwesomeIcon icon="trash" />
+         </td>
+      </tr>
+   )
 }
