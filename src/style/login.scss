@@ -72,11 +72,10 @@
          text-align: center;
 
          .logo{
-            margin: 20px 0px;
 
             img{        
-               width: 180px;
-               height: 40px;
+               width: 150px;
+               height: 130px;
             }
          }     
          
@@ -87,7 +86,7 @@
          
          .error-message{
             position: absolute;
-            margin-top: 130px;
+            margin-top: 180px;
             color: red;
             font-size: 1.3rem;
          }
@@ -144,9 +143,7 @@
             }
          }
 
-         .forgot-password{ 
-            margin-top: 10px; 
-                       
+         .forgot-password{                        
             a{
                color: $gray-titles;
                font-size: 1.2rem;

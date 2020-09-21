@@ -1,30 +1,31 @@
-import React from "react"
+import React from "react";
+import axios from "axios";
 
 export default function DealProductDetail(props) {
    const {
-      title,
-      image,
-      price,
-      description,
-      stock
-   } = props.dealProduct
+      picture_product,
+      product_title,
+      product_description,
+      product_price,
+      stock_left
+   } = props.productDeal
 
    return (
       <div className="deal-product-detail-main-wrapper">
          <div className="image">
-            <img src={image} alt="image" />
+            <img src={picture_product} alt="image" />
          </div>
 
          <div className="title-description">
-            <p className="title">{title}</p>
-            <p className="description">{description}</p>
+            <p className="title">{product_title}</p>
+            <p className="description">{product_description}</p>
          </div>
 
          <div className="price-stock">
-            <p className="price">${price.toFixed(2)}</p>
+            <p className="price">${product_price}</p>
 
             <div className="stock">
-               <p className="number">{stock}</p>
+               <p className="number">{stock_left}</p>
 
                <p className="left">LEFT</p>
             </div>

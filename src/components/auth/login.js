@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from '../../../static/assets/images/logo/daily-deal-logo.png'
+import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 
 export default class Login extends Component {
    constructor(props) {

@@ -47,8 +47,10 @@ export default class CreateAccount extends Component {
             )
             .then(response => {
                this.setState({
+                  name: "",
                   email: "",
                   password: "",
+                  confirmPassword: "",
                   messageUser: response.data
                })
             })

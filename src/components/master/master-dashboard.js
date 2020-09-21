@@ -29,18 +29,6 @@ const state = {
          backgroundColor: '#00A6B4',
          borderColor: 'rgba(0,0,0,1)',
          data: [79, 202, 115, 183, 166]
-      },
-      {
-         label: 'Company 4',
-         backgroundColor: '#ddd',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [87, 42, 93, 78, 191]
-      },
-      {
-         label: 'Company 5',
-         backgroundColor: '#9b7e31',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [46, 221, 99, 188, 137]
       }
    ]
 }
@@ -133,7 +121,7 @@ export default function MasterDashboard(props) {
    // }
 
    const tableHeaderAllActiveDeals = () => {
-      let headerAllActiveDeals = ["Product", "Company/Name", "Email", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
+      let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
 
       return headerAllActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>

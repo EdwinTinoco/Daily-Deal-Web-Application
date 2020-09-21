@@ -62,7 +62,7 @@ export default function CreateNewDealProduct(props) {
                'http://localhost:5000/api/product/new-deal',
                {
                   userId: user.user_id,
-                  title: title.toUpperCase(),
+                  title: title,
                   image: image,
                   description: description,
                   price: parseFloat(price).toFixed(2),
@@ -79,12 +79,12 @@ export default function CreateNewDealProduct(props) {
 
                setDealProductId(response.data["@productId"])
                setUrlGenerated(response.data["@generatedDealProductUrl"])
-               setTitle("")
-               setImage("")
-               setDescription("")
-               setPrice("")
-               setStock("")
-               setShippingType("")
+               // setTitle("")
+               // setImage("")
+               // setDescription("")
+               // setPrice("")
+               // setStock("")
+               // setShippingType("")
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
             })

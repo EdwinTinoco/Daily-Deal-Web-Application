@@ -12,7 +12,7 @@ export default function Home() {
 
          <div className="title-info-img">
             <div className="title">
-               <p>Daily Deal Web Application</p>
+               <p>Kudu Web Application</p>
             </div>
 
             <div className="info">
@@ -26,7 +26,7 @@ export default function Home() {
 
             <Link to="/auth">
                <div className="button">
-                  <p>Get Started</p>
+                  <p>Log In</p>
                </div>
             </Link>
          </div>

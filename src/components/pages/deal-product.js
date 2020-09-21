@@ -10,30 +10,43 @@ export default class DealProduct extends Component {
       super(props);
 
       this.state = {
-         dealProduct: {
-            title: "VOZZI TEE",
-            price: 19.00,
-            image: "https://images.unsplash.com/photo-1574180566232-aaad1b5b8450?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9",
-            description: "Premium cotton fabric. Comfortable and light. Get it while it lasts!",
-            stock: 50
+         dealId: this.props.match.params.slug,
+         productDeal: {},
+         productDeal2: {
+            product_title: "VOZZI TEE",
+            product_price: 19.00,
+            picture_product: "https://images.unsplash.com/photo-1574180566232-aaad1b5b8450?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9",
+            product_description: "Premium cotton fabric. Comfortable and light. Get it while it lasts!",
+            stock_left: 50
          }
       }
    }
 
-   getDealProductId() {
-      // Aqui va axios get para traernos el producto de la API
+   getProductDeal() {
+      console.log('deal id', this.state.dealId);
+
+      axios.get(`http://localhost:5000/deal/product/${this.state.dealId}`)
+         .then(response => {
+            console.log('product deal', response.data);
+
+            this.setState({
+               productDeal: response.data[0]
+            })
+         })
+         .catch(error => {
+            console.log('getProductDeal error', error);
+         })
    }
 
-   // componentDidMount(){
-
-   //    getDealProductId()
-   // }
+   componentDidMount() {
+      this.getProductDeal()
+   }
 
    render() {
       return (
          <div className="deal-product-main-wrapper">
             <div className="content">
-               <DealProductDetail dealProduct={this.state.dealProduct} />
+               <DealProductDetail productDeal={this.state.productDeal} />
 
                <div className="buy-button">
                   <button type="button">BUY</button>
