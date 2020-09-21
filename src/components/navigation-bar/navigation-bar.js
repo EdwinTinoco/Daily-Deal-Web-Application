@@ -73,14 +73,14 @@ export default function NavigationBar(props) {
                {Object.entries(user).length > 0 ? user.role_title === "master_admin" ?
                   (
                      <div className="link">
-                        <Link to="/ma/home">Dashboard</Link>
+                        <Link to="/ma/dashboard">Dashboard</Link>
                         <Link to='/create-account'>Create Account</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?
                      (
                         <div className="link">
-                           <Link to="/ba/home">Dashboard</Link>
+                           <Link to="/ba/dashboard">Dashboard</Link>
                            <Link to="/ba/new-deal">Deals</Link>
                         </div>
                      )

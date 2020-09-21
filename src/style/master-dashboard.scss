@@ -1,0 +1,117 @@
+.master-admin-main-wrapper{
+   .chart-total-sales-info{     
+      display: grid;
+      grid-template-columns: 1.8fr 1fr;
+
+      .chart-deals{
+         width: 90%;
+         height: 450px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         margin-left: 30px;
+      }
+
+      .deals-total-sales-info{
+         padding: 20px 45px;
+
+         .gran-total-sales{
+            border: 1px solid $gray-bg-content;
+            text-align: center;
+            margin-bottom: 30px;
+
+            .title{
+               background-color: #facf57;
+
+               p{
+                  color: white;
+                  font-size: 2rem;
+                  font-weight: 600;
+               }
+            }  
+            
+            .total{
+               padding: 5px 0px;
+
+               p{
+                  font-size: 2.2rem;
+               }
+            }
+         }
+
+         .deals-total-sales-list{
+           .title{
+              background-color: #4CAF50;
+              text-align: center;
+
+              h2{
+                 color: white;
+              }
+           }
+
+           #totals-deals-sales-table{
+               text-align: center;
+               border-collapse: collapse;
+               border: 1px solid #8d8c8c;
+               width: 100%;
+
+               td, th{
+                  border: 1px solid #ddd;
+                  padding: 8px;
+                  font-size: 1.1rem;
+
+               }
+
+               // tr:nth-child(even){
+               //    background-color: #f2f2f2;
+               // }
+
+               th {
+                  text-align: center;
+                  background-color: #7a7979;
+                  border: 1px solid #ddd;
+                  color: white;
+                  font-size: 1rem;
+               }  
+            }
+         }
+      }
+   }
+
+   .active-deals-wrapper{
+      .title{
+         background-color: #facf57;
+         text-align: center;
+
+         h2{
+            color: white;
+         }
+      }
+
+      #active-deals-table{
+         text-align: center;
+         border-collapse: collapse;
+         border: 1px solid #8d8c8c;
+         width: 100%;
+
+         td, th{
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 1.1rem;
+
+         }
+
+         tr:nth-child(even){
+            background-color: #f2f2f2;
+         }
+
+         th {
+            text-align: center;
+            background-color:  #7a7979;
+            border: 1px solid #ddd;
+            color: white;
+            font-size: 1rem;
+         }  
+      }
+   }
+}

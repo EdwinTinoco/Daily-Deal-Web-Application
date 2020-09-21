@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
-import ActiveDealsList from './active-deals-list'
+import ActiveDealsList from '../business/active-deals-list'
 
 const state = {
    labels: ['January', 'February', 'March',
@@ -14,25 +13,25 @@ const state = {
    datasets: [
       {
          label: 'Rainfall',
-         backgroundColor: '#B21F00',
+         backgroundColor: '#facf57',
          borderColor: 'rgba(0,0,0,1)',
          data: [65, 59, 80, 81, 211]
       },
       {
          label: 'hola',
-         backgroundColor: '#C9DE00',
+         backgroundColor: '#8d8c8c',
          borderColor: 'rgba(0,0,0,1)',
          data: [26, 148, 66, 247, 206]
       },
       {
          label: 'otro',
-         backgroundColor: '#2FDE00',
+         backgroundColor: '#00A6B4',
          borderColor: 'rgba(0,0,0,1)',
          data: [79, 202, 115, 183, 166]
       },
       {
          label: 'clocks',
-         backgroundColor: '#00A6B4',
+         backgroundColor: '#ddd',
          borderColor: 'rgba(0,0,0,1)',
          data: [87, 42, 93, 78, 191]
       },
@@ -51,34 +50,15 @@ const state = {
    ]
 }
 
-export default function BusinessHome(props) {
-   const [userId, setUserId] = useState()
+export default function DealsBusinessDetail(props) {
+
+   const [userId, setUserId] = useState(props.match.params.slug)
    const [activeDeals, setActiveDeals] = useState([])
    const [headerActiveDealsTotals, setHeaderActiveDealsTotals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
 
    const getActiveDealsList = () => {
-      let userCookie = Cookies.get("_sb%_user%_session")
-      let temp = 0
-      let userIdArr = []
-
-      if (userCookie !== undefined) {
-         for (var i = 0; i < userCookie.length; i++) {
-            if (userCookie[i] == "%") {
-               temp += 1
-            }
-
-            if (temp === 2) {
-               if (userCookie[i] !== "%") {
-                  userIdArr.push(userCookie[i])
-               }
-            }
-         }
-
-         var userId = userIdArr.join('')
-      }
-
       axios.get(`http://localhost:5000/api/active-deals/${userId}`)
          .then(response => {
             console.log('deal active', response.data);
@@ -93,27 +73,6 @@ export default function BusinessHome(props) {
    }
 
    const getActiveDealsTotals = () => {
-      let userCookie = Cookies.get("_sb%_user%_session")
-      let temp = 0
-      let userIdArr = []
-
-      if (userCookie !== undefined) {
-         for (var i = 0; i < userCookie.length; i++) {
-            if (userCookie[i] == "%") {
-               temp += 1
-            }
-
-            if (temp === 2) {
-               if (userCookie[i] !== "%") {
-                  userIdArr.push(userCookie[i])
-               }
-            }
-         }
-
-         var userId = userIdArr.join('')
-
-         setUserId(userId)
-      }
       axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
          .then(response => {
             console.log('deal active totals', response.data);
