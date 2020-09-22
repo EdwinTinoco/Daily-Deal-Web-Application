@@ -23,9 +23,11 @@ export default function AllActiveDealsList(props) {
                {product_title}
             </Link>
          </td>
-         <Link to={`/ma/deals-business/detail/${deal_user_id}`}>
-            <td>{user_name}</td>
-         </Link>
+         <td>
+            <Link to={`/ma/deals-business/detail/${deal_user_id}`}>
+               {user_name}
+            </Link>
+         </td>
          <td>{user_email}</td>
          <td>{deal_started_date}</td>
          <td>{deal_finished_date}</td>

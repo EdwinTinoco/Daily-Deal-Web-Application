@@ -70,6 +70,10 @@ export default function NavigationBar(props) {
                   <Link to="/">Home</Link>
                </div>
 
+               <div className="link">
+                  <Link to="/">Contac Us</Link>
+               </div>
+
                {Object.entries(user).length > 0 ? user.role_title === "master_admin" ?
                   (
                      <div className="link">
