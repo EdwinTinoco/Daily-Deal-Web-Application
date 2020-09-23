@@ -24,6 +24,7 @@ export default function DealProductSuccessPay(props) {
             total = (subtotal + taxes).toFixed(2)
 
             axios.post('http://localhost:5000/api/sales/new-sale', {
+               productId: response.data[0].product_id,
                customerUserId: 14,
                dealId: dealId,
                saleDate: moment().format(),

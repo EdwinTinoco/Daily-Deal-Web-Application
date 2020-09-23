@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Image1 from '../../../static/assets/images/pictures/pic-2.jpg'
 
 
-export default class SignUp extends Component {
+export default class SignUpCustomer extends Component {
    constructor(props) {
       super(props);
 

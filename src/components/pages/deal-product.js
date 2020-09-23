@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import axios from "axios";
-import moment from 'moment';
+import Cookies from 'js-cookie'
 import { loadStripe } from "@stripe/stripe-js";
 
 import DealProductDetail from "../products/deal-product-detail"
@@ -9,17 +9,15 @@ import DealProductDetail from "../products/deal-product-detail"
 const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
 
 const Message = (props) => (
-
    <section>
       <p>{props.message}</p>
       <Link to={`/deal/product/${props.dealId}`}>Back to the Amazing Deal</Link>
    </section>
-
-
 );
 
 export default function DealProduct(props) {
-   const [dealId, setDealId] = useState(props.match.params.slug)
+   const [user, setUser] = useState({})
+   const [dealId] = useState(props.match.params.slug)
    const [productDeal, setProductDeal] = useState({})
    const [message, setMessage] = useState("");
 
@@ -44,7 +42,7 @@ export default function DealProduct(props) {
             'Content-Type': 'application/json'
          },
          body: JSON.stringify({
-            "customerEmail": "u@u.com",
+            "customerEmail": user.user_email,
             "dealId": dealId,
             "productName": productDeal.product_title,
             "productImage": productDeal.picture_product,
@@ -70,26 +68,47 @@ export default function DealProduct(props) {
       }
       else {
          // guardar en base de datos las sales junto con el id sales de stripe
-         console.log('no hubo error, ahora guardamos en la base de datos');
-         axios.post('http://localhost:5000/api/sales/new-sale', {
-            customerUserId: 14,
-            dealId: dealId,
-            saleDate: moment().format(),
-            subtotal: subtotal,
-            taxes: taxes,
-            total: total,
-            shippingAddress: "test",
-            stripePaymentIntentId: ""
-         })
-            .then(response => {
-               console.log('response new sale', response.data);
-            })
-            .catch(error => {
-               console.log('handleBuyButton axios post', error);
-            })
+
       }
    }
 
+   const getCurrentUser = () => {
+      let userCookie = Cookies.get("_sb%_user%_session")
+      let temp = 0
+      let userIdArr = []
+
+      if (userCookie !== undefined) {
+         for (var i = 0; i < userCookie.length; i++) {
+            if (userCookie[i] == "%") {
+               temp += 1
+            }
+
+            if (temp === 2) {
+               if (userCookie[i] !== "%") {
+                  userIdArr.push(userCookie[i])
+               }
+            }
+         }
+
+         let userId = userIdArr.join('')
+
+         axios.get(`http://localhost:5000/api/user/${userId}`)
+            .then(response => {
+               console.log('current user', response.data);
+
+               if (response.data.length > 0) {
+                  setUser(
+                     response.data[0]
+                  )
+               } else {
+                  handleLogout()
+               }
+
+            }).catch(error => {
+               console.log('getCurrentUser error', error);
+            });
+      }
+   }
 
    const getProductDeal = () => {
       console.log('deal id', dealId);
@@ -106,6 +125,8 @@ export default function DealProduct(props) {
    }
 
    useEffect(() => {
+      getCurrentUser()
+
       getProductDeal()
 
       const query = new URLSearchParams(window.location.search);
@@ -132,21 +153,34 @@ export default function DealProduct(props) {
                <div className="content">
                   <DealProductDetail productDeal={productDeal} />
 
-                  <div className="buy-button">
-                     <button id="checkout-button" role="link" onClick={handleBuyButton}>
-                        BUY
-                     </button>
-                  </div>
+                  {Object.entries(user).length > 0 ?
+                     (
+                        <div className="buy-button">
+                           <button id="checkout-button" role="link" onClick={handleBuyButton}>
+                              BUY
+                           </button>
+                        </div>
+                     )
+                     :
+                     null
+                  }
 
-                  <div className="links-wrapper">
-                     <div className="link">
-                        <Link to="/auth">SIGN IN</Link>
-                     </div>
+                  {Object.entries(user).length < 1 ?
+                     (
+                        <div className="links-wrapper">
+                           <div className="link">
+                              <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>SIGN IN</Link>
+                           </div>
 
-                     <div className="link">
-                        <Link to="/signup">SIGN UP</Link>
-                     </div>
-                  </div>
+                           <div className="link">
+                              <Link to="/signup/customer">SIGN UP</Link>
+                           </div>
+                        </div>
+
+                     )
+                     :
+                     null
+                  }
                </div>
             )}
       </div>

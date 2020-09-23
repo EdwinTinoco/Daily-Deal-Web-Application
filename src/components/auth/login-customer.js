@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 
-export default class Login extends Component {
+export default class LoginCustomer extends Component {
    constructor(props) {
       super(props);
 
@@ -50,19 +50,20 @@ export default class Login extends Component {
                   errorMessage: "Email or password is wrong"
                })
             } else if (response.data.length > 0) {
-               if (response.data[0].role_title !== "user") {
+               if (response.data[0].role_title === "user") {
                   this.setState({
                      user: response.data[0]
                   })
 
-                  Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 7 })
+                  Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 1 })
 
-                  this.props.handleSuccessfulAuth(this.state.user.role_title);
+                  this.props.handleSuccessfulAuth();
                } else {
                   this.setState({
-                     errorMessage: "Must be an Admin user account"
+                     errorMessage: "Must be a Customer user account"
                   })
                }
+
             } else {
                this.setState({
                   errorMessage: "Email or password is wrong"
@@ -79,25 +80,6 @@ export default class Login extends Component {
    render() {
       return (
          <div className="login-main-wrapper">
-            <div className="header">
-               <div className="home-link">
-                  <Link to='/'>Home</Link>
-               </div>
-
-               <div className="have-an-account">
-                  <div className="title">
-                     <p>Don't have an account?</p>
-                  </div>
-
-                  <Link to="/signup">
-                     <div className="signup-button">
-                        Sign up
-                     </div>
-                  </Link>
-               </div>
-            </div>
-
-
             <div className="login-form-center">
                <div className="login-container">
                   <div className="logo">

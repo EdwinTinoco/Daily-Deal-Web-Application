@@ -18,7 +18,8 @@ import BusinessDashboard from "./business/business-dashboard";
 import CreateNewDealProduct from "./business/create-new-deal-product";
 import ActiveDealDetail from "./business/active-deal-detail";
 import Auth from "./pages/auth";
-import SignUp from "./auth/signup";
+import AuthCustomer from "./pages/auth-customer";
+import SignUpCustomer from "./auth/signup";
 import DealProduct from "./pages/deal-product";
 import DealProductSuccessPay from "./products/deal-product-success-pay";
 import NoMatch from "./pages/no-match";
@@ -32,8 +33,9 @@ export default function App(props) {
         <Switch>
           <Route exact path="/" component={Home} />
 
+          <Route path='/auth/customer' component={AuthCustomer} />
+          <Route path='/signup/customer' component={SignUpCustomer} />
           <Route path='/auth' component={Auth} />
-          <Route path='/signup' component={SignUp} />
 
           <Route exact path='/ma/dashboard' component={MasterDashboard} />
           <Route path='/create-account' component={CreateAccount} />
