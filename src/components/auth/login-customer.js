@@ -50,20 +50,13 @@ export default class LoginCustomer extends Component {
                   errorMessage: "Email or password is wrong"
                })
             } else if (response.data.length > 0) {
-               if (response.data[0].role_title === "user") {
-                  this.setState({
-                     user: response.data[0]
-                  })
+               this.setState({
+                  user: response.data[0]
+               })
 
-                  Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 1 })
+               Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 1 })
 
-                  this.props.handleSuccessfulAuth();
-               } else {
-                  this.setState({
-                     errorMessage: "Must be a Customer user account"
-                  })
-               }
-
+               this.props.handleSuccessfulAuth();
             } else {
                this.setState({
                   errorMessage: "Email or password is wrong"
@@ -80,12 +73,13 @@ export default class LoginCustomer extends Component {
    render() {
       return (
          <div className="login-main-wrapper">
+            <div className="back-to-product-deal">
+               <Link to="http://localhost:3000/deal/product/42">Back to the Deal</Link>
+            </div>
             <div className="login-form-center">
                <div className="login-container">
                   <div className="logo">
-                     <Link to="/">
-                        <img src={Logo} alt='Logo' />
-                     </Link>
+                     <img src={Logo} alt='Logo' />
                   </div>
 
                   <div className="title">

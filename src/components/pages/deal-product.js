@@ -176,7 +176,6 @@ export default function DealProduct(props) {
                               <Link to="/signup/customer">SIGN UP</Link>
                            </div>
                         </div>
-
                      )
                      :
                      null
