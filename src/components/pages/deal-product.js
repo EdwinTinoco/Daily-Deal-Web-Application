@@ -22,53 +22,62 @@ export default function DealProduct(props) {
    const [message, setMessage] = useState("");
 
    const handleBuyButton = async (e) => {
-      const stripe = await stripePromise;
-
-      let subtotal = 0
-      subtotal = productDeal.product_price
-      console.log('subtotal', subtotal);
-
-      let taxes = 0
-      taxes = subtotal * 0.12
-      console.log('taxes', taxes);
-
-      let total = 0
-      total = (subtotal + taxes).toFixed(2)
-      console.log('total', total);
-
-      const response = await fetch("http://localhost:5000/create-session", {
-         method: "POST",
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({
-            "customerEmail": user.user_email,
-            "dealId": dealId,
-            "productName": productDeal.product_title,
-            "productImage": productDeal.picture_product,
-            "total": total
+      const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
+         {
+            userId: user.user_id,
+            dealId: dealId
          })
-      });
+         .catch(error => {
+            console.log('check purchase error', error);
+         })
 
-      const session = await response.json();
-      console.log('response from stripe backend', session);
+      if (checkPurchaseMessage.data["@message"] === "The user already has a purchase") {
+         alert('You already made a purchase. You can only make one purchase per deal.')
+      } else {
+         const stripe = await stripePromise;
+
+         let subtotal = 0
+         subtotal = productDeal.product_price
+
+         let taxes = 0
+         taxes = subtotal * 0.12
+
+         let total = 0
+         total = (subtotal + taxes).toFixed(2)
+
+         const response = await fetch("http://localhost:5000/create-session", {
+            method: "POST",
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               "customerEmail": user.user_email,
+               "dealId": dealId,
+               "productName": productDeal.product_title,
+               "productImage": productDeal.picture_product,
+               "total": total
+            })
+         });
+
+         const session = await response.json();
+         console.log('response from stripe backend', session);
 
 
-      const result = await stripe.redirectToCheckout({
-         sessionId: session.id,
-      });
+         const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+         });
 
-      console.log('result', result);
+         console.log('result', result);
 
+         if (result.error) {
+            console.log('result error', result.error.message);
 
-      if (result.error) {
-         console.log('result error', result.error.message);
+            setMessage(result.error.message)
+         }
+         else {
+            // guardar en base de datos las sales junto con el id sales de stripe
 
-         setMessage(result.error.message)
-      }
-      else {
-         // guardar en base de datos las sales junto con el id sales de stripe
-
+         }
       }
    }
 
@@ -126,7 +135,6 @@ export default function DealProduct(props) {
 
    useEffect(() => {
       getCurrentUser()
-
       getProductDeal()
 
       const query = new URLSearchParams(window.location.search);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios";
+import Cookies from 'js-cookie';
 import moment from 'moment';
 
 export default function DealProductSuccessPay(props) {
@@ -8,6 +9,27 @@ export default function DealProductSuccessPay(props) {
 
 
    const insertNewSale = () => {
+      let userCookie = Cookies.get("_sb%_user%_session")
+      let temp = 0
+      let userIdArr = []
+      let userId = ""
+
+      if (userCookie !== undefined) {
+         for (var i = 0; i < userCookie.length; i++) {
+            if (userCookie[i] == "%") {
+               temp += 1
+            }
+
+            if (temp === 2) {
+               if (userCookie[i] !== "%") {
+                  userIdArr.push(userCookie[i])
+               }
+            }
+         }
+
+         userId = userIdArr.join('')
+      }
+
       axios.get(`http://localhost:5000/deal/product/${dealId}`)
          .then(response => {
             console.log('product deal', response.data);
@@ -25,7 +47,7 @@ export default function DealProductSuccessPay(props) {
 
             axios.post('http://localhost:5000/api/sales/new-sale', {
                productId: response.data[0].product_id,
-               customerUserId: 14,
+               customerUserId: userId,
                dealId: dealId,
                saleDate: moment().format(),
                subtotal: subtotal,
