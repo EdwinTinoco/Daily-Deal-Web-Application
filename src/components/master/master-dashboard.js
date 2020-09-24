@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Sidebar from "react-sidebar";
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import AllActiveDealsList from './all-active-deals-list'
@@ -39,6 +38,11 @@ export default function MasterDashboard(props) {
    const [headerActiveDealsTotals, setHeaderActiveDealsTotals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
+   const [sidebarOpen, setSidebarOpen] = useState(true)
+
+   const onSetSidebarOpen = (open) => {
+      setSidebarOpen(open);
+   }
 
    const getAllActiveDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
