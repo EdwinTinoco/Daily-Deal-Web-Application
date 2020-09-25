@@ -43,7 +43,7 @@ export default class LoginCustomer extends Component {
                password: this.state.password
             }
          ).then(response => {
-            console.log('response login', response.data);
+            console.log('response login customer', response.data);
 
             if (response.data === "Email or password is wrong") {
                this.setState({

@@ -21,9 +21,9 @@
          button{
             margin-top: 20px;
             padding: 10px 120px;
-            border-radius: 8px;
-            border: 1.5px solid #f85312;
             background-color:  #f85312;
+            border: 1px solid #f85312;
+            border-radius: 8px;
             font-size: 3.3rem;
             color: white;
             outline: none;
@@ -37,6 +37,41 @@
 
             &:active {
                box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
+            }
+         }
+      }
+
+      .buy-link{
+         width: 370px;
+         background-color: #e7e4e4;
+         text-align: center;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         
+         a{
+            text-decoration: none;
+            
+            .button{         
+               margin-top: 20px;
+               width: 150px;
+               background-color: $orange-buttons;
+               border: 1.5px solid $orange-buttons;
+               padding: 10px 80px;
+               border-radius: 8px;
+               position: relative;
+               border-radius: 3px;
+               transition: 0.3s ease-in-out;
+      
+               p{
+                  font-size: 3.3rem;
+                  color: white;
+               }
+      
+               &:hover{
+                  cursor: pointer;
+                  background-color: $orange-hover-buttons;           
+               }
             }
          }
       }
