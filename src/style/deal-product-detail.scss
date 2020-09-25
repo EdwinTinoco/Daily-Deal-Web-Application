@@ -5,14 +5,14 @@
 
       .image img{
          width: 370px;
-         height: 510px;
+         height: 490px;
       }
 
       .title-description{
          padding: 0px 50px;
 
          .title{
-            margin-top: 20px;
+            margin-top: 10px;
             text-align: left;
             color: #575555;
             font-size: 1.8rem;
@@ -27,7 +27,7 @@
       }   
       
       .price-stock{ 
-         margin-top: 20px;
+         margin-top: 5px;
          display: flex;
          justify-content: space-around;
          align-items: center;
@@ -64,5 +64,20 @@
             }
          }
       }  
+
+      .countdown-deal{
+         margin-top: 15px;
+         background-color: #d4d4d4;
+         text-align: center;
+         font-size: 1.8rem;
+         font-style: italic;
+         font-weight: 700;
+         color: $orange_buttons;
+         
+         p{
+            color: black;
+            font-size: 1.2rem;
+         }
+      }
    }
 }

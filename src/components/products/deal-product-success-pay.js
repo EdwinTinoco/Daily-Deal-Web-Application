@@ -68,9 +68,9 @@ export default function DealProductSuccessPay(props) {
          })
    }
 
-   useEffect(() => {
-      insertNewSale()
-   }, [])
+   // useEffect(() => {
+   //    insertNewSale()
+   // }, [])
 
 
    return (
