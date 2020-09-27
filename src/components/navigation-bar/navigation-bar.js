@@ -41,9 +41,14 @@ export default function NavigationBar(props) {
                console.log('Navigation Bar current user', response.data);
 
                if (response.data.length > 0) {
-                  setUser(
-                     response.data[0]
-                  )
+                  if (response.data[0].role_title !== "user") {
+                     setUser(
+                        response.data[0]
+                     )
+                  } else {
+                     handleLogout()
+                  }
+
                } else {
                   handleLogout()
                }
@@ -100,7 +105,14 @@ export default function NavigationBar(props) {
                (
                   <div className="user-info">
                      <p>{`${user.user_name}  |  ${user.user_email}`}</p>
-                     {user.role_title === "master_admin" ? <p>Master Account</p> : <p>Business Account</p>}
+                     {user.role_title === "master_admin" ?
+                        <p>Master Account</p>
+                        :
+                        user.role_title === "business_admin" ?
+                           <p>Business Account</p>
+                           :
+                           null
+                     }
                   </div>
                )
                :

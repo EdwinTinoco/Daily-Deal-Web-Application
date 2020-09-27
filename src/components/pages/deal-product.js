@@ -6,9 +6,6 @@ import moment from 'moment';
 import DateCountdown from 'react-date-countdown-timer';
 import { loadStripe } from "@stripe/stripe-js";
 
-
-import DealProductDetail from "../products/deal-product-detail"
-
 const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
 
 const Message = (props) => (
@@ -32,107 +29,76 @@ export default function DealProduct(props) {
       if (currentStock === undefined || currentStock === "") {
          alert('There was a issue with the product stock. Try later')
 
+      } else if (currentStock < 1) {
+         alert("We're sorry you missed out on this deal today! Check back for future deals.")
+
+      } else if (moment().format() > productDeal.deal_finished_date) {
+         alert("We're sorry the deal time is over. Check back for future deals.")
+
+      } else if (Object.entries(user).length < 1) {
+         alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
+
       } else {
-         if (currentStock < 1) {
-            alert("We're sorry you missed out on this deal today! Check back for future deals.")
+         const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
+            {
+               userId: user.user_id,
+               dealId: dealId
+            })
+            .catch(error => {
+               console.log('check purchase error', error);
+            })
+
+         console.log('checkpurchase', checkPurchaseMessage.data);
+
+         if (checkPurchaseMessage.data["@message"] === "The user already has a purchase") {
+            alert('You already made a purchase. You can only make one purchase per deal.')
 
          } else {
-            if (Object.entries(user).length < 1) {
-               alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
+            const stripe = await stripePromise;
 
-            } else {
-               const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
-                  {
-                     userId: user.user_id,
-                     dealId: dealId
-                  })
-                  .catch(error => {
-                     console.log('check purchase error', error);
-                  })
+            let subtotal = 0
+            subtotal = productDeal.product_price
 
-               console.log('checkpurchase', checkPurchaseMessage.data);
+            let taxes = 0
+            taxes = subtotal * 0.12
 
-               if (checkPurchaseMessage.data["@message"] === "The user already has a purchase") {
-                  alert('You already made a purchase. You can only make one purchase per deal.')
+            let total = 0
+            total = (subtotal + taxes).toFixed(2)
 
-               } else {
+            const response = await fetch("http://localhost:5000/create-session", {
+               method: "POST",
+               headers: {
+                  'Content-Type': 'application/json'
+               },
+               body: JSON.stringify({
+                  "productId": productDeal.product_id,
+                  "productName": productDeal.product_title,
+                  "productImage": productDeal.picture_product,
+                  "customerUserId": user.user_id,
+                  "customerEmail": user.user_email,
+                  "dealId": dealId,
+                  "saleDate": moment().format(),
+                  "subtotal": subtotal,
+                  "taxes": taxes,
+                  "total": total,
+                  "shippingType": productDeal.shipping_title,
+                  "stripeSessionId": "",
+                  "stripePaymentIntentId": "",
+               })
+            });
 
-                  console.log('Se abre stripe para hacer la compra');
-
-
-                  let subtotal = 0
-                  subtotal = productDeal.product_price
-
-                  let taxes = 0
-                  taxes = subtotal * 0.12
-
-                  let total = 0
-                  total = (subtotal + taxes).toFixed(2)
-
-                  await axios.post('http://localhost:5000/api/sales/new-sale', {
-                     productId: productDeal.product_id,
-                     customerUserId: user.user_id,
-                     dealId: dealId,
-                     saleDate: moment().format(),
-                     subtotal: subtotal,
-                     taxes: taxes,
-                     total: total,
-                     shippingAddress: "test",
-                     stripePaymentIntentId: ""
-                  })
-                     .then(response => {
-                        console.log('response new sale', response.data);
-                     })
-                     .catch(error => {
-                        console.log('insertNewSale axios post', error);
-                     })
+            const session = await response.json();
+            console.log('response from stripe backend', session);
 
 
+            const result = await stripe.redirectToCheckout({
+               sessionId: session.id,
+            });
 
-                  // const stripe = await stripePromise;
+            if (result.error) {
+               console.log('result error', result.error.message);
 
-                  // let subtotal = 0
-                  // subtotal = productDeal.product_price
-
-                  // let taxes = 0
-                  // taxes = subtotal * 0.12
-
-                  // let total = 0
-                  // total = (subtotal + taxes).toFixed(2)
-
-                  // const response = await fetch("http://localhost:5000/create-session", {
-                  //    method: "POST",
-                  //    headers: {
-                  //       'Content-Type': 'application/json'
-                  //    },
-                  //    body: JSON.stringify({
-                  //       "customerEmail": user.user_email,
-                  //       "dealId": dealId,
-                  //       "productName": productDeal.product_title,
-                  //       "productImage": productDeal.picture_product,
-                  //       "total": total
-                  //    })
-                  // });
-
-                  // const session = await response.json();
-                  // console.log('response from stripe backend', session);
-
-
-                  // const result = await stripe.redirectToCheckout({
-                  //    sessionId: session.id,
-                  // });
-
-                  // console.log('result', result);
-
-                  // if (result.error) {
-                  //    console.log('result error', result.error.message);
-
-                  //    setMessage(result.error.message)
-                  // }
-                  // else {
-                  //    // guardar en base de datos las sales junto con el id sales de stripe   
-                  // }
-               }
+               setMessage(result.error.message)
             }
          }
       }
@@ -209,7 +175,7 @@ export default function DealProduct(props) {
 
       const updateCurrentStock = setInterval(() => {
          getCurrentStock()
-      }, 1000);
+      }, 100000);
 
       const query = new URLSearchParams(window.location.search);
 
@@ -232,8 +198,7 @@ export default function DealProduct(props) {
       picture_product,
       product_title,
       product_description,
-      product_price,
-      stock_left
+      product_price
    } = productDeal
 
 
@@ -268,13 +233,10 @@ export default function DealProduct(props) {
                      <div className="countdown-deal">
                         <p>Deal ends in...</p>
 
-                        <DateCountdown dateTo={'2020-09-26 08:30:10'} callback={() => alert('Hello')} />
+                        <DateCountdown dateTo={'2020-09-26 08:30:10'} callback={() => 1 + 1} />
                      </div>
 
                   </div>
-                  {/* <DealProductDetail productDeal={productDeal} /> */}
-
-
 
                   {Object.entries(user).length > 0 ?
                      (
