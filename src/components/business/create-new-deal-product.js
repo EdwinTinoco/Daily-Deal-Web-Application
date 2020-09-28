@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies, { set } from 'js-cookie';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
+import DropzoneComponent from "react-dropzone-component";
+
+import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import PreviewDealProduct from "./preview-deal-product"
@@ -22,6 +26,37 @@ export default function CreateNewDealProduct(props) {
    const [previewShow, setPreviewShow] = useState("none")
    const [shippingCatalog, setShippingCatalog] = useState([])
    const [errorsValidation, setErrorsValidation] = useState({})
+   const [thumbImage1, setThumbImage1] = useState("")
+   const [thumbImage2, setThumbImage2] = useState("")
+   const thumbImage1Ref = useRef()
+   const thumbImage2Ref = useRef()
+
+   const componentConfig = () => {
+      return {
+         iconFiletypes: [".jpg", ".png"],
+         showFiletypeIcon: true,
+         postUrl: "https://httpbin.org/post"
+      }
+   }
+
+   const djsConfig = () => {
+      return {
+         addRemoveLinks: true,
+         maxFiles: 1
+      }
+   }
+
+   const handleThumbDrop1 = () => {
+      return {
+         addedfile: file => setThumbImage1(file)
+      };
+   }
+
+   const handleThumbDrop2 = () => {
+      return {
+         addedfile: file => setThumbImage2(file)
+      };
+   }
 
    const handleLogout = () => {
       setUser({})
@@ -57,36 +92,39 @@ export default function CreateNewDealProduct(props) {
          let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
          let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
 
-         axios
-            .post(
-               'http://localhost:5000/api/product/new-deal',
-               {
-                  userId: user.user_id,
-                  title: title,
-                  image: image,
-                  description: description,
-                  price: parseFloat(price).toFixed(2),
-                  stock: parseInt(stock),
-                  shippingType: shippingType,
-                  createdDealDate: createDateDB,
-                  startedDealDate: startDateDB,
-                  finishedDealDate: finishDateDB,
-                  dealStatus: "actived"
-               },
-            )
+         axios.post('http://localhost:5000/api/product/new-deal',
+            {
+               userId: user.user_id,
+               title: title,
+               thumbImage1: thumbImage1,
+               description: description,
+               price: parseFloat(price).toFixed(2),
+               stock: parseInt(stock),
+               shippingType: shippingType,
+               createdDealDate: createDateDB,
+               startedDealDate: startDateDB,
+               finishedDealDate: finishDateDB,
+               dealStatus: "actived"
+            })
             .then(response => {
                console.log("new deal, deal ProductId", response.data)
 
                setDealProductId(response.data["@productId"])
                setUrlGenerated(response.data["@generatedDealProductUrl"])
                // setTitle("")
-               // setImage("")
+               // setThumbImage1("")
                // setDescription("")
                // setPrice("")
                // setStock("")
                // setShippingType("")
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
+
+               thumbImage1Ref.current.dropzone.removeAllFiles()
+
+               // [thumbImage1Ref].forEach(ref => {
+               //    ref.current.dropzone.removeAllFiles()
+               // });
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
@@ -150,9 +188,9 @@ export default function CreateNewDealProduct(props) {
          errors["title"] = "Please enter a title";
       }
 
-      if (!image) {
+      if (!thumbImage1) {
          isValid = false;
-         errors["image"] = "Please enter an image";
+         errors["thumbImage1"] = "Please select an image";
       }
 
       if (!description) {
@@ -210,7 +248,7 @@ export default function CreateNewDealProduct(props) {
                      <div className="error-validation">{errorsValidation.title}</div>
                   </div>
 
-                  <div className="form-group">
+                  {/* <div className="form-group">
                      <label htmlFor="image"><b>Image</b></label>
                      <input type='text'
                         className='new-entry-input'
@@ -220,7 +258,28 @@ export default function CreateNewDealProduct(props) {
                         placeholder='Image'
                      />
                      <div className="error-validation">{errorsValidation.image}</div>
+                  </div> */}
+
+                  <div className="form-group">
+                     <label htmlFor="image"><b>Image</b></label>
+                     <DropzoneComponent
+                        name="image"
+                        ref={thumbImage1Ref}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleThumbDrop1()}
+                     />
+                     <div className="error-validation">{errorsValidation.thumbImage1}</div>
+
+                     {/* <DropzoneComponent
+                        ref={thumbImage2Ref}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleThumbDrop2()}
+                     /> */}
                   </div>
+
+
 
                   <div className="form-group">
                      <label htmlFor="description"><b>Description</b></label>
