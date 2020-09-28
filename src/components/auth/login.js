@@ -89,7 +89,7 @@ export default class Login extends Component {
                      <p>Don't have an account?</p>
                   </div>
 
-                  <Link to="/signup">
+                  <Link to="/signup/customer">
                      <div className="signup-button">
                         Sign up
                      </div>

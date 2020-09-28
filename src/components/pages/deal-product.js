@@ -35,8 +35,12 @@ export default function DealProduct(props) {
       } else if (moment().format() > productDeal.deal_finished_date) {
          alert("We're sorry the deal time is over. Check back for future deals.")
 
-      } else if (Object.entries(user).length < 1) {
+      } else if (Cookies.get("_sb%_user%_session") === undefined) {
+         setUser({})
+
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
+
+         window.location.reload(false);
 
       } else {
          const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
@@ -103,6 +107,8 @@ export default function DealProduct(props) {
          }
       }
    }
+
+
 
    const getCurrentUser = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
@@ -266,7 +272,7 @@ export default function DealProduct(props) {
                            </div>
 
                            <div className="link">
-                              <Link to="/signup/customer">SIGN UP</Link>
+                              <Link to={{ pathname: "/signup/customer", state: { dealId: dealId } }}>SIGN UP</Link>
                            </div>
                         </div>
                      )

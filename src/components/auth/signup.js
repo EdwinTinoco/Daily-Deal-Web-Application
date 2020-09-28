@@ -11,7 +11,6 @@ export default class SignUpCustomer extends Component {
       super(props);
 
       this.state = {
-         idLastUser: 0,
          email: "",
          password: "",
          confirmPassword: "",
@@ -38,8 +37,8 @@ export default class SignUpCustomer extends Component {
             .post(
                'http://localhost:5000/api/user/signup',
                {
-                  role: "master_admin",
-                  name: "Edwin Tinoco",
+                  role: "user",
+                  name: "Customer",
                   email: this.state.email,
                   password: this.state.password,
                   active: "Y"
@@ -48,22 +47,28 @@ export default class SignUpCustomer extends Component {
             .then(response => {
                console.log("new user", response.data)
 
-               this.setState({
-                  email: "",
-                  password: "",
-                  messageUser: response.data
-               })
+               if (response.data === "A user with that email already exist") {
+                  this.setState({
+                     messageUser: "A user with that email already exist"
+                  })
+               } else {
+                  this.setState({
+                     email: "",
+                     password: "",
+                     confirmPassword: "",
+                     errorsValidation: {},
+                     messageUser: "The customer user account was created succesfully"
+                  })
 
-               // Cookies.set("_sb%_user%_session", `%encript%${response.data[0][0]}`, { expires: 2 })
+                  Cookies.set("_sb%_user%_session", `%encript%${response.data['@userId']}`, { expires: 1 })
 
-               // this.props.history.push("/");
+                  this.props.history.push(`/deal/product/${this.props.location.state.dealId}`);
+               }
             })
             .catch(error => {
                console.log('handleSubmitRegisterNewUser error', error)
             })
-
       }
-
    }
 
    validate() {
@@ -137,6 +142,7 @@ export default class SignUpCustomer extends Component {
             <div className="signup-form-wrapper">
                <div className="right-side">
                   <p>Sign up</p>
+                  <p>{this.props.location.state.dealId}</p>
 
                   <form onSubmit={this.handleSubmitRegisterNewUser} className="signup-form">
                      <div className="form-group">

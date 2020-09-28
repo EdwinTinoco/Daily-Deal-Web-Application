@@ -93,7 +93,7 @@ export default function ActiveDealDetail(props) {
                   <p className="product-title">{product_title}</p>
                   <p className="description">{product_description}</p>
                   <p className="stock">{`Stock: ${stock_quantity}`}</p>
-                  <p className="stock">{`Left: ${stock_left - 1}`}</p>
+                  <p className="stock">{`Left: ${stock_left}`}</p>
                   <p className="price">{`$${product_price}`}</p>
                   <p className="shipping">{`Shipping: ${shipping_title}`}</p>
                </div>
