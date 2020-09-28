@@ -21,7 +21,7 @@ import Auth from "./pages/auth";
 import AuthCustomer from "./pages/auth-customer";
 import SignUpCustomer from "./auth/signup";
 import DealProduct from "./pages/deal-product";
-import DealProductSuccessPay from "./products/deal-product-success-pay";
+import DealProductSuccessPayment from "./products/deal-product-success-payment";
 import NoMatch from "./pages/no-match";
 
 export default function App(props) {
@@ -46,7 +46,7 @@ export default function App(props) {
           <Route path='/ba/active-deal/detail/:slug' component={ActiveDealDetail} />
 
           <Route path='/deal/product/:slug' component={DealProduct} />
-          <Route path="/success/:slug" component={DealProductSuccessPay} />
+          <Route path="/success/:slug" component={DealProductSuccessPayment} />
 
           <Route component={NoMatch} />
         </Switch>

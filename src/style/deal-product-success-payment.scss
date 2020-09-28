@@ -1,0 +1,46 @@
+.success-payment{
+   .center{
+      background-color: $gray-bg-dealproduct;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+
+      .logo{
+         img{
+            width: 230px;
+            height: 250px;
+         }
+      }
+   
+      .thanks{
+         padding: 20px 50px;
+         background-color: $orange-buttons;
+         border-radius: 6px;
+   
+         p{
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+         }
+      }
+
+      .order{
+         margin: 10px 0px;
+         p{
+            font-size: 1.8rem;
+            font-weight: 600;
+         }
+      }
+
+      .email{
+
+         p{
+            font-size: 1.5rem;
+
+         }
+      }
+   }
+}

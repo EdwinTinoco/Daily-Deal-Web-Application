@@ -108,8 +108,6 @@ export default function DealProduct(props) {
       }
    }
 
-
-
    const getCurrentUser = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
@@ -210,76 +208,76 @@ export default function DealProduct(props) {
 
    return (
       <div className="deal-product-main-wrapper">
-         {message ? (
+         {/* {message ? (
             <Message dealId={deal_id} message={message} />
          )
             :
-            (
-               <div className="content">
-                  <div className="deal-product-detail-main-wrapper">
-                     <div className="image">
-                        <img src={picture_product} alt="image" />
-                     </div>
+            ( */}
+         <div className="content">
+            <div className="deal-product-detail-main-wrapper">
+               <div className="image">
+                  <img src={picture_product} alt="image" />
+               </div>
 
-                     <div className="title-description">
-                        <p className="title">{product_title}</p>
-                        <p className="description">{product_description}</p>
-                     </div>
+               <div className="title-description">
+                  <p className="title">{product_title}</p>
+                  <p className="description">{product_description}</p>
+               </div>
 
-                     <div className="price-stock">
-                        <p className="price">${product_price}</p>
+               <div className="price-stock">
+                  <p className="price">${product_price}</p>
 
-                        <div className="stock">
-                           <p className="number">{currentStock}</p>
+                  <div className="stock">
+                     <p className="number">{currentStock}</p>
 
-                           <p className="left">LEFT</p>
-                        </div>
-                     </div>
+                     <p className="left">LEFT</p>
+                  </div>
+               </div>
 
-                     <div className="countdown-deal">
+               {/* <div className="countdown-deal">
                         <p>Deal ends in...</p>
 
                         <DateCountdown dateTo={'2020-09-26 08:30:10'} callback={() => 1 + 1} />
-                     </div>
+                     </div> */}
 
-                     {Object.entries(user).length > 0 ?
-                        (
-                           <div className="buy-button">
-                              <button id="checkout-button" role="link" onClick={handleBuyButton}>
-                                 BUY
+               {Object.entries(user).length > 0 ?
+                  (
+                     <div className="buy-button">
+                        <button id="checkout-button" role="link" onClick={handleBuyButton}>
+                           BUY
                            </button>
+                     </div>
+                  )
+                  :
+                  (
+                     <div className="buy-link">
+                        <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>
+                           <div className="button">
+                              <p>BUY</p>
                            </div>
-                        )
-                        :
-                        (
-                           <div className="buy-link">
-                              <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>
-                                 <div className="button">
-                                    <p>BUY</p>
-                                 </div>
-                              </Link>
-                           </div>
-                        )
-                     }
+                        </Link>
+                     </div>
+                  )
+               }
 
-                     {Object.entries(user).length < 1 ?
-                        (
-                           <div className="links-wrapper">
-                              <div className="link">
-                                 <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>SIGN IN</Link>
-                              </div>
+               {Object.entries(user).length < 1 ?
+                  (
+                     <div className="links-wrapper">
+                        <div className="link">
+                           <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>SIGN IN</Link>
+                        </div>
 
-                              <div className="link">
-                                 <Link to={{ pathname: "/signup/customer", state: { dealId: dealId } }}>SIGN UP</Link>
-                              </div>
-                           </div>
-                        )
-                        :
-                        null
-                     }
-                  </div>
-               </div>
-            )}
+                        <div className="link">
+                           <Link to={{ pathname: "/signup/customer", state: { dealId: dealId } }}>SIGN UP</Link>
+                        </div>
+                     </div>
+                  )
+                  :
+                  null
+               }
+            </div>
+         </div>
+         {/* )} */}
       </div>
    )
 }

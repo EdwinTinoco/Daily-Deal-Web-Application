@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react"
 import axios from "axios";
 import Cookies from 'js-cookie';
 
-export default function DealProductSuccessPay(props) {
+import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
+
+
+export default function DealProductSuccessPayment(props) {
    const [dealId] = useState(props.match.params.slug)
    const [productDeal, setProductDeal] = useState({})
 
@@ -47,8 +50,25 @@ export default function DealProductSuccessPay(props) {
 
    return (
       <div className="success-payment">
-         <h1>Success Payment!!</h1>
-         <h1>{dealId}</h1>
+         <div className="center">
+            <div className="logo">
+               <img src={Logo} alt="kudu-logo" />
+            </div>
+
+            <div className="thanks">
+               <p>Thank you!</p>
+            </div>
+
+            <div className="order">
+               <p>Your order was placed</p>
+            </div>
+
+            <div className="email">
+               <p>You will receive an email confirmation</p>
+               <p>{dealId}</p>
+            </div>
+
+         </div>
       </div>
    )
 }
