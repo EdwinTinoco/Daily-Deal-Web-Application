@@ -1,6 +1,8 @@
 .content{  
    .deal-product-detail-main-wrapper{
       width: 370px;
+      height: 826px;
+      position: absolute;
       background-color: #e7e4e4;     
 
       .image img{
@@ -27,7 +29,7 @@
       }   
       
       .price-stock{ 
-         margin-top: 5px;
+         // margin-top: 5px;
          display: flex;
          justify-content: space-around;
          align-items: center;
@@ -66,7 +68,7 @@
       }  
 
       .countdown-deal{
-         margin-top: 15px;
+         margin-top: 10px;
          background-color: #d4d4d4;
          text-align: center;
          font-size: 1.8rem;
