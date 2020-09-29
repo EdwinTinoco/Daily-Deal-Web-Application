@@ -15,19 +15,18 @@ export default function CreateNewDealProduct(props) {
    const [user, setUser] = useState({})
    const [dealProductId, setDealProductId] = useState(0)
    const [urlGenerated, setUrlGenerated] = useState("")
+   const [thumbImage1, setThumbImage1] = useState("")
+   const [thumbImage2, setThumbImage2] = useState("")
    const [title, setTitle] = useState("")
-   const [image, setImage] = useState("")
    const [description, setDescription] = useState("")
    const [price, setPrice] = useState("")
    const [stock, setStock] = useState("")
-   const [shippingType, setShippingType] = useState("")
+   const [shippingTypeId, setShippingTypeId] = useState("")
    const [startedDealDate, setStartedDealDate] = useState("")
    const [finishedDealDate, setFinishedDealDate] = useState("")
    const [previewShow, setPreviewShow] = useState("none")
-   const [shippingCatalog, setShippingCatalog] = useState([])
+   const [shippingTypesCatalog, setShippingTypesCatalog] = useState([])
    const [errorsValidation, setErrorsValidation] = useState({})
-   const [thumbImage1, setThumbImage1] = useState("")
-   const [thumbImage2, setThumbImage2] = useState("")
    const thumbImage1Ref = useRef()
    const thumbImage2Ref = useRef()
 
@@ -66,7 +65,7 @@ export default function CreateNewDealProduct(props) {
 
    const handleClearInputs = () => {
       setTitle("")
-      setImage("")
+      setThumbImage1("")
       setDescription("")
       setPrice("")
       setStock("")
@@ -102,7 +101,7 @@ export default function CreateNewDealProduct(props) {
                description: description,
                price: parseFloat(price).toFixed(2),
                stock: parseInt(stock),
-               shippingType: shippingType,
+               shippingTypeId: shippingTypeId,
                createdDealDate: createDateDB,
                startedDealDate: startDateDB,
                finishedDealDate: finishDateDB,
@@ -111,14 +110,14 @@ export default function CreateNewDealProduct(props) {
             .then(response => {
                console.log("new deal, deal ProductId", response.data)
 
-               setDealProductId(response.data["@productId"])
+               setDealProductId(response.data["@dealId"])
                setUrlGenerated(response.data["@generatedDealProductUrl"])
                setTitle("")
                setThumbImage1("")
                setDescription("")
                setPrice("")
                setStock("")
-               setShippingType("")
+               setShippingTypeId("")
                setPreviewShow("none")
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
@@ -175,7 +174,9 @@ export default function CreateNewDealProduct(props) {
    const getShippingTypes = () => {
       axios.get('http://localhost:5000/api/shipping-types')
          .then(response => {
-            setShippingCatalog(response.data)
+            console.log('shipping types', response.data);
+
+            setShippingTypesCatalog(response.data)
          })
          .catch(error => {
             console.log('getShippingTypes error', error);
@@ -211,7 +212,7 @@ export default function CreateNewDealProduct(props) {
          errors["stock"] = "Please enter a stock";
       }
 
-      if (!shippingType) {
+      if (!shippingTypeId) {
          isValid = false;
          errors["shippingType"] = "Please select a shipping type";
       }
@@ -313,21 +314,21 @@ export default function CreateNewDealProduct(props) {
                   <div className="form-group">
                      <label htmlFor="shipping">Shipping Type</label>
                      <select className='new-entry-input'
-                        value={shippingType}
-                        onChange={({ target }) => { setShippingType(target.value) }}
+                        value={shippingTypeId}
+                        onChange={({ target }) => { setShippingTypeId(target.value) }}
                         id="shipping"
                      >
                         <option value=''>Select a shipping type</option>
-                        {shippingCatalog.map((item, index) =>
+                        {shippingTypesCatalog.map((item, index) =>
                            <option
-                              value={item.shipping_id}
+                              value={item.shipping_type_id}
                               key={index}
                            >
-                              {item.shipping_title}
+                              {item.shipping_type_title}
                            </option>
                         )}
                      </select>
-                     <div className="error-validation">{errorsValidation.shippingType}</div>
+                     <div className="error-validation">{errorsValidation.shippingTypeId}</div>
                   </div>
 
                   <div className="buttons">
@@ -343,14 +344,14 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="started-finished-deal-date">
                      <div className="date">
-                        <p>Started Deal</p>
+                        <p>Deal Created Date</p>
                         <p>{startedDealDate}</p>
                      </div>
 
-                     <div className="date">
+                     {/* <div className="date">
                         <p>Finished Deal</p>
                         <p>{finishedDealDate}</p>
-                     </div>
+                     </div> */}
                   </div>
                   <p className="title">Deal Product URL</p>
 

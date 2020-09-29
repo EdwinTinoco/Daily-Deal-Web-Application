@@ -40,8 +40,6 @@ export default function DealProduct(props) {
 
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
 
-         window.location.reload(false);
-
       } else {
          const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
             {
@@ -62,12 +60,18 @@ export default function DealProduct(props) {
 
             let subtotal = 0
             subtotal = productDeal.product_price
+            console.log('subtotal', subtotal);
+
 
             let taxes = 0
-            taxes = subtotal * 0.12
+            taxes = (parseFloat(subtotal) * 0.0715).toFixed(2)
+            console.log('taxes', taxes);
+
 
             let total = 0
-            total = (subtotal + taxes).toFixed(2)
+            total = (parseFloat(subtotal) + parseFloat(taxes)).toFixed(2)
+            console.log('total', total);
+
 
             const response = await fetch("http://localhost:5000/create-session", {
                method: "POST",
@@ -85,7 +89,7 @@ export default function DealProduct(props) {
                   "subtotal": subtotal,
                   "taxes": taxes,
                   "total": total,
-                  "shippingType": productDeal.shipping_title,
+                  "shippingTypeTitle": productDeal.shipping_type_title,
                   "stripeSessionId": "",
                   "stripePaymentIntentId": "",
                })
