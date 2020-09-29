@@ -76,6 +76,8 @@ export default function CreateNewDealProduct(props) {
    }
 
    const handlePreviewDealProduct = () => {
+      console.log('thumbImage1', thumbImage1);
+
       if (validate()) {
          setPreviewShow("block")
       }
@@ -96,7 +98,7 @@ export default function CreateNewDealProduct(props) {
             {
                userId: user.user_id,
                title: title,
-               thumbImage1: thumbImage1,
+               thumbImage1: thumbImage1.dataURL,
                description: description,
                price: parseFloat(price).toFixed(2),
                stock: parseInt(stock),
@@ -111,12 +113,13 @@ export default function CreateNewDealProduct(props) {
 
                setDealProductId(response.data["@productId"])
                setUrlGenerated(response.data["@generatedDealProductUrl"])
-               // setTitle("")
-               // setThumbImage1("")
-               // setDescription("")
-               // setPrice("")
-               // setStock("")
-               // setShippingType("")
+               setTitle("")
+               setThumbImage1("")
+               setDescription("")
+               setPrice("")
+               setStock("")
+               setShippingType("")
+               setPreviewShow("none")
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
 
@@ -248,18 +251,6 @@ export default function CreateNewDealProduct(props) {
                      <div className="error-validation">{errorsValidation.title}</div>
                   </div>
 
-                  {/* <div className="form-group">
-                     <label htmlFor="image"><b>Image</b></label>
-                     <input type='text'
-                        className='new-entry-input'
-                        value={image}
-                        onChange={({ target }) => { setImage(target.value) }}
-                        name="image"
-                        placeholder='Image'
-                     />
-                     <div className="error-validation">{errorsValidation.image}</div>
-                  </div> */}
-
                   <div className="form-group">
                      <label htmlFor="image"><b>Image</b></label>
                      <DropzoneComponent
@@ -268,7 +259,9 @@ export default function CreateNewDealProduct(props) {
                         config={componentConfig()}
                         djsConfig={djsConfig()}
                         eventHandlers={handleThumbDrop1()}
-                     />
+                     >
+                        <div className="dz-message">Drop the image here to upload</div>
+                     </DropzoneComponent>
                      <div className="error-validation">{errorsValidation.thumbImage1}</div>
 
                      {/* <DropzoneComponent
@@ -391,7 +384,7 @@ export default function CreateNewDealProduct(props) {
                      (
                         <div className="preview">
                            <PreviewDealProduct
-                              image={image}
+                              thumbImage1={thumbImage1.dataURL}
                               title={title}
                               description={description}
                               price={price}
