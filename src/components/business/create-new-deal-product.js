@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies, { set } from 'js-cookie';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
+import DropzoneComponent from "react-dropzone-component";
+
+import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import PreviewDealProduct from "./preview-deal-product"
@@ -11,17 +15,47 @@ export default function CreateNewDealProduct(props) {
    const [user, setUser] = useState({})
    const [dealProductId, setDealProductId] = useState(0)
    const [urlGenerated, setUrlGenerated] = useState("")
+   const [thumbImage1, setThumbImage1] = useState("")
+   const [thumbImage2, setThumbImage2] = useState("")
    const [title, setTitle] = useState("")
-   const [image, setImage] = useState("")
    const [description, setDescription] = useState("")
    const [price, setPrice] = useState("")
    const [stock, setStock] = useState("")
-   const [shippingType, setShippingType] = useState("")
+   const [shippingTypeId, setShippingTypeId] = useState("")
    const [startedDealDate, setStartedDealDate] = useState("")
    const [finishedDealDate, setFinishedDealDate] = useState("")
    const [previewShow, setPreviewShow] = useState("none")
-   const [shippingCatalog, setShippingCatalog] = useState([])
+   const [shippingTypesCatalog, setShippingTypesCatalog] = useState([])
    const [errorsValidation, setErrorsValidation] = useState({})
+   const thumbImage1Ref = useRef()
+   const thumbImage2Ref = useRef()
+
+   const componentConfig = () => {
+      return {
+         iconFiletypes: [".jpg", ".png"],
+         showFiletypeIcon: true,
+         postUrl: "https://httpbin.org/post"
+      }
+   }
+
+   const djsConfig = () => {
+      return {
+         addRemoveLinks: true,
+         maxFiles: 1
+      }
+   }
+
+   const handleThumbDrop1 = () => {
+      return {
+         addedfile: file => setThumbImage1(file)
+      };
+   }
+
+   const handleThumbDrop2 = () => {
+      return {
+         addedfile: file => setThumbImage2(file)
+      };
+   }
 
    const handleLogout = () => {
       setUser({})
@@ -31,7 +65,7 @@ export default function CreateNewDealProduct(props) {
 
    const handleClearInputs = () => {
       setTitle("")
-      setImage("")
+      setThumbImage1("")
       setDescription("")
       setPrice("")
       setStock("")
@@ -41,6 +75,8 @@ export default function CreateNewDealProduct(props) {
    }
 
    const handlePreviewDealProduct = () => {
+      console.log('thumbImage1', thumbImage1);
+
       if (validate()) {
          setPreviewShow("block")
       }
@@ -57,36 +93,40 @@ export default function CreateNewDealProduct(props) {
          let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
          let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
 
-         axios
-            .post(
-               'http://localhost:5000/api/product/new-deal',
-               {
-                  userId: user.user_id,
-                  title: title,
-                  image: image,
-                  description: description,
-                  price: parseFloat(price).toFixed(2),
-                  stock: parseInt(stock),
-                  shippingType: shippingType,
-                  createdDealDate: createDateDB,
-                  startedDealDate: startDateDB,
-                  finishedDealDate: finishDateDB,
-                  dealStatus: "actived"
-               },
-            )
+         axios.post('http://localhost:5000/api/product/new-deal',
+            {
+               userId: user.user_id,
+               title: title,
+               thumbImage1: thumbImage1.dataURL,
+               description: description,
+               price: parseFloat(price).toFixed(2),
+               stock: parseInt(stock),
+               shippingTypeId: shippingTypeId,
+               createdDealDate: createDateDB,
+               startedDealDate: startDateDB,
+               finishedDealDate: finishDateDB,
+               dealStatus: "actived"
+            })
             .then(response => {
                console.log("new deal, deal ProductId", response.data)
 
-               setDealProductId(response.data["@productId"])
+               setDealProductId(response.data["@dealId"])
                setUrlGenerated(response.data["@generatedDealProductUrl"])
-               // setTitle("")
-               // setImage("")
-               // setDescription("")
-               // setPrice("")
-               // setStock("")
-               // setShippingType("")
+               setTitle("")
+               setThumbImage1("")
+               setDescription("")
+               setPrice("")
+               setStock("")
+               setShippingTypeId("")
+               setPreviewShow("none")
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
+
+               thumbImage1Ref.current.dropzone.removeAllFiles()
+
+               // [thumbImage1Ref].forEach(ref => {
+               //    ref.current.dropzone.removeAllFiles()
+               // });
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
@@ -134,7 +174,9 @@ export default function CreateNewDealProduct(props) {
    const getShippingTypes = () => {
       axios.get('http://localhost:5000/api/shipping-types')
          .then(response => {
-            setShippingCatalog(response.data)
+            console.log('shipping types', response.data);
+
+            setShippingTypesCatalog(response.data)
          })
          .catch(error => {
             console.log('getShippingTypes error', error);
@@ -150,9 +192,9 @@ export default function CreateNewDealProduct(props) {
          errors["title"] = "Please enter a title";
       }
 
-      if (!image) {
+      if (!thumbImage1) {
          isValid = false;
-         errors["image"] = "Please enter an image";
+         errors["thumbImage1"] = "Please select an image";
       }
 
       if (!description) {
@@ -170,7 +212,7 @@ export default function CreateNewDealProduct(props) {
          errors["stock"] = "Please enter a stock";
       }
 
-      if (!shippingType) {
+      if (!shippingTypeId) {
          isValid = false;
          errors["shippingType"] = "Please select a shipping type";
       }
@@ -212,15 +254,26 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="form-group">
                      <label htmlFor="image"><b>Image</b></label>
-                     <input type='text'
-                        className='new-entry-input'
-                        value={image}
-                        onChange={({ target }) => { setImage(target.value) }}
+                     <DropzoneComponent
                         name="image"
-                        placeholder='Image'
-                     />
-                     <div className="error-validation">{errorsValidation.image}</div>
+                        ref={thumbImage1Ref}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleThumbDrop1()}
+                     >
+                        <div className="dz-message">Drop the image here to upload</div>
+                     </DropzoneComponent>
+                     <div className="error-validation">{errorsValidation.thumbImage1}</div>
+
+                     {/* <DropzoneComponent
+                        ref={thumbImage2Ref}
+                        config={componentConfig()}
+                        djsConfig={djsConfig()}
+                        eventHandlers={handleThumbDrop2()}
+                     /> */}
                   </div>
+
+
 
                   <div className="form-group">
                      <label htmlFor="description"><b>Description</b></label>
@@ -261,21 +314,21 @@ export default function CreateNewDealProduct(props) {
                   <div className="form-group">
                      <label htmlFor="shipping">Shipping Type</label>
                      <select className='new-entry-input'
-                        value={shippingType}
-                        onChange={({ target }) => { setShippingType(target.value) }}
+                        value={shippingTypeId}
+                        onChange={({ target }) => { setShippingTypeId(target.value) }}
                         id="shipping"
                      >
                         <option value=''>Select a shipping type</option>
-                        {shippingCatalog.map((item, index) =>
+                        {shippingTypesCatalog.map((item, index) =>
                            <option
-                              value={item.shipping_id}
+                              value={item.shipping_type_id}
                               key={index}
                            >
-                              {item.shipping_title}
+                              {item.shipping_type_title}
                            </option>
                         )}
                      </select>
-                     <div className="error-validation">{errorsValidation.shippingType}</div>
+                     <div className="error-validation">{errorsValidation.shippingTypeId}</div>
                   </div>
 
                   <div className="buttons">
@@ -291,14 +344,14 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="started-finished-deal-date">
                      <div className="date">
-                        <p>Started Deal</p>
+                        <p>Deal Created Date</p>
                         <p>{startedDealDate}</p>
                      </div>
 
-                     <div className="date">
+                     {/* <div className="date">
                         <p>Finished Deal</p>
                         <p>{finishedDealDate}</p>
-                     </div>
+                     </div> */}
                   </div>
                   <p className="title">Deal Product URL</p>
 
@@ -332,7 +385,7 @@ export default function CreateNewDealProduct(props) {
                      (
                         <div className="preview">
                            <PreviewDealProduct
-                              image={image}
+                              thumbImage1={thumbImage1.dataURL}
                               title={title}
                               description={description}
                               price={price}

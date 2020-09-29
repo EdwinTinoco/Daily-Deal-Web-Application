@@ -51,6 +51,11 @@
                   font-size: 1.4rem;
                   border-radius: 5px;
                   border: 1px solid $gray-bg-dealproduct;    
+                  
+                  &:focus{
+                     outline: none;
+                     border: 1px solid $gray-description;    
+                  }
                }
 
                .error-validation{

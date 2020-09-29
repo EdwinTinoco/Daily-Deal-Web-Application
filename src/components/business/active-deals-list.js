@@ -5,13 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function ActiveDealsList(props) {
    const {
       deal_id,
-      deal_user_id,
-      deal_started_date,
-      deal_finished_date,
+      deal_created_date,
       deal_status,
       product_title,
       product_price,
-      stock_quantity
+      stock_quantity,
+      stock_left
    } = props.item
 
    return (
@@ -21,9 +20,9 @@ export default function ActiveDealsList(props) {
                {product_title}
             </Link>
          </td>
-         <td>{deal_started_date}</td>
-         <td>{deal_finished_date}</td>
+         <td>{deal_created_date}</td>
          <td>{stock_quantity}</td>
+         <td>{stock_left}</td>
          <td>{`$${product_price}`}</td>
          <td>{deal_status}</td>
          <td>

@@ -3,22 +3,30 @@ import { Link } from "react-router-dom"
 
 export default function PreviewDealProduct(props) {
    const [tempImage, setTempImage] = useState("https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9")
+
+   const thumbImage1 = props.thumbImage1
+   const title = props.title
+   const description = props.description
+   const price = props.price
+   const stock = props.stock
+
+
    return (
       <div className="preview-deal">
          <div className="image">
-            <img src={props.image || tempImage} alt="image" />
+            <img src={thumbImage1} alt="image" />
          </div>
 
          <div className="title-description">
-            <p className="title">{props.title.toUpperCase() || "PRODUCT TITLE"}</p>
-            <p className="description">{props.description || "Lorem ipsum dolor, sit amet consectetur adipisicing elit."}</p>
+            <p className="title">{title.toUpperCase()}</p>
+            <p className="description">{description}</p>
          </div>
 
          <div className="price-stock">
-            <p className="price">${props.price || 19.99}</p>
+            <p className="price">${price}</p>
 
             <div className="stock">
-               <p className="number">{props.stock || "0"}</p>
+               <p className="number">{stock}</p>
 
                <p className="left">LEFT</p>
             </div>

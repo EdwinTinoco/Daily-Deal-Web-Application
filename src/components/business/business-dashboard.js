@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import ActiveDealsList from './active-deals-list'
@@ -57,6 +56,7 @@ export default function BusinessDashboard(props) {
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
 
+
    const getActiveDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
@@ -76,20 +76,23 @@ export default function BusinessDashboard(props) {
          }
 
          var userId = userIdArr.join('')
+
+         setUserId(userId)
+
+         axios.get(`http://localhost:5000/api/active-deals/${userId}`)
+            .then(response => {
+               console.log('deals active', response.data);
+
+               setActiveDeals(
+                  response.data
+               )
+            })
+            .catch(error => {
+               console.log('getDealActive error', error);
+            })
       }
-
-      axios.get(`http://localhost:5000/api/active-deals/${userId}`)
-         .then(response => {
-            console.log('deal active', response.data);
-
-            setActiveDeals(
-               response.data
-            )
-         })
-         .catch(error => {
-            console.log('getDealActive error', error);
-         })
    }
+
 
    const getActiveDealsTotals = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
@@ -112,33 +115,34 @@ export default function BusinessDashboard(props) {
          var userId = userIdArr.join('')
 
          setUserId(userId)
+
+         axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
+            .then(response => {
+               console.log('deal active totals', response.data);
+
+               let granTotal = 0
+               for (var total of response.data) {
+                  granTotal += parseFloat(total.total_sales)
+               }
+
+               setActiveDealsGranTotal(granTotal.toFixed(2))
+
+               let header = Object.keys(response.data[0])
+               header.shift()
+               setHeaderActiveDealsTotals(header)
+
+               setActiveDealsTotals(
+                  response.data
+               )
+            })
+            .catch(error => {
+               console.log('getActiveDealsTotals error', error);
+            })
       }
-      axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
-         .then(response => {
-            console.log('deal active totals', response.data);
-
-            let granTotal = 0
-            for (var total of response.data) {
-               granTotal += parseFloat(total.total_sales)
-            }
-
-            setActiveDealsGranTotal(granTotal.toFixed(2))
-
-            let header = Object.keys(response.data[0])
-            header.shift()
-            setHeaderActiveDealsTotals(header)
-
-            setActiveDealsTotals(
-               response.data
-            )
-         })
-         .catch(error => {
-            console.log('getActiveDealsTotals error', error);
-         })
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
 
       return headerActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>

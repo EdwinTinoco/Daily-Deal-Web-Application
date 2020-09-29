@@ -101,8 +101,7 @@ export default function ActiveDealDetail(props) {
                <div className="deal-info">
                   <p className="title">Deal Info</p>
                   <p className="url">{`Deal url: ${deal_url}`}</p>
-                  <p className="dates">{`Start Date: ${deal_started_date}`}</p>
-                  <p className="dates">{`Finish Date: ${deal_finished_date}`}</p>
+                  <p className="dates">{`Created Date: ${deal_started_date}`}</p>
                   <p className="status">{`Deal Status: ${deal_status}`}</p>
                </div>
             </div>
@@ -123,20 +122,7 @@ export default function ActiveDealDetail(props) {
                   }}
                />
 
-               <Doughnut
-                  data={stateDoughnutChart}
-                  options={{
-                     title: {
-                        display: true,
-                        text: 'Sales Quantity every 4 hours',
-                        fontSize: 20
-                     },
-                     legend: {
-                        display: true,
-                        position: 'right'
-                     }
-                  }}
-               />
+
             </div>
 
          </div>
