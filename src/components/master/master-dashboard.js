@@ -119,7 +119,7 @@ export default function MasterDashboard(props) {
    // }
 
    const tableHeaderAllActiveDeals = () => {
-      let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
+      let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
 
       return headerAllActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>

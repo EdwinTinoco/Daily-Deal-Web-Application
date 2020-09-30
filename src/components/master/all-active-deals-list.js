@@ -8,12 +8,12 @@ export default function AllActiveDealsList(props) {
       deal_user_id,
       user_name,
       user_email,
-      deal_started_date,
-      deal_finished_date,
+      deal_created_date,
       deal_status,
       product_title,
       product_price,
-      stock_quantity
+      stock_quantity,
+      stock_left
    } = props.item
 
    return (
@@ -29,9 +29,9 @@ export default function AllActiveDealsList(props) {
             </Link>
          </td>
          <td>{user_email}</td>
-         <td>{deal_started_date}</td>
-         <td>{deal_finished_date}</td>
+         <td>{deal_created_date}</td>
          <td>{stock_quantity}</td>
+         <td>{stock_left}</td>
          <td>{`$${product_price}`}</td>
          <td>{deal_status}</td>
          <td>

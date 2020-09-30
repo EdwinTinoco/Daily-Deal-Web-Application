@@ -98,7 +98,7 @@ export default function DealsBusinessDetail(props) {
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Started Deal", "Finish Deal", "Stock", "Price", "Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal Created Date", "Stock", "Stock_left", "Price", "Status", "Actions"]
 
       return headerActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>

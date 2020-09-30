@@ -65,7 +65,7 @@ export default function DealProductSuccessPayment(props) {
 
             <div className="email">
                <p>You will receive an email confirmation</p>
-               <p>{dealId}</p>
+               {/* <p>{dealId}</p> */}
             </div>
 
          </div>

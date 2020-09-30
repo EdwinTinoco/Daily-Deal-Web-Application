@@ -103,16 +103,24 @@ export default function NavigationBar(props) {
 
             {Object.entries(user).length > 0 ?
                (
-                  <div className="user-info">
-                     <p>{`${user.user_name}  |  ${user.user_email}`}</p>
-                     {user.role_title === "master_admin" ?
-                        <p>Master Account</p>
-                        :
-                        user.role_title === "business_admin" ?
-                           <p>Business Account</p>
+                  <div className="user-info-logout">
+                     <div className="user-info">
+                        <p>{`${user.user_name}  |  ${user.user_email}`}</p>
+
+                        {user.role_title === "master_admin" ?
+                           <p>Master Account</p>
                            :
-                           null
-                     }
+                           user.role_title === "business_admin" ?
+                              <p>Business Account</p>
+                              :
+                              null
+                        }
+                     </div>
+
+                     <div className="logout">
+                        <FontAwesomeIcon onClick={handleLogout} icon="sign-out-alt" />
+                        <p>Logout</p>
+                     </div>
                   </div>
                )
                :
