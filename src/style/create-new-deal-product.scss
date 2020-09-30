@@ -63,7 +63,67 @@
                   color: red;
                   font-size: 1.2rem;
                }
-            }             
+            }  
+
+            .pickup-store-group{
+               .checbox-add-pickup-address {
+                  margin: 5px 0px;
+   
+                  input{
+                     font-size: 2rem;
+                     margin-right: 6px;
+                  }
+   
+                  label{
+                     color: $gray-description;
+                     font-size: 1.1rem;
+                  }
+               }
+               
+               .pickup-store-inputs{
+                  .name{
+                     .new-entry-input{   
+                        font-size: 1.2rem;  
+                     }
+                  }
+   
+                  .address{
+                     display: flex;
+                     justify-content: left;
+                     align-items: center;
+   
+                     .new-entry-input{   
+                        margin-right: 5px;
+                        width: 280px;
+                        font-size: 1.2rem;  
+                     }
+                  }
+                  
+                  .city-zp{
+                     display: flex;
+                     justify-content: left;
+                     align-items: center;
+                     
+                     .new-entry-input{   
+                        margin-right: 5px;
+                        width: 280px;
+                        font-size: 1.2rem;  
+                     }
+                  }
+                  
+                  .state-country{
+                     display: flex;
+                     justify-content: left;
+                     align-items: center;
+                     
+                     .new-entry-input{   
+                        margin-right: 5px;
+                        width: 280px;
+                        font-size: 1.2rem;  
+                     }
+                  }
+               }
+            }
    
             .buttons{
                button{
