@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 
-export default class CreateAccount extends Component {
+export default class CreateBusinessAccount extends Component {
    constructor(props) {
       super(props);
 

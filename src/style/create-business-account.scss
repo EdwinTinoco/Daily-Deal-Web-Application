@@ -9,30 +9,28 @@
          font-size: 2.5rem;
       }
 
-      .signup-form{  
-         border: 1px solid $gray-bg-content;
-         
+      .signup-form{           
          .form-group{
             display: flex;
             flex-direction: column;
 
             label{                  
                color: $orange-buttons;
-               font-size: 1.5rem;
+               font-size: 1.2rem;
             }
 
             .new-entry-input{   
                width: 400px;
-               font-size: 1.8rem;
+               font-size: 1.4rem;
                border: 1px solid $gray-bg-dealproduct;
-               padding: 10px 8px;
+               padding: 8px 10px;
                border-radius: 5px;  
             }
 
             .error-validation{
                margin-bottom: 8px;
                color: red;
-               font-size: 1.5rem;
+               font-size: 1rem;
             }
          }
 
@@ -52,7 +50,7 @@
             border: 1px solid $orange-buttons;
             border-radius: 5px;
             color: white;
-            font-size: 2rem;
+            font-size: 1.5rem;
             padding: 8px 10px;
             outline: none;
             transition: 0.3s ease-in-out;
