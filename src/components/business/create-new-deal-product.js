@@ -42,6 +42,7 @@ export default function CreateNewDealProduct(props) {
    const [showPickupStoreElements, setShowAddPickupStoreElements] = useState("none")
    const [showAddPickupStoreAddress, setShowAddPickupStoreAddress] = useState("none")
    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
+   const [pickupStoreAddress, setPickupStoreAddress] = useState({})
 
 
    const componentConfig = () => {
@@ -99,17 +100,17 @@ export default function CreateNewDealProduct(props) {
       }
    }
 
-   const handleChangeCheckbox = () => {
-      if (!checkBoxChecked) {
-         setPickupStore("")
-         setShowAddPickupStoreAddress('block')
-         setCheckBoxChecked(true)
+   // const handleChangeCheckbox = () => {
+   //    if (!checkBoxChecked) {
+   //       setPickupStore("")
+   //       setShowAddPickupStoreAddress('block')
+   //       setCheckBoxChecked(true)
 
-      } else {
-         setShowAddPickupStoreAddress('none')
-         setCheckBoxChecked(false)
-      }
-   }
+   //    } else {
+   //       setShowAddPickupStoreAddress('none')
+   //       setCheckBoxChecked(false)
+   //    }
+   // }
 
    const handleSubmitNewDeal = (e) => {
       e.preventDefault()
@@ -218,6 +219,18 @@ export default function CreateNewDealProduct(props) {
          })
    }
 
+   const getPickupAddress = () => {
+      axios.get(`http://localhost:5000/api/user/pickup-store/${user.user_id}`)
+         .then(response => {
+            console.log('pick up store', response.data);
+
+            setPickupStoreAddress(response.data[0])
+         })
+         .catch(error => {
+            console.log('getPickupAddress error', error);
+         })
+   }
+
    const validate = () => {
       let errors = {};
       let isValid = true;
@@ -252,44 +265,39 @@ export default function CreateNewDealProduct(props) {
          errors["shippingTypeId"] = "Please select a shipping type";
       }
 
-      if (showPickupStoreElements === "block") {
-         if (showAddPickupStoreAddress === "block") {
-            if (!storeName) {
-               isValid = false;
-               errors["storeName"] = "Please enter a store name";
-            }
+      // if (showPickupStoreElements === "block") {
+      //    if (showAddPickupStoreAddress === "block") {
+      //       if (!storeName) {
+      //          isValid = false;
+      //          errors["storeName"] = "Please enter a store name";
+      //       }
 
-            if (!line1) {
-               isValid = false;
-               errors["line1"] = "Please enter a address";
-            }
+      //       if (!line1) {
+      //          isValid = false;
+      //          errors["line1"] = "Please enter a address";
+      //       }
 
-            if (!line2) {
-               isValid = false;
-               errors["line2"] = "Please enter a apartment, unit, building";
-            }
+      //       if (!city) {
+      //          isValid = false;
+      //          errors["city"] = "Please enter a city";
+      //       }
 
-            if (!city) {
-               isValid = false;
-               errors["city"] = "Please enter a city";
-            }
+      //       if (!zp) {
+      //          isValid = false;
+      //          errors["zp"] = "Please enter a zip code";
+      //       }
 
-            if (!zp) {
-               isValid = false;
-               errors["zp"] = "Please enter a zip code";
-            }
-
-            if (!state) {
-               isValid = false;
-               errors["state"] = "Please enter a state";
-            }
-         } else {
-            if (!pickupStore) {
-               isValid = false;
-               errors["pickupStore"] = "Please select a address to pick up the product";
-            }
-         }
-      }
+      //       if (!state) {
+      //          isValid = false;
+      //          errors["state"] = "Please enter a state";
+      //       }
+      //    } else {
+      //       if (!pickupStore) {
+      //          isValid = false;
+      //          errors["pickupStore"] = "Please select a address to pick up the product";
+      //       }
+      //    }
+      // }
 
       setErrorsValidation(errors)
 
@@ -391,12 +399,13 @@ export default function CreateNewDealProduct(props) {
                            setShippingTypeId(target.value)
                            target.value === "2" ? (
                               setShowAddPickupStoreElements("block"),
-                              setShowAddPickupStoreAddress("none"),
-                              setCheckBoxChecked(false)
+                              getPickupAddress()
+                              // setShowAddPickupStoreAddress("none"),
+                              // setCheckBoxChecked(false)
                            ) : (
-                                 setShowAddPickupStoreElements("none"),
-                                 setShowAddPickupStoreAddress("none"),
-                                 setCheckBoxChecked(false)
+                                 setShowAddPickupStoreElements("none")
+                                 // setShowAddPickupStoreAddress("none"),
+                                 // setCheckBoxChecked(false)
                               )
                         }}
                         id="shipping"
@@ -415,7 +424,15 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>
-                     <div className="form-group">
+                     <p>Address to pick the product up</p>
+
+                     <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+
+
+                     {/* <div className="form-group">
                         <label htmlFor="pickup">Select the Store address to pick up the product</label>
                         <select className='new-entry-input'
                            value={pickupStore}
@@ -537,7 +554,7 @@ export default function CreateNewDealProduct(props) {
                               <div className="error-validation">{errorsValidation.country}</div>
                            </div>
                         </div>
-                     </div>
+                     </div> */}
                   </div>
 
                   <div className="buttons">

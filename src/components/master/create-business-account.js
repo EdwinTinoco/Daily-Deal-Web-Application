@@ -1,58 +1,62 @@
-import React, { useState, useContext, useEffect, Component } from "react"
+import React, { useState, useEffect } from "react"
 import axios from "axios";
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 
-export default class CreateBusinessAccount extends Component {
-   constructor(props) {
-      super(props);
+export default function CreateBusinessAccount(props) {
+   const [idLastUser, setIdLastUser] = useState(0)
+   const [name, setName] = useState("")
+   const [line1, setLine1] = useState("")
+   const [line2, setLine2] = useState("")
+   const [city, setCity] = useState("")
+   const [zp, setZp] = useState("")
+   const [state, setState] = useState("")
+   const [email, setEmail] = useState("")
+   const [password, setPassword] = useState("")
+   const [confirmPassword, setConfirmPassword] = useState("")
+   const [errorsValidation, setErrorsValidation] = useState({})
+   const [messageUser, setMessageUser] = useState("")
 
-      this.state = {
-         idLastUser: 0,
-         name: "",
-         email: "",
-         password: "",
-         confirmPassword: "",
-         errorsValidation: {},
-         messageUser: ""
-      }
 
-      this.handleSubmitRegisterNewUser = this.handleSubmitRegisterNewUser.bind(this)
-      this.handleChange = this.handleChange.bind(this)
-   }
 
-   handleChange(e) {
-      this.setState({
-         [e.target.name]: e.target.value,
-         messageUser: ""
-      });
-   }
-
-   handleSubmitRegisterNewUser(e) {
+   const handleSubmitRegisterNewUser = (e) => {
       e.preventDefault();
 
-      if (this.validate()) {
-         axios
-            .post(
-               'http://localhost:5000/api/user/signup',
-               {
-                  role: "business_admin",
-                  name: this.state.name,
-                  email: this.state.email,
-                  password: this.state.password,
-                  active: "Y"
-               },
-            )
+      if (validate()) {
+         axios.post('http://localhost:5000/api/user/signup',
+            {
+               role: "business_admin",
+               name: name,
+               line1: line1,
+               line2: line2,
+               city: city,
+               zp: zp,
+               state: state,
+               email: email,
+               password: password,
+               active: "Y"
+            }
+         )
             .then(response => {
-               this.setState({
-                  name: "",
-                  email: "",
-                  password: "",
-                  confirmPassword: "",
-                  messageUser: response.data
-               })
+               if (response.data === "A user with that email already exist") {
+                  setMessageUser(response.data)
+
+               } else {
+                  setName("")
+                  setLine1("")
+                  setLine2("")
+                  setCity("")
+                  setZp("")
+                  setState("")
+                  setEmail("")
+                  setPassword("")
+                  setConfirmPassword("")
+                  setErrorsValidation({})
+                  setMessageUser("Business user account was created sucesfully")
+               }
+
             })
             .catch(error => {
                console.log('handleSubmitRegisterNewUser error', error)
@@ -60,119 +64,213 @@ export default class CreateBusinessAccount extends Component {
       }
    }
 
-   validate() {
+   const validate = () => {
       let errors = {};
       let isValid = true;
 
-      if (!this.state.name) {
+      if (!name) {
          isValid = false;
          errors["name"] = "Please enter a name";
       }
 
-      if (!this.state.email) {
+      if (!line1) {
+         isValid = false;
+         errors["line1"] = "Please enter a address";
+      }
+
+      if (!city) {
+         isValid = false;
+         errors["city"] = "Please enter a city";
+      }
+
+      if (!zp) {
+         isValid = false;
+         errors["zp"] = "Please enter a zip code";
+      }
+
+      if (!state) {
+         isValid = false;
+         errors["state"] = "Please enter a state";
+      }
+
+      if (!email) {
          isValid = false;
          errors["email"] = "Please enter your email";
       }
 
-      if (typeof this.state.email !== "undefined") {
+      if (typeof email !== "undefined") {
          var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
 
-         if (!pattern.test(this.state.email)) {
+         if (!pattern.test(email)) {
             isValid = false;
             errors["email"] = "Please enter valid email address.";
          }
       }
 
-      if (!this.state.password) {
+      if (!password) {
          isValid = false;
          errors["password"] = "Please enter your password";
       }
 
-      if (!this.state.confirmPassword) {
+      if (!confirmPassword) {
          isValid = false;
          errors["confirmPassword"] = "Please enter your confirm password";
       }
 
-      if (typeof this.state.password !== "undefined" && typeof this.state.confirmPassword !== "undefined") {
+      if (typeof password !== "undefined" && typeof confirmPassword !== "undefined") {
 
-         if (this.state.password != this.state.confirmPassword) {
+         if (password != confirmPassword) {
             isValid = false;
             errors["password"] = "Passwords don't match";
          }
       }
 
-      this.setState({
-         errorsValidation: errors
-      })
+      setErrorsValidation(errors)
 
       return isValid;
    }
 
-   render() {
-      return (
-         <div className="signup-main-wrapper" >
-            <NavigationBar />
 
-            <div className="signup-form-wrapper">
-               <p>Create Business Account</p>
+   return (
+      <div className="signup-main-wrapper" >
+         <NavigationBar />
 
-               <form onSubmit={this.handleSubmitRegisterNewUser} className="signup-form">
+         <div className="signup-form-wrapper">
+            <p>Create Business Account</p>
+
+            <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
+               <div className="form-group">
+                  <label htmlFor="name"><b>Company / Name</b></label>
+                  <input type='text'
+                     className='new-entry-input'
+                     name="name"
+                     placeholder='Company / Name'
+                     value={name}
+                     onChange={({ target }) => { setName(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.name}</div>
+               </div>
+
+               <div className="address">
                   <div className="form-group">
-                     <label htmlFor="name"><b>Company / Name</b></label>
+                     <label htmlFor="line1"><b>Address</b></label>
                      <input type='text'
                         className='new-entry-input'
-                        name="name"
-                        placeholder='Company / Name'
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={line1}
+                        onChange={({ target }) => { setLine1(target.value) }}
+                        name="line1"
+                        placeholder='Address'
                      />
-                     <div className="error-validation">{this.state.errorsValidation.name}</div>
+                     <div className="error-validation">{errorsValidation.line1}</div>
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="email"><b>Email address</b></label>
+                     <label htmlFor="line2"><b>Apt, unit</b></label>
                      <input type='text'
                         className='new-entry-input'
-                        name="email"
-                        placeholder='Email'
-                        value={this.state.email}
-                        onChange={this.handleChange}
+                        value={line2}
+                        onChange={({ target }) => { setLine2(target.value) }}
+                        name="line2"
+                        placeholder='Apartment, unit, etc'
                      />
-                     <div className="error-validation">{this.state.errorsValidation.email}</div>
+                     <div className="error-validation">{errorsValidation.line2}</div>
+                  </div>
+               </div>
+
+               <div className="city-zp">
+                  <div className="form-group">
+                     <label htmlFor="city"><b>City</b></label>
+                     <input type='text'
+                        className='new-entry-input'
+                        value={city}
+                        onChange={({ target }) => { setCity(target.value) }}
+                        name="city"
+                        placeholder='City'
+                     />
+                     <div className="error-validation">{errorsValidation.city}</div>
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="password"><b>Password</b></label>
-                     <input type='password'
+                     <label htmlFor="zp"><b>Zip code</b></label>
+                     <input type='text'
                         className='new-entry-input'
-                        name="password"
-                        placeholder='Password'
-                        value={this.state.password}
-                        onChange={this.handleChange}
+                        value={zp}
+                        onChange={({ target }) => { setZp(target.value) }}
+                        name="zp"
+                        placeholder='Zip code'
                      />
-                     <div className="error-validation">{this.state.errorsValidation.password}</div>
+                     <div className="error-validation">{errorsValidation.zp}</div>
+                  </div>
+               </div>
+
+               <div className="state-country">
+                  <div className="form-group">
+                     <label htmlFor="state"><b>State</b></label>
+                     <input type='text'
+                        className='new-entry-input'
+                        value={state}
+                        onChange={({ target }) => { setState(target.value) }}
+                        name="state"
+                        placeholder='State'
+                     />
+                     <div className="error-validation">{errorsValidation.state}</div>
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="confirm-password"><b>Confirm Password</b></label>
-                     <input type='password'
+                     <label htmlFor="country"><b>Country</b></label>
+                     <input type='text'
                         className='new-entry-input'
-                        name="confirmPassword"
-                        placeholder='Confirm Password'
-                        value={this.state.confirmPassword}
-                        onChange={this.handleChange}
+                        defaultValue="US"
+                        name="country"
+                        placeholder='Country'
                      />
-                     <div className="error-validation">{this.state.errorsValidation.confirmPassword}</div>
                   </div>
+               </div>
 
-                  <div className="message">
-                     <p>{this.state.messageUser}</p>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="email"><b>Email address</b></label>
+                  <input type='text'
+                     className='new-entry-input'
+                     name="email"
+                     placeholder='Email'
+                     value={email}
+                     onChange={({ target }) => { setEmail(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.email}</div>
+               </div>
 
-                  <button type='submit' className='add-button'>Create Account</button>
-               </form>
-            </div>
+               <div className="form-group">
+                  <label htmlFor="password"><b>Password</b></label>
+                  <input type='password'
+                     className='new-entry-input'
+                     name="password"
+                     placeholder='Password'
+                     value={password}
+                     onChange={({ target }) => { setPassword(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.password}</div>
+               </div>
+
+               <div className="form-group">
+                  <label htmlFor="confirm-password"><b>Confirm Password</b></label>
+                  <input type='password'
+                     className='new-entry-input'
+                     name="confirmPassword"
+                     placeholder='Confirm Password'
+                     value={confirmPassword}
+                     onChange={({ target }) => { setConfirmPassword(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.confirmPassword}</div>
+               </div>
+
+               <div className="message">
+                  <p>{messageUser}</p>
+               </div>
+
+               <button type='submit' className='add-button'>Create Account</button>
+            </form>
          </div>
-      )
-   }
+      </div>
+   )
+
 }

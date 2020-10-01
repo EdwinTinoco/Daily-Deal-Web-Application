@@ -66,6 +66,11 @@
             }  
 
             .pickup-store-group{
+               p{
+                  color: $gray-description;
+                  font-size: 1.3rem;
+               }
+
                .checbox-add-pickup-address {
                   margin: 5px 0px;
    

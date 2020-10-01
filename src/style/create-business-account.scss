@@ -43,6 +43,42 @@
             }
          }
 
+         .address{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+            .new-entry-input{   
+               margin-right: 5px;
+               width: 280px;
+               font-size: 1.2rem;  
+            }
+         }
+
+         .city-zp{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            
+            .new-entry-input{   
+               margin-right: 5px;
+               width: 280px;
+               font-size: 1.2rem;  
+            }
+         }
+         
+         .state-country{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            
+            .new-entry-input{   
+               margin-right: 5px;
+               width: 280px;
+               font-size: 1.2rem;  
+            }
+         }
+
          .add-button{
             margin-top: 50px;
             width: 400px;
