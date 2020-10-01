@@ -51,7 +51,7 @@ const state = {
 
 export default function BusinessDashboard(props) {
    const [userId, setUserId] = useState()
-   const [activeDeals, setActiveDeals] = useState([])
+   const [activeDealsList, setActiveDealsList] = useState([])
    const [headerActiveDealsTotals, setHeaderActiveDealsTotals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
@@ -83,7 +83,7 @@ export default function BusinessDashboard(props) {
             .then(response => {
                console.log('deals active', response.data);
 
-               setActiveDeals(
+               setActiveDealsList(
                   response.data
                )
             })
@@ -142,7 +142,7 @@ export default function BusinessDashboard(props) {
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal ID", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
 
       return headerActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>
@@ -150,7 +150,7 @@ export default function BusinessDashboard(props) {
    }
 
    const acitveDealsItems = () => {
-      return activeDeals.map(item => {
+      return activeDealsList.map(item => {
          return (
             <ActiveDealsList
                key={item.deal_id}
@@ -232,7 +232,7 @@ export default function BusinessDashboard(props) {
 
          <div className="active-deals-wrapper">
             <div className="title">
-               <h2>Acitve Deals List</h2>
+               <h2>Acitve Deals Information</h2>
             </div>
 
             <table id='active-deals-table'>

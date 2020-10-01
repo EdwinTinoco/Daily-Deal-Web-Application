@@ -2,89 +2,149 @@
    .deal-detail-info-charts{
       display: grid;
       grid-template-columns: 0.6fr 1.7fr;
-      gap: 10px;
+      gap: 80px;
 
-      .deal-detail-info{
-         padding: 20px 0px;
-         
+      .deal-detail-info{   
+         padding: 0px 2px;      
          .product-info{
             text-align: center;
-            border: 1px solid $gray-bg-content;
+            border: 1px solid $orange-buttons;
 
             .title{
-               margin-bottom: 20px;
-               background-color: #545454;
+               margin-bottom: 10px;
+               background-color: $orange-buttons;
                color: white;
-               font-size: 1.8rem;
-               font-weight: 700;
-            }
-   
-            .picture{
-               width: 200px;
-               height: 280px;
-               border-radius: 6px;            
-            }
-   
-            .product-title{
-               margin-top: 20px;
-               color: #575555;
                font-size: 1.5rem;
                font-weight: 700;
             }
    
+            .picture{
+               width: 80px;
+               height: 80px;
+               border-radius: 50px;            
+            }
+   
+            .product-title{
+               margin-top: 5px;
+               color: #575555;
+               font-size: 1.2rem;
+               font-weight: 700;
+            }
+   
             .description{
-               margin-bottom: 20px;
+               margin-bottom: 5px;
                color: #858383;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
    
             .stock{
                color: #858383;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
    
             .price{
-               margin-top: 20px;
+               margin-top: 5px;
                color: #858383;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
    
             .shipping{
-               margin: 20px 0px;
+               margin: 5px 0px;
                color: #858383;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
          }
 
          .deal-info{
-            background-color: #d1d0cd;   
-            text-align: center;     
+            background-color: #e7e7e5;   
+            border: 1px solid $orange-buttons;
+            text-align: left;     
             
             .title{
-               margin-bottom: 20px;
+               text-align: center;
+               margin-bottom: 5px;
                background-color: #545454;
                color: white;
-               font-size: 1.8rem;
+               font-size: 1.5rem;
                font-weight: 700;
             }
             
             .url{  
-               margin-bottom: 20px;
+               margin-bottom: 5px;
                color: #666565;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
 
             .dates{
                color: #666565;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
+            }
+
+            .shipping{
+               margin-top: 5px;
+               color: #666565;
+               font-size: 1.1rem;
             }
             
             .status{
-               padding: 20px 0px;  
+               padding: 5px 0px;  
                color: #666565;
-               font-size: 1.3rem;
+               font-size: 1.1rem;
             }
          }
+      }
+
+      .charts{
+         width: 700px;
+         height: 300px;
+      }
+   }
+
+   .deal-sales-details-list{
+      padding: 60px 2px 10px 2px;
+
+      .title-export-csv{
+         background-color: #facf57;
+         text-align: center;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+
+         h2{
+            color: white;
+         }
+
+         .export-csv{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+      }
+
+      #deal-sales-table{
+         text-align: center;
+         border-collapse: collapse;
+         border: 1px solid #8d8c8c;
+         width: 100%;
+
+         td, th{
+            border: 1px solid #ddd;
+            padding: 5px;
+            font-size: 1.1rem;
+
+         }
+
+         // tr:nth-child(even){
+         //    background-color: #f2f2f2;
+         // }
+
+         th {
+            text-align: center;
+            background-color:  #7a7979;
+            border: 1px solid #ddd;
+            color: white;
+            font-size: 1rem;
+         }  
       }
    }
 }

@@ -223,8 +223,10 @@ export default function CreateNewDealProduct(props) {
       axios.get(`http://localhost:5000/api/user/pickup-store/${user.user_id}`)
          .then(response => {
             console.log('pick up store', response.data);
+            if (response.data.length > 0){
+               setPickupStoreAddress(response.data[0])
+            }
 
-            setPickupStoreAddress(response.data[0])
          })
          .catch(error => {
             console.log('getPickupAddress error', error);
@@ -424,12 +426,22 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>
-                     <p>Address to pick the product up</p>
-
-                     <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
-                     <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
-                     <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
-                     <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+                     {Object.entries(pickupStoreAddress).length > 0 ? 
+                     (
+                        <div className="pickup_store_addres_info">
+                           <p>Address to pick the product up</p>
+      
+                           <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
+                           <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
+                           <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
+                           <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+                        </div>
+                     )
+                     :
+                     (
+                        <p>There's no address for pick up to the store</p>
+                     )
+                  }
 
 
                      {/* <div className="form-group">
