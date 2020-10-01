@@ -193,7 +193,7 @@ export default function DealProduct(props) {
          );
       }
 
-      return () => clearInterval(updateCurrentStock);
+      // return () => clearInterval(updateCurrentStock);
    }, [])
 
    const {

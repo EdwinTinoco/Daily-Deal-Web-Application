@@ -5,14 +5,14 @@ import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 import { CSVLink, CSVDownload } from "react-csv";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
-import DealSalesDetails from "./deal-sales-details-list"
 
 
 export default function ActiveDealDetail(props) {
    const [dealId] = useState(props.match.params.slug)
    const [deal, setDeal] = useState({})
    const [sales, setSales] = useState([])
-   const [headers, setHeaders] = useState([
+
+   const [csvHeadersShippingToCustomer] = useState([
       { label: "Customer Name", key: "user_name" },
       { label: "Customer Email", key: "user_email" },
       { label: "Sale Date", key: "sales_date" },
@@ -28,6 +28,33 @@ export default function ActiveDealDetail(props) {
       { label: "Zip code", key: "shipping_zip_code" },
       { label: "Country", key: "shipping_country" },
    ])
+
+   const [csvHeadersPickupToTheStore] = useState([
+      { label: "Customer Name", key: "user_name" },
+      { label: "Customer Email", key: "user_email" },
+      { label: "Sale Date", key: "sales_date" },
+      { label: "Subtotal", key: "sales_subtotal" },
+      { label: "Taxes", key: "sales_taxes" },
+      { label: "Total", key: "sales_total" },
+      { label: "Shipping Type", key: "shipping_type_title" },
+      { label: "Address Line 1", key: "pickup_line_1" },
+      { label: "Address Line 2", key: "pickup_line_2" },
+      { label: "City", key: "pickup_city" },
+      { label: "State", key: "pickup_state" },
+      { label: "Zip code", key: "pickup_zip_code" },
+      { label: "Country", key: "pickup_country" },
+   ])
+
+   const [csvHeadersNotApplicable] = useState([
+      { label: "Customer Name", key: "user_name" },
+      { label: "Customer Email", key: "user_email" },
+      { label: "Sale Date", key: "sales_date" },
+      { label: "Subtotal", key: "sales_subtotal" },
+      { label: "Taxes", key: "sales_taxes" },
+      { label: "Total", key: "sales_total" },
+      { label: "Shipping Type", key: "shipping_type_title" }
+   ])
+
 
    const getDeal = () => {
       axios.get(`http://localhost:5000/api/active-deal/detail/${dealId}`)
@@ -54,26 +81,77 @@ export default function ActiveDealDetail(props) {
    }
 
    const tableHeaderADealSales = () => {
-      if (deal.shipping_type_title === "Shipping to customer's address") {
+      let headerDealSales = []
 
-         let headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
+      if (deal.shipping_type_title === "Shipping to customer's address") {
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
             "Shipping Name", "Shipping Address Line 1", 'Shipping Address Line 2', "City", "State", "Zip Code", "Country"]
 
+      } else if (deal.shipping_type_title === "Pick up to the store") {
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
+            , "Address Line 1", 'Address Line 2', "City", "State", "Zip Code", "Country"]
 
-         return headerDealSales.map((key, index) => {
-            return <th key={index}>{key.toUpperCase()}</th>
-         })
+      } else if (deal.shipping_type_title === "Not applicable") {
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type"]
       }
+
+      return headerDealSales.map((key, index) => {
+         return <th key={index}>{key.toUpperCase()}</th>
+      })
    }
 
    const DealSales = () => {
       return sales.map(item => {
-         return (
-            <DealSalesDetails
-               key={item.deal_id}
-               item={item}
-            />
-         )
+         if (deal.shipping_type_title === "Shipping to customer's address") {
+            return (
+               <tr key={item.sales_id}>
+                  <td>{item.user_name}</td>
+                  <td>{item.user_email}</td>
+                  <td>{item.sales_date}</td>
+                  <td>{`$${item.sales_subtotal}`}</td>
+                  <td>{`$${item.sales_taxes}`}</td>
+                  <td>{`$${item.sales_total}`}</td>
+                  <td>{item.shipping_type_title}</td>
+                  <td>{item.shipping_name}</td>
+                  <td>{item.shipping_line_1}</td>
+                  <td>{item.shipping_line_2}</td>
+                  <td>{item.shipping_city}</td>
+                  <td>{item.shipping_state}</td>
+                  <td>{item.shipping_zip_code}</td>
+                  <td>{item.shipping_country}</td>
+               </tr>
+            )
+         } else if (deal.shipping_type_title === "Pick up to the store") {
+            return (
+               <tr key={item.sales_id}>
+                  <td>{item.user_name}</td>
+                  <td>{item.user_email}</td>
+                  <td>{item.sales_date}</td>
+                  <td>{`$${item.sales_subtotal}`}</td>
+                  <td>{`$${item.sales_taxes}`}</td>
+                  <td>{`$${item.sales_total}`}</td>
+                  <td>{item.shipping_type_title}</td>
+                  <td>{item.pickup_line_1}</td>
+                  <td>{item.pickup_line_2}</td>
+                  <td>{item.pickup_city}</td>
+                  <td>{item.pickup_state}</td>
+                  <td>{item.pickup_zip_code}</td>
+                  <td>{item.pickup_country}</td>
+               </tr>
+            )
+         } else {
+            return (
+               <tr key={item.sales_id}>
+                  <td>{item.user_name}</td>
+                  <td>{item.user_email}</td>
+                  <td>{item.sales_date}</td>
+                  <td>{`$${item.sales_subtotal}`}</td>
+                  <td>{`$${item.sales_taxes}`}</td>
+                  <td>{`$${item.sales_total}`}</td>
+                  <td>{item.shipping_type_title}</td>
+               </tr>
+            )
+         }
       })
    }
 
@@ -132,7 +210,12 @@ export default function ActiveDealDetail(props) {
 
                   <CSVLink
                      data={sales}
-                     headers={headers}
+                     headers={deal.shipping_type_title === "Shipping to customer's address" ?
+                        csvHeadersShippingToCustomer
+                        : deal.shipping_type_title === "Pick up to the store" ?
+                           csvHeadersPickupToTheStore
+                           : csvHeadersNotApplicable
+                     }
                      filename={"my-file.csv"}
                   >
                      <FontAwesomeIcon icon="file-excel" />
