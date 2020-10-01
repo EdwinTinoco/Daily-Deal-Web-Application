@@ -1,104 +1,94 @@
-.deal-detail-main-wrapper{
-   .deal-detail-info-charts{
-      display: grid;
-      grid-template-columns: 0.6fr 1.7fr;
-      gap: 80px;
+.deal-detail-main-wrapper{  
+   .deal-detail-info{   
+      padding: 0px 2px;     
 
-      .deal-detail-info{   
-         padding: 0px 2px;      
-         .product-info{
+      .product-info{
+         text-align: center;
+         border: 1px solid $orange-buttons;
+
+         .title{
+            margin-bottom: 10px;
+            background-color: $orange-buttons;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+         }
+
+         .picture{
+            width: 80px;
+            height: 80px;
+            border-radius: 50px;            
+         }
+
+         .product-title{
+            margin-top: 5px;
+            color: #575555;
+            font-size: 1.2rem;
+            font-weight: 700;
+         }
+
+         .description{
+            margin-bottom: 5px;
+            color: #858383;
+            font-size: 1.1rem;
+         }
+
+         .stock{
+            color: #858383;
+            font-size: 1.1rem;
+         }
+
+         .price{
+            margin-top: 5px;
+            color: #858383;
+            font-size: 1.1rem;
+         }
+
+         .shipping{
+            margin: 5px 0px;
+            color: #858383;
+            font-size: 1.1rem;
+         }
+      }
+
+      .deal-info{
+         background-color: #e7e7e5;   
+         border: 1px solid $orange-buttons;
+         text-align: left;     
+         
+         .title{
             text-align: center;
-            border: 1px solid $orange-buttons;
-
-            .title{
-               margin-bottom: 10px;
-               background-color: $orange-buttons;
-               color: white;
-               font-size: 1.5rem;
-               font-weight: 700;
-            }
-   
-            .picture{
-               width: 80px;
-               height: 80px;
-               border-radius: 50px;            
-            }
-   
-            .product-title{
-               margin-top: 5px;
-               color: #575555;
-               font-size: 1.2rem;
-               font-weight: 700;
-            }
-   
-            .description{
-               margin-bottom: 5px;
-               color: #858383;
-               font-size: 1.1rem;
-            }
-   
-            .stock{
-               color: #858383;
-               font-size: 1.1rem;
-            }
-   
-            .price{
-               margin-top: 5px;
-               color: #858383;
-               font-size: 1.1rem;
-            }
-   
-            .shipping{
-               margin: 5px 0px;
-               color: #858383;
-               font-size: 1.1rem;
-            }
+            margin-bottom: 5px;
+            background-color: #545454;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+         }
+         
+         .url{  
+            margin-bottom: 5px;
+            color: #666565;
+            font-size: 1.1rem;
          }
 
-         .deal-info{
-            background-color: #e7e7e5;   
-            border: 1px solid $orange-buttons;
-            text-align: left;     
-            
-            .title{
-               text-align: center;
-               margin-bottom: 5px;
-               background-color: #545454;
-               color: white;
-               font-size: 1.5rem;
-               font-weight: 700;
-            }
-            
-            .url{  
-               margin-bottom: 5px;
-               color: #666565;
-               font-size: 1.1rem;
-            }
+         .dates{
+            color: #666565;
+            font-size: 1.1rem;
+         }
 
-            .dates{
-               color: #666565;
-               font-size: 1.1rem;
-            }
-
-            .shipping{
-               margin-top: 5px;
-               color: #666565;
-               font-size: 1.1rem;
-            }
-            
-            .status{
-               padding: 5px 0px;  
-               color: #666565;
-               font-size: 1.1rem;
-            }
+         .shipping{
+            margin-top: 5px;
+            color: #666565;
+            font-size: 1.1rem;
+         }
+         
+         .status{
+            padding: 5px 0px;  
+            color: #666565;
+            font-size: 1.1rem;
          }
       }
-
-      .charts{
-         width: 700px;
-         height: 300px;
-      }
-   }
+   }        
 
    .deal-sales-details-list{
       padding: 60px 2px 10px 2px;
@@ -115,9 +105,21 @@
          }
 
          .export-csv{
+            color: #159915;
+            margin-right: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
+
+            p{
+               margin-right: 7px;
+               color: $gray-titles;
+            }
+
+            svg{
+               color: white;
+               font-size: 2rem;
+            }
          }
       }
 

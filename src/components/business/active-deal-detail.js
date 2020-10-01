@@ -2,55 +2,32 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
+import { CSVLink, CSVDownload } from "react-csv";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 import DealSalesDetails from "./deal-sales-details-list"
 
-const stateLineChart = {
-   labels: ['January', 'February', 'March',
-      'April', 'May'],
-   datasets: [
-      {
-         label: 'Rainfall',
-         fill: false,
-         lineTension: 0.5,
-         backgroundColor: 'rgba(75,192,192,1)',
-         borderColor: 'rgba(0,0,0,1)',
-         borderWidth: 2,
-         data: [65, 59, 80, 81, 56]
-      }
-   ]
-}
-
-const stateDoughnutChart = {
-   labels: ['January', 'February', 'March',
-      'April', 'May'],
-   datasets: [
-      {
-         label: 'Rainfall',
-         backgroundColor: [
-            '#B21F00',
-            '#C9DE00',
-            '#2FDE00',
-            '#00A6B4',
-            '#6800B4'
-         ],
-         hoverBackgroundColor: [
-            '#501800',
-            '#4B5000',
-            '#175000',
-            '#003350',
-            '#35014F'
-         ],
-         data: [65, 59, 80, 81, 56]
-      }
-   ]
-}
 
 export default function ActiveDealDetail(props) {
    const [dealId] = useState(props.match.params.slug)
    const [deal, setDeal] = useState({})
    const [sales, setSales] = useState([])
+   const [headers, setHeaders] = useState([
+      { label: "Customer Name", key: "user_name" },
+      { label: "Customer Email", key: "user_email" },
+      { label: "Sale Date", key: "sales_date" },
+      { label: "Subtotal", key: "sales_subtotal" },
+      { label: "Taxes", key: "sales_taxes" },
+      { label: "Total", key: "sales_total" },
+      { label: "Shipping Type", key: "shipping_type_title" },
+      { label: "Shipping Name", key: "shipping_name" },
+      { label: "Shipping Address Line 1", key: "shipping_line_1" },
+      { label: "Shipping Address Line 2", key: "shipping_line_2" },
+      { label: "City", key: "shipping_city" },
+      { label: "State", key: "shipping_state" },
+      { label: "Zip code", key: "shipping_zip_code" },
+      { label: "Country", key: "shipping_country" },
+   ])
 
    const getDeal = () => {
       axios.get(`http://localhost:5000/api/active-deal/detail/${dealId}`)
@@ -79,14 +56,9 @@ export default function ActiveDealDetail(props) {
    const tableHeaderADealSales = () => {
       if (deal.shipping_type_title === "Shipping to customer's address") {
 
-         let headerDealSales = ["Customer Name", "Customer Email", "Shop Date", "Subtotal", "taxes", "Total", "Shipping Type",
+         let headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
             "Shipping Name", "Shipping Address Line 1", 'Shipping Address Line 2', "City", "State", "Zip Code", "Country"]
 
-         // setHeaders([
-         //    {label: "Customer Name", key: "user_name"},
-         //    {label: "Customer Email", key: "user_email"},
-         //    {label: "Shop Date", key: "user_email"},
-         // ])
 
          return headerDealSales.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
@@ -130,45 +102,26 @@ export default function ActiveDealDetail(props) {
    return (
       <div className="deal-detail-main-wrapper">
          <NavigationBar />
-
-         <div className="deal-detail-info-charts">
-            <div className="deal-detail-info">
-               <div className="product-info">
-                  <p className="title">Product Info</p>
-                  <img className="picture" src={picture_product} alt="picture" />
-                  <p className="product-title">{product_title}</p>
-                  <p className="description">{product_description}</p>
-                  <p className="stock">{`Stock: ${stock_quantity}`}</p>
-                  <p className="stock">{`Left: ${stock_left}`}</p>
-                  <p className="price">{`$${product_price}`}</p>
-               </div>
-
-               <div className="deal-info">
-                  <p className="title">Deal Info</p>
-                  <p className="url">{`Deal url: ${deal_url}`}</p>
-                  <p className="dates">{`Created Date: ${deal_started_date}`}</p>
-                  <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
-                  <p className="status">{`Deal Status: ${deal_status}`}</p>
-               </div>
+         <div className="deal-detail-info">
+            <div className="product-info">
+               <p className="title">Product Info</p>
+               <img className="picture" src={picture_product} alt="picture" />
+               <p className="product-title">{product_title}</p>
+               <p className="description">{product_description}</p>
+               <p className="stock">{`Stock: ${stock_quantity}`}</p>
+               <p className="stock">{`Left: ${stock_left}`}</p>
+               <p className="price">{`$${product_price}`}</p>
             </div>
 
-            <div className="charts">
-               <Line
-                  data={stateLineChart}
-                  options={{
-                     title: {
-                        display: true,
-                        text: 'Average Rainfall per month',
-                        fontSize: 20
-                     },
-                     legend: {
-                        display: true,
-                        position: 'right'
-                     }
-                  }}
-               />
+            <div className="deal-info">
+               <p className="title">Deal Info</p>
+               <p className="url">{`Deal url: ${deal_url}`}</p>
+               <p className="dates">{`Created Date: ${deal_started_date}`}</p>
+               <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
+               <p className="status">{`Deal Status: ${deal_status}`}</p>
             </div>
          </div>
+
 
          <div className="deal-sales-details-list">
             <div className="title-export-csv">
@@ -176,7 +129,15 @@ export default function ActiveDealDetail(props) {
 
                <div className="export-csv">
                   <p>Export to csv</p>
-                  <FontAwesomeIcon icon="file-excel" />
+
+                  <CSVLink
+                     data={sales}
+                     headers={headers}
+                     filename={"my-file.csv"}
+                  >
+                     <FontAwesomeIcon icon="file-excel" />
+                  </CSVLink>
+
                </div>
             </div>
 
