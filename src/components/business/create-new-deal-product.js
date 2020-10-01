@@ -30,6 +30,21 @@ export default function CreateNewDealProduct(props) {
    const thumbImage1Ref = useRef()
    const thumbImage2Ref = useRef()
 
+   const [pickupStoreCatalog, setPickupStoreCatalog] = useState([])
+   const [pickupStore, setPickupStore] = useState("")
+   const [storeName, setStoreName] = useState("")
+   const [line1, setLine1] = useState("")
+   const [line2, setLine2] = useState("")
+   const [city, setCity] = useState("")
+   const [zp, setZp] = useState("")
+   const [state, setState] = useState("")
+   const [country, setCountry] = useState("")
+   const [showPickupStoreElements, setShowAddPickupStoreElements] = useState("none")
+   const [showAddPickupStoreAddress, setShowAddPickupStoreAddress] = useState("none")
+   const [checkBoxChecked, setCheckBoxChecked] = useState(false)
+   const [pickupStoreAddress, setPickupStoreAddress] = useState({})
+
+
    const componentConfig = () => {
       return {
          iconFiletypes: [".jpg", ".png"],
@@ -69,9 +84,12 @@ export default function CreateNewDealProduct(props) {
       setDescription("")
       setPrice("")
       setStock("")
-      setShippingType("")
+      setShippingTypeId("")
       setPreviewShow("none")
       setErrorsValidation({})
+      setShowAddPickupStoreElements("none")
+      setShowAddPickupStoreAddress("none")
+      setCheckBoxChecked(false)
    }
 
    const handlePreviewDealProduct = () => {
@@ -81,6 +99,18 @@ export default function CreateNewDealProduct(props) {
          setPreviewShow("block")
       }
    }
+
+   // const handleChangeCheckbox = () => {
+   //    if (!checkBoxChecked) {
+   //       setPickupStore("")
+   //       setShowAddPickupStoreAddress('block')
+   //       setCheckBoxChecked(true)
+
+   //    } else {
+   //       setShowAddPickupStoreAddress('none')
+   //       setCheckBoxChecked(false)
+   //    }
+   // }
 
    const handleSubmitNewDeal = (e) => {
       e.preventDefault()
@@ -93,6 +123,7 @@ export default function CreateNewDealProduct(props) {
          let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
          let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
 
+         // if (checkBoxChecked)
          axios.post('http://localhost:5000/api/product/new-deal',
             {
                userId: user.user_id,
@@ -105,7 +136,7 @@ export default function CreateNewDealProduct(props) {
                createdDealDate: createDateDB,
                startedDealDate: startDateDB,
                finishedDealDate: finishDateDB,
-               dealStatus: "actived"
+               dealStatus: "active"
             })
             .then(response => {
                console.log("new deal, deal ProductId", response.data)
@@ -119,6 +150,10 @@ export default function CreateNewDealProduct(props) {
                setStock("")
                setShippingTypeId("")
                setPreviewShow("none")
+               setErrorsValidation({})
+               setShowAddPickupStoreElements("none")
+               setShowAddPickupStoreAddress("none")
+               setCheckBoxChecked(false)
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
 
@@ -126,11 +161,12 @@ export default function CreateNewDealProduct(props) {
 
                // [thumbImage1Ref].forEach(ref => {
                //    ref.current.dropzone.removeAllFiles()
-               // });
+               // });              
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
             })
+         // }
       }
    }
 
@@ -183,6 +219,18 @@ export default function CreateNewDealProduct(props) {
          })
    }
 
+   const getPickupAddress = () => {
+      axios.get(`http://localhost:5000/api/user/pickup-store/${user.user_id}`)
+         .then(response => {
+            console.log('pick up store', response.data);
+
+            setPickupStoreAddress(response.data[0])
+         })
+         .catch(error => {
+            console.log('getPickupAddress error', error);
+         })
+   }
+
    const validate = () => {
       let errors = {};
       let isValid = true;
@@ -214,8 +262,42 @@ export default function CreateNewDealProduct(props) {
 
       if (!shippingTypeId) {
          isValid = false;
-         errors["shippingType"] = "Please select a shipping type";
+         errors["shippingTypeId"] = "Please select a shipping type";
       }
+
+      // if (showPickupStoreElements === "block") {
+      //    if (showAddPickupStoreAddress === "block") {
+      //       if (!storeName) {
+      //          isValid = false;
+      //          errors["storeName"] = "Please enter a store name";
+      //       }
+
+      //       if (!line1) {
+      //          isValid = false;
+      //          errors["line1"] = "Please enter a address";
+      //       }
+
+      //       if (!city) {
+      //          isValid = false;
+      //          errors["city"] = "Please enter a city";
+      //       }
+
+      //       if (!zp) {
+      //          isValid = false;
+      //          errors["zp"] = "Please enter a zip code";
+      //       }
+
+      //       if (!state) {
+      //          isValid = false;
+      //          errors["state"] = "Please enter a state";
+      //       }
+      //    } else {
+      //       if (!pickupStore) {
+      //          isValid = false;
+      //          errors["pickupStore"] = "Please select a address to pick up the product";
+      //       }
+      //    }
+      // }
 
       setErrorsValidation(errors)
 
@@ -273,8 +355,6 @@ export default function CreateNewDealProduct(props) {
                      /> */}
                   </div>
 
-
-
                   <div className="form-group">
                      <label htmlFor="description"><b>Description</b></label>
                      <input type='text'
@@ -315,7 +395,19 @@ export default function CreateNewDealProduct(props) {
                      <label htmlFor="shipping">Shipping Type</label>
                      <select className='new-entry-input'
                         value={shippingTypeId}
-                        onChange={({ target }) => { setShippingTypeId(target.value) }}
+                        onChange={({ target }) => {
+                           setShippingTypeId(target.value)
+                           target.value === "2" ? (
+                              setShowAddPickupStoreElements("block"),
+                              getPickupAddress()
+                              // setShowAddPickupStoreAddress("none"),
+                              // setCheckBoxChecked(false)
+                           ) : (
+                                 setShowAddPickupStoreElements("none")
+                                 // setShowAddPickupStoreAddress("none"),
+                                 // setCheckBoxChecked(false)
+                              )
+                        }}
                         id="shipping"
                      >
                         <option value=''>Select a shipping type</option>
@@ -331,6 +423,140 @@ export default function CreateNewDealProduct(props) {
                      <div className="error-validation">{errorsValidation.shippingTypeId}</div>
                   </div>
 
+                  <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>
+                     <p>Address to pick the product up</p>
+
+                     <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
+                     <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+
+
+                     {/* <div className="form-group">
+                        <label htmlFor="pickup">Select the Store address to pick up the product</label>
+                        <select className='new-entry-input'
+                           value={pickupStore}
+                           onChange={({ target }) => { setPickupStore(target.value) }}
+                           id="pickup"
+                        >
+                           <option value=''>Select a pick up store address</option>
+                           {pickupStoreCatalog.map((item, index) =>
+                              <option
+                                 value={item.pickup_id}
+                                 key={index}
+                              >
+                                 {item.pickup_store_address}
+                              </option>
+                           )}
+                        </select>
+                        <div className="error-validation">{errorsValidation.pickupStore}</div>
+                     </div>
+
+                     <div className="checbox-add-pickup-address">
+                        <input
+                           type="checkbox"
+                           name="add-address"
+                           checked={checkBoxChecked}
+                           onChange={handleChangeCheckbox}
+                        />
+                        <label htmlFor="add-address"><b>Add a new address to pick up the product</b></label>
+                     </div>
+
+                     <div className="pickup-store-inputs" style={{ display: `${showAddPickupStoreAddress}` }}>
+                        <div className="name">
+                           <div className="form-group">
+                              <label htmlFor="store-name"><b>Store name</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={storeName}
+                                 onChange={({ target }) => { setStoreName(target.value) }}
+                                 name="store-name"
+                                 placeholder='Store name'
+                              />
+                              <div className="error-validation">{errorsValidation.storeName}</div>
+                           </div>
+                        </div>
+
+                        <div className="address">
+                           <div className="form-group">
+                              <label htmlFor="line1"><b>Address</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={line1}
+                                 onChange={({ target }) => { setLine1(target.value) }}
+                                 name="line1"
+                                 placeholder='Address'
+                              />
+                              <div className="error-validation">{errorsValidation.line1}</div>
+                           </div>
+
+                           <div className="form-group">
+                              <label htmlFor="line2"><b>Apt, unit</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={line2}
+                                 onChange={({ target }) => { setLine2(target.value) }}
+                                 name="line2"
+                                 placeholder='Apartment, unit, etc'
+                              />
+                              <div className="error-validation">{errorsValidation.line2}</div>
+                           </div>
+                        </div>
+
+                        <div className="city-zp">
+                           <div className="form-group">
+                              <label htmlFor="city"><b>City</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={city}
+                                 onChange={({ target }) => { setCity(target.value) }}
+                                 name="city"
+                                 placeholder='City'
+                              />
+                              <div className="error-validation">{errorsValidation.city}</div>
+                           </div>
+
+                           <div className="form-group">
+                              <label htmlFor="zp"><b>Zip code</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={zp}
+                                 onChange={({ target }) => { setZp(target.value) }}
+                                 name="zp"
+                                 placeholder='Zip code'
+                              />
+                              <div className="error-validation">{errorsValidation.zp}</div>
+                           </div>
+                        </div>
+
+                        <div className="state-country">
+                           <div className="form-group">
+                              <label htmlFor="state"><b>State</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={state}
+                                 onChange={({ target }) => { setState(target.value) }}
+                                 name="state"
+                                 placeholder='State'
+                              />
+                              <div className="error-validation">{errorsValidation.state}</div>
+                           </div>
+
+                           <div className="form-group">
+                              <label htmlFor="country"><b>Country</b></label>
+                              <input type='text'
+                                 className='new-entry-input'
+                                 value={country}
+                                 onChange={({ target }) => { setCountry(target.value) }}
+                                 name="country"
+                                 placeholder='Country'
+                              />
+                              <div className="error-validation">{errorsValidation.country}</div>
+                           </div>
+                        </div>
+                     </div> */}
+                  </div>
+
                   <div className="buttons">
                      <button type="button" onClick={handlePreviewDealProduct}>Preview</button>
                      <button type="submit">Create Deal and Generate URL</button>
@@ -344,14 +570,14 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="started-finished-deal-date">
                      <div className="date">
-                        <p>Deal Created Date</p>
+                        <p>Deal Started Date</p>
                         <p>{startedDealDate}</p>
                      </div>
 
-                     {/* <div className="date">
-                        <p>Finished Deal</p>
+                     <div className="date">
+                        <p>Deal Finish Date</p>
                         <p>{finishedDealDate}</p>
-                     </div> */}
+                     </div>
                   </div>
                   <p className="title">Deal Product URL</p>
 
@@ -398,6 +624,6 @@ export default function CreateNewDealProduct(props) {
                </div>
             </div>
          </div>
-      </div>
+      </div >
    )
 }

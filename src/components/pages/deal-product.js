@@ -62,16 +62,13 @@ export default function DealProduct(props) {
             subtotal = productDeal.product_price
             console.log('subtotal', subtotal);
 
-
             let taxes = 0
             taxes = (parseFloat(subtotal) * 0.0715).toFixed(2)
             console.log('taxes', taxes);
 
-
             let total = 0
             total = (parseFloat(subtotal) + parseFloat(taxes)).toFixed(2)
             console.log('total', total);
-
 
             const response = await fetch("http://localhost:5000/create-session", {
                method: "POST",
@@ -82,6 +79,7 @@ export default function DealProduct(props) {
                   "productId": productDeal.product_id,
                   "productName": productDeal.product_title,
                   "productImage": productDeal.picture_product,
+                  "productDescription": productDeal.product_description,
                   "customerUserId": user.user_id,
                   "customerEmail": user.user_email,
                   "dealId": dealId,
@@ -89,9 +87,7 @@ export default function DealProduct(props) {
                   "subtotal": subtotal,
                   "taxes": taxes,
                   "total": total,
-                  "shippingTypeTitle": productDeal.shipping_type_title,
-                  "stripeSessionId": "",
-                  "stripePaymentIntentId": "",
+                  "shippingTypeTitle": productDeal.shipping_type_title
                })
             });
 
@@ -181,9 +177,9 @@ export default function DealProduct(props) {
 
       getProductDeal()
 
-      const updateCurrentStock = setInterval(() => {
-         getCurrentStock()
-      }, 100000);
+      // const updateCurrentStock = setInterval(() => {
+      //    getCurrentStock()
+      // }, 100000);
 
       const query = new URLSearchParams(window.location.search);
 
