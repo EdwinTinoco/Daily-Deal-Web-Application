@@ -99,8 +99,8 @@ export default function CreateNewDealProduct(props) {
       }
    }
 
-   const handleCheckbox = () => {
-      if (showAddPickupStoreAddress === "none") {
+   const handleChangeCheckbox = () => {
+      if (!checkBoxChecked) {
          setPickupStore("")
          setShowAddPickupStoreAddress('block')
          setCheckBoxChecked(true)
@@ -122,6 +122,7 @@ export default function CreateNewDealProduct(props) {
          let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
          let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
 
+         // if (checkBoxChecked)
          axios.post('http://localhost:5000/api/product/new-deal',
             {
                userId: user.user_id,
@@ -134,7 +135,7 @@ export default function CreateNewDealProduct(props) {
                createdDealDate: createDateDB,
                startedDealDate: startDateDB,
                finishedDealDate: finishDateDB,
-               dealStatus: "actived"
+               dealStatus: "active"
             })
             .then(response => {
                console.log("new deal, deal ProductId", response.data)
@@ -148,6 +149,10 @@ export default function CreateNewDealProduct(props) {
                setStock("")
                setShippingTypeId("")
                setPreviewShow("none")
+               setErrorsValidation({})
+               setShowAddPickupStoreElements("none")
+               setShowAddPickupStoreAddress("none")
+               setCheckBoxChecked(false)
                setStartedDealDate(startDate)
                setFinishedDealDate(finishDate)
 
@@ -155,11 +160,12 @@ export default function CreateNewDealProduct(props) {
 
                // [thumbImage1Ref].forEach(ref => {
                //    ref.current.dropzone.removeAllFiles()
-               // });
+               // });              
             })
             .catch(error => {
                console.log('handleSubmitNewDeal error', error)
             })
+         // }
       }
    }
 
@@ -434,7 +440,7 @@ export default function CreateNewDealProduct(props) {
                            type="checkbox"
                            name="add-address"
                            checked={checkBoxChecked}
-                           onChange={handleCheckbox}
+                           onChange={handleChangeCheckbox}
                         />
                         <label htmlFor="add-address"><b>Add a new address to pick up the product</b></label>
                      </div>
@@ -547,14 +553,14 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="started-finished-deal-date">
                      <div className="date">
-                        <p>Deal Created Date</p>
+                        <p>Deal Started Date</p>
                         <p>{startedDealDate}</p>
                      </div>
 
-                     {/* <div className="date">
-                        <p>Finished Deal</p>
+                     <div className="date">
+                        <p>Deal Finish Date</p>
                         <p>{finishedDealDate}</p>
-                     </div> */}
+                     </div>
                   </div>
                   <p className="title">Deal Product URL</p>
 
