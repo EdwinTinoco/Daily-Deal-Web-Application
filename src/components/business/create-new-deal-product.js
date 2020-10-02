@@ -112,7 +112,7 @@ export default function CreateNewDealProduct(props) {
    //    }
    // }
 
-   const handleSubmitNewDeal = (e) => {
+   const handleSubmitNewDeal = async (e) => {
       e.preventDefault()
 
       if (validate()) {
@@ -120,29 +120,31 @@ export default function CreateNewDealProduct(props) {
          let startDateDB = createDateDB;
          let finishDateDB = moment().add(1, 'days').format();
 
-         let startDate = moment().format("MMMM Do YYYY, hh:mm:ss a");
-         let finishDate = moment().add(1, 'days').format("MMMM Do YYYY, hh:mm:ss a");
+         const response = await fetch("http://localhost:5000/v1/products", {
+               method: "POST",
+               headers: {
+                  'Content-Type': 'application/json'                  
+               },
+               body: JSON.stringify({
+                  userId: user.user_id,
+                  title: title,
+                  thumbImage1: thumbImage1.dataURL,
+                  description: description,
+                  price: parseFloat(price).toFixed(2),
+                  stock: parseInt(stock),
+                  shippingTypeId: shippingTypeId,
+                  createdDealDate: createDateDB,
+                  startedDealDate: startDateDB,
+                  finishedDealDate: finishDateDB,
+                  dealStatus: "active"
+               })
+            });
 
-         // if (checkBoxChecked)
-         axios.post('http://localhost:5000/api/product/new-deal',
-            {
-               userId: user.user_id,
-               title: title,
-               thumbImage1: thumbImage1.dataURL,
-               description: description,
-               price: parseFloat(price).toFixed(2),
-               stock: parseInt(stock),
-               shippingTypeId: shippingTypeId,
-               createdDealDate: createDateDB,
-               startedDealDate: startDateDB,
-               finishedDealDate: finishDateDB,
-               dealStatus: "active"
-            })
-            .then(response => {
-               console.log("new deal, deal ProductId", response.data)
+            const product = await response.json();
 
-               setDealProductId(response.data["@dealId"])
-               setUrlGenerated(response.data["@generatedDealProductUrl"])
+            if (product['message'] === "Product created succesfully"){
+               setDealProductId(product['result']["@dealId"])
+               setUrlGenerated(product['result']["@generatedDealProductUrl"])
                setTitle("")
                setThumbImage1("")
                setDescription("")
@@ -154,19 +156,17 @@ export default function CreateNewDealProduct(props) {
                setShowAddPickupStoreElements("none")
                setShowAddPickupStoreAddress("none")
                setCheckBoxChecked(false)
-               setStartedDealDate(startDate)
-               setFinishedDealDate(finishDate)
+               setStartedDealDate(moment(startDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
+               setFinishedDealDate(moment(finishDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
 
                thumbImage1Ref.current.dropzone.removeAllFiles()
 
                // [thumbImage1Ref].forEach(ref => {
                //    ref.current.dropzone.removeAllFiles()
-               // });              
-            })
-            .catch(error => {
-               console.log('handleSubmitNewDeal error', error)
-            })
-         // }
+               // }); 
+            } else{
+               console.log('handleSubmitNewDeal error', product)
+            }
       }
    }
 
