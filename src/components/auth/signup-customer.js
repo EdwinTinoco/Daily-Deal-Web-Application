@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, Component } from "react"
+import 'regenerator-runtime/runtime';
 import axios from "axios";
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom";
@@ -29,45 +30,64 @@ export default class SignUpCustomer extends Component {
       });
    }
 
-   handleSubmitRegisterNewUser(e) {
+   async handleSubmitRegisterNewUser(e) {
       e.preventDefault();
 
       if (this.validate()) {
-         axios
-            .post(
-               'http://localhost:5000/api/user/signup',
-               {
-                  role: "user",
-                  name: "Customer",
-                  email: this.state.email,
-                  password: this.state.password,
-                  active: "Y"
-               },
-            )
-            .then(response => {
-               console.log("new user", response.data)
-
-               if (response.data === "A user with that email already exist") {
-                  this.setState({
-                     messageUser: "A user with that email already exist"
-                  })
-               } else {
-                  this.setState({
-                     email: "",
-                     password: "",
-                     confirmPassword: "",
-                     errorsValidation: {},
-                     messageUser: "The customer user account was created succesfully"
-                  })
-
-                  Cookies.set("_sb%_user%_session", `%encript%${response.data['@userId']}`, { expires: 1 })
-
-                  this.props.history.push(`/deal/product/${this.props.location.state.dealId}`);
-               }
+         const response = await fetch("http://localhost:5000/v1/customers", {
+            method: "POST",
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               role: "user",
+               name: "Customer",
+               email: this.state.email,
+               password: this.state.password,
+               active: "Y"
             })
-            .catch(error => {
-               console.log('handleSubmitRegisterNewUser error', error)
-            })
+         });
+
+         const customer = await response.json();
+         console.log('customer', customer);
+
+
+
+
+
+
+         // axios.post('http://localhost:5000/api/user/signup',
+         //    {
+         //       role: "user",
+         //       name: "Customer",
+         //       email: this.state.email,
+         //       password: this.state.password,
+         //       active: "Y"
+         //    })
+         //    .then(response => {
+         //       console.log("new user", response.data)
+
+         //       if (response.data === "A user with that email already exist") {
+         //          this.setState({
+         //             messageUser: "A user with that email already exist"
+         //          })
+         //       } else {
+         //          this.setState({
+         //             email: "",
+         //             password: "",
+         //             confirmPassword: "",
+         //             errorsValidation: {},
+         //             messageUser: "The customer user account was created succesfully"
+         //          })
+
+         //          Cookies.set("_sb%_user%_session", `%encript%${response.data['@userId']}`, { expires: 1 })
+
+         //          this.props.history.push(`/deal/product/${this.props.location.state.dealId}`);
+         //       }
+         //    })
+         //    .catch(error => {
+         //       console.log('handleSubmitRegisterNewUser error', error)
+         //    })
       }
    }
 

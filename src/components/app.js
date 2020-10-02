@@ -19,7 +19,7 @@ import CreateNewDealProduct from "./business/create-new-deal-product";
 import ActiveDealDetail from "./business/active-deal-detail";
 import Auth from "./pages/auth";
 import AuthCustomer from "./pages/auth-customer";
-import SignUpCustomer from "./auth/signup";
+import SignUpCustomer from "./auth/signup-customer";
 import DealProduct from "./pages/deal-product";
 import DealProductSuccessPayment from "./products/deal-product-success-payment";
 import NoMatch from "./pages/no-match";
