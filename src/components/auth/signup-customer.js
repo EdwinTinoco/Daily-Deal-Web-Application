@@ -1,5 +1,4 @@
 import React, { useState, } from "react"
-import axios from "axios";
 import Cookies from 'js-cookie'
 import { Link, useHistory } from "react-router-dom";
 
@@ -34,7 +33,11 @@ export default function SignUpCustomer(props) {
          const customer = await response.json();
          console.log('customer', customer);
 
-         if (customer['@message'] === "A user with that email already exist") {
+         console.log('cus message', customer['@message']);
+         console.log('cus message', customer['result']['@userId']);
+
+
+         if (customer['message'] === "A user with that email already exist") {
             setMessage("A user with that email already exist")
 
          } else if (customer['message'] === "Customer created succesfully") {
@@ -46,47 +49,10 @@ export default function SignUpCustomer(props) {
 
             Cookies.set("_sb%_user%_session", `%encript%${customer['result']['@userId']}`, { expires: 1 })
 
-            props.history.push(`/deal/product/${props.location.state.dealId}`);
+            history.push(`/deal/product/${props.location.state.dealId}`);
          } else {
             console.log('handleSubmitRegisterNewUser error', customer)
          }
-
-
-
-
-
-         // axios.post('http://localhost:5000/api/user/signup',
-         //    {
-         //       role: "user",
-         //       name: "Customer",
-         //       email: this.state.email,
-         //       password: this.state.password,
-         //       active: "Y"
-         //    })
-         //    .then(response => {
-         //       console.log("new user", response.data)
-
-         //       if (response.data === "A user with that email already exist") {
-         //          this.setState({
-         //             messageUser: "A user with that email already exist"
-         //          })
-         //       } else {
-         //          this.setState({
-         //             email: "",
-         //             password: "",
-         //             confirmPassword: "",
-         //             errorsValidation: {},
-         //             messageUser: "The customer user account was created succesfully"
-         //          })
-
-         //          Cookies.set("_sb%_user%_session", `%encript%${response.data['@userId']}`, { expires: 1 })
-
-         //          this.props.history.push(`/deal/product/${this.props.location.state.dealId}`);
-         //       }
-         //    })
-         //    .catch(error => {
-         //       console.log('handleSubmitRegisterNewUser error', error)
-         //    })
       }
    }
 
