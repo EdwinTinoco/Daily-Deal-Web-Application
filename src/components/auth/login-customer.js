@@ -25,11 +25,13 @@ export default function LoginCustomer(props) {
          ).then(response => {
             console.log('response login customer', response.data);
 
-            if (response.data === "Email or password is wrong") {
+            if (response.data['message'] === "Email or password is wrong") {
                setErrorMessage("Email or password is wrong")
 
-            } else if (response.data.length > 0) {
-               Cookies.set("_sb%_user%_session", `%encript%${response.data[0].user_id}`, { expires: 1 })
+            } else if (response.data['user'].length > 0) {
+               console.log('si hay user', response.data['user'][0].user_id);
+
+               Cookies.set("_sb%_user%_session", `%encript%${response.data['user'][0].user_id}`, { expires: 1 })
 
                props.handleSuccessfulAuth();
             } else {

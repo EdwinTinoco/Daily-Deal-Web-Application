@@ -11,7 +11,6 @@ export default class Login extends Component {
       super(props);
 
       this.state = {
-         user: {},
          email: "",
          password: "",
          errorMessage: ""
@@ -45,19 +44,15 @@ export default class Login extends Component {
          ).then(response => {
             console.log('response login', response.data);
 
-            if (response.data === "Email or password is wrong") {
+            if (response.data['message'] === "Email or password is wrong") {
                this.setState({
                   errorMessage: "Email or password is wrong"
                })
-            } else if (response.data.length > 0) {
-               if (response.data[0].role_title !== "user") {
-                  this.setState({
-                     user: response.data[0]
-                  })
+            } else if (response.data['user'].length > 0) {
+               if (response.data['user'][0].role_title !== "user") {
+                  Cookies.set("_sb%_user%_session", `%encript%${response.data['user'][0].user_id}`, { expires: 1 })
 
-                  Cookies.set("_sb%_user%_session", `%encript%${this.state.user.user_id}`, { expires: 7 })
-
-                  this.props.handleSuccessfulAuth(this.state.user.role_title);
+                  this.props.handleSuccessfulAuth(response.data['user'][0].role_title);
                } else {
                   this.setState({
                      errorMessage: "Must be an Admin user account"

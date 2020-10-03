@@ -33,14 +33,11 @@ export default function SignUpCustomer(props) {
          const customer = await response.json();
          console.log('customer', customer);
 
-         console.log('cus message', customer['@message']);
-         console.log('cus message', customer['result']['@userId']);
-
-
          if (customer['message'] === "A user with that email already exist") {
             setMessage("A user with that email already exist")
 
          } else if (customer['message'] === "Customer created succesfully") {
+            setName("")
             setEmail("")
             setPassword("")
             setConfirmPassword("")

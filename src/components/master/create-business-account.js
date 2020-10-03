@@ -17,16 +17,20 @@ export default function CreateBusinessAccount(props) {
    const [password, setPassword] = useState("")
    const [confirmPassword, setConfirmPassword] = useState("")
    const [errorsValidation, setErrorsValidation] = useState({})
-   const [messageUser, setMessageUser] = useState("")
+   const [message, setMessage] = useState("")
 
 
 
-   const handleSubmitRegisterNewUser = (e) => {
+   const handleSubmitRegisterNewUser = async (e) => {
       e.preventDefault();
 
       if (validate()) {
-         axios.post('http://localhost:5000/api/user/signup',
-            {
+         const response = await fetch("http://localhost:5000/v1/customers", {
+            method: "POST",
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
                role: "business_admin",
                name: name,
                line1: line1,
@@ -37,30 +41,71 @@ export default function CreateBusinessAccount(props) {
                email: email,
                password: password,
                active: "Y"
-            }
-         )
-            .then(response => {
-               if (response.data === "A user with that email already exist") {
-                  setMessageUser(response.data)
-
-               } else {
-                  setName("")
-                  setLine1("")
-                  setLine2("")
-                  setCity("")
-                  setZp("")
-                  setState("")
-                  setEmail("")
-                  setPassword("")
-                  setConfirmPassword("")
-                  setErrorsValidation({})
-                  setMessageUser("Business user account was created sucesfully")
-               }
-
             })
-            .catch(error => {
-               console.log('handleSubmitRegisterNewUser error', error)
-            })
+         });
+
+         const customer = await response.json();
+         console.log('customer', customer);
+
+         if (customer['message'] === "A user with that email already exist") {
+            setMessage("A user with that email already exist")
+
+         } else if (customer['message'] === "Customer created succesfully") {
+            setName("")
+            setLine1("")
+            setLine2("")
+            setCity("")
+            setZp("")
+            setState("")
+            setEmail("")
+            setPassword("")
+            setConfirmPassword("")
+            setErrorsValidation({})
+            setMessage("Business user account was created sucesfully")
+         } else {
+            console.log('handleSubmitRegisterNewUser error', customer)
+         }
+
+
+
+
+
+         // await axios.post('http://localhost:5000/v1/customers',
+         //    {
+         //       role: "business_admin",
+         //       name: name,
+         //       line1: line1,
+         //       line2: line2,
+         //       city: city,
+         //       zp: zp,
+         //       state: state,
+         //       email: email,
+         //       password: password,
+         //       active: "Y"
+         //    }
+         // )
+         //    .then(response => {
+         //       if (response.data === "A user with that email already exist") {
+         //          setMessageUser(response.data)
+
+         //       } else {
+         //          setName("")
+         //          setLine1("")
+         //          setLine2("")
+         //          setCity("")
+         //          setZp("")
+         //          setState("")
+         //          setEmail("")
+         //          setPassword("")
+         //          setConfirmPassword("")
+         //          setErrorsValidation({})
+         //          setMessageUser("Business user account was created sucesfully")
+         //       }
+
+         //    })
+         //    .catch(error => {
+         //       console.log('handleSubmitRegisterNewUser error', error)
+         //    })
       }
    }
 
@@ -264,7 +309,7 @@ export default function CreateBusinessAccount(props) {
                </div>
 
                <div className="message">
-                  <p>{messageUser}</p>
+                  <p>{message}</p>
                </div>
 
                <button type='submit' className='add-button'>Create Account</button>
