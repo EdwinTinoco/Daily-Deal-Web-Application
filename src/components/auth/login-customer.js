@@ -133,7 +133,7 @@ export default function LoginCustomer(props) {
                </form>
 
                <div className="forgot-password">
-                  <Link to="/forgot-password">Forgot your password?</Link>
+                  <Link to={{ pathname: "/forgot-password", state: { login: "customer" } }} >Forgot your password?</Link>
                </div>
             </div>
          </div>

@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Cookies from 'js-cookie'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 
-export default class forgotPassword extends Component {
+export default class ResetPassword extends Component {
    constructor(props) {
       super(props)
 
       this.state = {
-         email: "",
+         password: "",
+         confirmPassword: "",
          errorMessage: "",
          errorsValidation: {}
       }
@@ -24,7 +24,7 @@ export default class forgotPassword extends Component {
 
       if (this.validate()) {
 
-         console.log('submit forgot password');
+         console.log('submit reset password');
 
 
          // axios.post("http://localhost:5000/api/user/login",
@@ -58,17 +58,21 @@ export default class forgotPassword extends Component {
       let errors = {};
       let isValid = true;
 
-      if (!this.state.email) {
+      if (!this.state.password) {
          isValid = false;
-         errors["email"] = "Please enter your email";
+         errors["password"] = "Please enter your password";
       }
 
-      if (typeof this.state.email !== "undefined") {
-         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      if (!this.state.confirmPassword) {
+         isValid = false;
+         errors["confirmPassword"] = "Please enter your confirm password";
+      }
 
-         if (!pattern.test(this.state.email)) {
+      if (typeof this.state.password !== "undefined" && typeof this.state.confirmPassword !== "undefined") {
+
+         if (this.state.password != this.state.confirmPassword) {
             isValid = false;
-            errors["email"] = "Please enter valid email address.";
+            errors["password"] = "Passwords don't match";
          }
       }
 
@@ -83,18 +87,6 @@ export default class forgotPassword extends Component {
    render() {
       return (
          <div className="login-main-wrapper">
-            <div className="back-to-product-deal">
-               {"customer" === "customer" ?
-                  (
-                     <Link to="/auth/customer">Back to Login</Link>
-                  )
-                  :
-                  (
-                     <Link to="/auth">Back to Login</Link>
-                  )
-               }
-            </div>
-
             <div className="login-form-center">
                <div className="login-container">
                   <div className="logo">
@@ -102,7 +94,7 @@ export default class forgotPassword extends Component {
                   </div>
 
                   <div className="title">
-                     <p>Forgot Password</p>
+                     <p>Reset Password</p>
                   </div>
 
                   <div className="error-message">
@@ -111,25 +103,42 @@ export default class forgotPassword extends Component {
 
                   <form onSubmit={this.handleSubmit} className="login-form">
                      <div className="form-group">
-                        <label htmlFor="email"><b>Email address</b></label>
+                        <label htmlFor="password"><b>Password</b></label>
                         <div className="inputs">
-                           <FontAwesomeIcon icon="envelope" />
                            <input
-                              type="text"
-                              name="email"
-                              placeholder="Email address"
-                              value={this.state.email}
+                              type="password"
+                              name="password"
+                              placeholder="Password"
+                              value={this.state.password}
                               onChange={({ target }) => {
                                  this.setState({
-                                    email: target.value,
+                                    password: target.value,
                                     errorMessage: ""
                                  })
                               }}
                            />
                         </div>
-                        <div className="error-validation">{this.state.errorsValidation.email}</div>
+                        <div className="error-validation">{this.state.errorsValidation.password}</div>
                      </div>
 
+                     <div className="form-group">
+                        <label htmlFor="confirm_password"><b>Confirm Password</b></label>
+                        <div className="inputs">
+                           <input
+                              type="password"
+                              name="confirm_password"
+                              placeholder="Confirm Password"
+                              value={this.state.confirmPassword}
+                              onChange={({ target }) => {
+                                 this.setState({
+                                    confirmPassword: target.value,
+                                    errorMessage: ""
+                                 })
+                              }}
+                           />
+                        </div>
+                        <div className="error-validation">{this.state.errorsValidation.confirmPassword}</div>
+                     </div>
 
                      <button className="btn" type="submit">Submit</button>
                   </form>
