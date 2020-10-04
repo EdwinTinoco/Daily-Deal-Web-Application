@@ -101,24 +101,28 @@
          align-items: center;
 
          h2{
+            margin-left: 600px;
             color: white;
          }
 
          .export-csv{
-            color: #159915;
             margin-right: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #159915;
+            border-radius: 6px;
+            padding: 1px 3px;            
+            text-align: center;
+            transition: 0.3s ease-in-out;
 
-            p{
-               margin-right: 7px;
-               color: $gray-titles;
+            &:hover{
+               background-color: #0b5e0b;
             }
-
-            svg{
-               color: white;
-               font-size: 2rem;
+            
+            p{
+               text-decoration: none;
+               margin-right: 7px;
+               color: whitesmoke;
+               font-size: 1.2rem;
+               font-weight: 600;
             }
          }
       }

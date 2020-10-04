@@ -35,10 +35,12 @@ export default function LoginCustomer(props) {
 
                props.handleSuccessfulAuth();
             } else {
-               setErrorMessage("Email or password is wrong")
+               setErrorMessage(response.data)
             }
          }).catch(error => {
             setErrorMessage("An error ocurred. Try again later")
+            console.log('handleSubmit error', error);
+
          });
       }
    }

@@ -16,6 +16,7 @@ export default function ActiveDealDetail(props) {
       { label: "Customer Name", key: "user_name" },
       { label: "Customer Email", key: "user_email" },
       { label: "Sale Date", key: "sales_date" },
+      { label: "Product", key: "product_title" },
       { label: "Subtotal", key: "sales_subtotal" },
       { label: "Taxes", key: "sales_taxes" },
       { label: "Total", key: "sales_total" },
@@ -33,10 +34,12 @@ export default function ActiveDealDetail(props) {
       { label: "Customer Name", key: "user_name" },
       { label: "Customer Email", key: "user_email" },
       { label: "Sale Date", key: "sales_date" },
+      { label: "Product", key: "product_title" },
       { label: "Subtotal", key: "sales_subtotal" },
       { label: "Taxes", key: "sales_taxes" },
       { label: "Total", key: "sales_total" },
       { label: "Shipping Type", key: "shipping_type_title" },
+      { label: "Store Name", key: "pickup_name" },
       { label: "Address Line 1", key: "pickup_line_1" },
       { label: "Address Line 2", key: "pickup_line_2" },
       { label: "City", key: "pickup_city" },
@@ -49,6 +52,7 @@ export default function ActiveDealDetail(props) {
       { label: "Customer Name", key: "user_name" },
       { label: "Customer Email", key: "user_email" },
       { label: "Sale Date", key: "sales_date" },
+      { label: "Product", key: "product_title" },
       { label: "Subtotal", key: "sales_subtotal" },
       { label: "Taxes", key: "sales_taxes" },
       { label: "Total", key: "sales_total" },
@@ -84,15 +88,15 @@ export default function ActiveDealDetail(props) {
       let headerDealSales = []
 
       if (deal.shipping_type_title === "Shipping to customer's address") {
-         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Product", "Subtotal", "taxes", "Total", "Shipping Type",
             "Shipping Name", "Shipping Address Line 1", 'Shipping Address Line 2', "City", "State", "Zip Code", "Country"]
 
       } else if (deal.shipping_type_title === "Pick up to the store") {
-         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type",
-            , "Address Line 1", 'Address Line 2', "City", "State", "Zip Code", "Country"]
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Product", "Subtotal", "taxes", "Total", "Shipping Type",
+            , "Store Name", "Address Line 1", 'Address Line 2', "City", "State", "Zip Code", "Country"]
 
       } else if (deal.shipping_type_title === "Not applicable") {
-         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Subtotal", "taxes", "Total", "Shipping Type"]
+         headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Product", "Subtotal", "taxes", "Total", "Shipping Type"]
       }
 
       return headerDealSales.map((key, index) => {
@@ -108,6 +112,7 @@ export default function ActiveDealDetail(props) {
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
                   <td>{item.sales_date}</td>
+                  <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
                   <td>{`$${item.sales_total}`}</td>
@@ -127,10 +132,12 @@ export default function ActiveDealDetail(props) {
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
                   <td>{item.sales_date}</td>
+                  <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
                   <td>{`$${item.sales_total}`}</td>
                   <td>{item.shipping_type_title}</td>
+                  <td>{item.pickup_name}</td>
                   <td>{item.pickup_line_1}</td>
                   <td>{item.pickup_line_2}</td>
                   <td>{item.pickup_city}</td>
@@ -145,6 +152,7 @@ export default function ActiveDealDetail(props) {
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
                   <td>{item.sales_date}</td>
+                  <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
                   <td>{`$${item.sales_total}`}</td>
@@ -206,8 +214,6 @@ export default function ActiveDealDetail(props) {
                <h2>Sales Details</h2>
 
                <div className="export-csv">
-                  <p>Export to csv</p>
-
                   <CSVLink
                      data={sales}
                      headers={deal.shipping_type_title === "Shipping to customer's address" ?
@@ -218,9 +224,8 @@ export default function ActiveDealDetail(props) {
                      }
                      filename={"my-file.csv"}
                   >
-                     <FontAwesomeIcon icon="file-excel" />
+                     <p>Export to CSV</p>
                   </CSVLink>
-
                </div>
             </div>
 
