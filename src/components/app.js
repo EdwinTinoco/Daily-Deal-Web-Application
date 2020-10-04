@@ -19,6 +19,7 @@ import CreateNewDealProduct from "./business/create-new-deal-product";
 import ActiveDealDetail from "./business/active-deal-detail";
 import Auth from "./pages/auth";
 import AuthCustomer from "./pages/auth-customer";
+import forgotPassword from "./forgot-password/forgot-password";
 import SignUpCustomer from "./auth/signup-customer";
 import DealProduct from "./pages/deal-product";
 import DealProductSuccessPayment from "./products/deal-product-success-payment";
@@ -38,6 +39,8 @@ export default function App(props) {
             <Route path='/auth/customer' component={AuthCustomer} />
             <Route path='/signup/customer' component={SignUpCustomer} />
             <Route path='/auth' component={Auth} />
+
+            <Route path='/forgot-password' component={forgotPassword} />
 
             <Route exact path='/ma/dashboard' component={MasterDashboard} />
             <Route path='/create-business-account' component={CreateBusinessAccount} />

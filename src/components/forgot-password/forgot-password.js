@@ -6,9 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 
-export default function LoginCustomer(props) {
+export default function forgotPassword(props) {
    const [email, setEmail] = useState("")
-   const [password, setPassword] = useState("")
    const [errorMessage, setErrorMessage] = useState("")
    const [errorsValidation, setErrorsValidation] = useState({})
 
@@ -19,8 +18,7 @@ export default function LoginCustomer(props) {
 
          axios.post("http://localhost:5000/api/user/login",
             {
-               email: email,
-               password: password
+               email: email
             }
          ).then(response => {
             console.log('response login customer', response.data);
@@ -63,11 +61,6 @@ export default function LoginCustomer(props) {
          }
       }
 
-      if (!password) {
-         isValid = false;
-         errors["password"] = "Please enter your password";
-      }
-
       setErrorsValidation(errors)
 
       return isValid;
@@ -76,7 +69,7 @@ export default function LoginCustomer(props) {
    return (
       <div className="login-main-wrapper">
          <div className="back-to-product-deal">
-            <Link to="http://localhost:3000/deal/product/42">Back to the Deal</Link>
+            <Link to="/auth/customer">Back to Login</Link>
          </div>
          <div className="login-form-center">
             <div className="login-container">
@@ -85,7 +78,7 @@ export default function LoginCustomer(props) {
                </div>
 
                <div className="title">
-                  <p>Log in to your account</p>
+                  <p>Forgot Password</p>
                </div>
 
                <div className="error-message">
@@ -111,33 +104,11 @@ export default function LoginCustomer(props) {
                      <div className="error-validation">{errorsValidation.email}</div>
                   </div>
 
-                  <div className="form-group">
-                     <label htmlFor="password"><b>Password</b></label>
-                     <div className="inputs">
-                        <FontAwesomeIcon icon="lock" />
-                        <input
-                           type="password"
-                           name="password"
-                           placeholder="Password"
-                           value={password}
-                           onChange={({ target }) => {
-                              setPassword(target.value)
-                              setErrorMessage('')
-                           }}
-                        />
-                     </div>
-                     <div className="error-validation">{errorsValidation.password}</div>
-                  </div>
 
-                  <button className="btn" type="submit">Log In</button>
+                  <button className="btn" type="submit">Submit</button>
                </form>
-
-               <div className="forgot-password">
-                  <Link to="/forgot-password">Forgot your password?</Link>
-               </div>
             </div>
          </div>
       </div>
    );
-
 }
