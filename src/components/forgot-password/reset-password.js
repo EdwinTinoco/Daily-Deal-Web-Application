@@ -28,7 +28,7 @@ export default class ResetPassword extends Component {
          console.log('submit reset password');
 
 
-         axios.post("http://localhost:5000/api/user/reset-password",
+         axios.post("http://localhost:5000/api/user/reset-password/${this.props.params.match.slug}",
             {
                token: this.props.params.match.slug,
                newPassword: password

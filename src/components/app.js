@@ -42,7 +42,7 @@ export default function App(props) {
             <Route path='/auth' component={Auth} />
 
             <Route path='/forgot-password' component={forgotPassword} />
-            <Route path='/reset_password/:slug' component={ResetPassword} />
+            <Route path='/reset-password/:slug' component={ResetPassword} />
 
             <Route exact path='/ma/dashboard' component={MasterDashboard} />
             <Route path='/create-business-account' component={CreateBusinessAccount} />
