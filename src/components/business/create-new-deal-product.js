@@ -22,6 +22,7 @@ export default function CreateNewDealProduct(props) {
    const [price, setPrice] = useState("")
    const [comparePrice, setComparePrice] = useState("")
    const [stock, setStock] = useState("")
+   const [squ, setSqu] = useState("")
    const [shippingTypeId, setShippingTypeId] = useState("")
    const [startedDealDate, setStartedDealDate] = useState("")
    const [finishedDealDate, setFinishedDealDate] = useState("")
@@ -31,15 +32,14 @@ export default function CreateNewDealProduct(props) {
    const thumbImage1Ref = useRef()
    const thumbImage2Ref = useRef()
 
-   const [pickupStoreCatalog, setPickupStoreCatalog] = useState([])
-   const [pickupStore, setPickupStore] = useState("")
+   //const [pickupStoreCatalog, setPickupStoreCatalog] = useState([])
+   //const [pickupStore, setPickupStore] = useState("")
    const [storeName, setStoreName] = useState("")
    const [line1, setLine1] = useState("")
    const [line2, setLine2] = useState("")
    const [city, setCity] = useState("")
    const [zp, setZp] = useState("")
    const [state, setState] = useState("")
-   const [country, setCountry] = useState("")
    const [showPickupStoreElements, setShowAddPickupStoreElements] = useState("none")
    const [showAddPickupStoreAddress, setShowAddPickupStoreAddress] = useState("none")
    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
@@ -84,7 +84,9 @@ export default function CreateNewDealProduct(props) {
       setThumbImage1("")
       setDescription("")
       setPrice("")
+      setComparePrice("")
       setStock("")
+      setSqu("")
       setShippingTypeId("")
       setPreviewShow("none")
       setErrorsValidation({})
@@ -101,17 +103,31 @@ export default function CreateNewDealProduct(props) {
       }
    }
 
-   // const handleChangeCheckbox = () => {
-   //    if (!checkBoxChecked) {
-   //       setPickupStore("")
-   //       setShowAddPickupStoreAddress('block')
-   //       setCheckBoxChecked(true)
+   const handlePickupStore = (value) => {
+      if (value === "2"){
+         setShowAddPickupStoreElements("block"),
+         setShowAddPickupStoreAddress("none"),
+         setCheckBoxChecked(false)
 
-   //    } else {
-   //       setShowAddPickupStoreAddress('none')
-   //       setCheckBoxChecked(false)
-   //    }
-   // }
+      }else{
+         setShowAddPickupStoreElements("none"),
+         setShowAddPickupStoreAddress("none"),
+         setCheckBoxChecked(false)
+      }
+   }
+                              
+
+   const handleChangeCheckbox = () => {
+      if (!checkBoxChecked) {
+         //setPickupStore("")
+         setShowAddPickupStoreAddress('block')
+         setCheckBoxChecked(true)
+
+      } else {
+         setShowAddPickupStoreAddress('none')
+         setCheckBoxChecked(false)
+      }
+   }
 
    const handleSubmitNewDeal = async (e) => {
       e.preventDefault()
@@ -132,6 +148,8 @@ export default function CreateNewDealProduct(props) {
                   thumbImage1: thumbImage1.dataURL,
                   description: description,
                   price: parseFloat(price).toFixed(2),
+                  comparePrice: parseFloat(comparePrice).toFixed(2),
+                  squ: squ,
                   stock: parseInt(stock),
                   shippingTypeId: shippingTypeId,
                   createdDealDate: createDateDB,
@@ -257,15 +275,42 @@ export default function CreateNewDealProduct(props) {
          isValid = false;
          errors["price"] = "Please enter a price";
       }
+      
+      if (typeof price !== "undefined") {         
+         var pattern = new RegExp(/^(\d+|\d+.\d{2})$/);
+   
+         if (!pattern.test(price)) {
+            isValid = false;
+            errors["price"] = "Please enter valid decimal number.";
+         }        
+      }
 
       if (!comparePrice) {
          isValid = false;
-         errors["comparePrice"] = "Please enter a price";
+         errors["comparePrice"] = "Please enter a compare price";
       }
 
+      if (typeof comparePrice !== "undefined") {
+         var pattern = new RegExp(/^(\d+|\d+.\d{2})$/);
+
+         if (!pattern.test(comparePrice)) {
+            isValid = false;
+            errors["comparePrice"] = "Please enter valid decimal number.";
+         }
+      }
+      
       if (!stock) {
          isValid = false;
          errors["stock"] = "Please enter a stock";
+      }
+      
+      if (typeof stock !== "undefined") {
+         var pattern = new RegExp(pattern=/^[0-9\b]+$/);
+
+         if (!pattern.test(stock)) {
+            isValid = false;
+            errors["stock"] = "Please enter valid integer number.";
+         }
       }
 
       if (!shippingTypeId) {
@@ -273,39 +318,34 @@ export default function CreateNewDealProduct(props) {
          errors["shippingTypeId"] = "Please select a shipping type";
       }
 
-      // if (showPickupStoreElements === "block") {
-      //    if (showAddPickupStoreAddress === "block") {
-      //       if (!storeName) {
-      //          isValid = false;
-      //          errors["storeName"] = "Please enter a store name";
-      //       }
+      if (showPickupStoreElements === "block") {
+         if (showAddPickupStoreAddress === "block") {
+            if (!storeName) {
+               isValid = false;
+               errors["storeName"] = "Please enter a store name";
+            }
 
-      //       if (!line1) {
-      //          isValid = false;
-      //          errors["line1"] = "Please enter a address";
-      //       }
+            if (!line1) {
+               isValid = false;
+               errors["line1"] = "Please enter a address";
+            }
 
-      //       if (!city) {
-      //          isValid = false;
-      //          errors["city"] = "Please enter a city";
-      //       }
+            if (!city) {
+               isValid = false;
+               errors["city"] = "Please enter a city";
+            }
 
-      //       if (!zp) {
-      //          isValid = false;
-      //          errors["zp"] = "Please enter a zip code";
-      //       }
+            if (!zp) {
+               isValid = false;
+               errors["zp"] = "Please enter a zip code";
+            }
 
-      //       if (!state) {
-      //          isValid = false;
-      //          errors["state"] = "Please enter a state";
-      //       }
-      //    } else {
-      //       if (!pickupStore) {
-      //          isValid = false;
-      //          errors["pickupStore"] = "Please select a address to pick up the product";
-      //       }
-      //    }
-      // }
+            if (!state) {
+               isValid = false;
+               errors["state"] = "Please enter a state";
+            }
+         } 
+      }
 
       setErrorsValidation(errors)
 
@@ -376,25 +416,29 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="price"><b>Price</b></label>
+                     <label htmlFor="price"><b>Price (two decimal position after the period)</b></label>
                      <input type='text'
+                        min="0" 
+                        step="0.05"
                         className='new-entry-input'
                         value={price}
                         onChange={({ target }) => { setPrice(target.value) }}
                         name="price"
-                        placeholder='Price'
+                        placeholder='0.00'
                      />
                      <div className="error-validation">{errorsValidation.price}</div>
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="compare_price"><b>Compare Price</b></label>
+                     <label htmlFor="compare_price"><b>Compare Price (two decimal position after the period)</b></label>
                      <input type='text'
+                        min="0" 
+                        step="0.05"
                         className='new-entry-input'
                         value={comparePrice}
                         onChange={({ target }) => { setComparePrice(target.value) }}
                         name="compare_price"
-                        placeholder='Compare Price'
+                        placeholder='0.00'
                      />
                      <div className="error-validation">{errorsValidation.comparePrice}</div>
                   </div>
@@ -412,20 +456,29 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="form-group">
+                     <label htmlFor="squ"><b>SQU</b></label>
+                     <input type='text'
+                        className='new-entry-input'
+                        value={squ}
+                        onChange={({ target }) => { setSqu(target.value) }}
+                        name="squ"
+                        placeholder='SQU'
+                     />
+                     <div className="error-validation">{errorsValidation.squ}</div>
+                  </div>
+
+                  <div className="form-group">
                      <label htmlFor="shipping">Shipping Type</label>
                      <select className='new-entry-input'
                         value={shippingTypeId}
                         onChange={({ target }) => {
                            setShippingTypeId(target.value)
+
                            target.value === "2" ? (
-                              setShowAddPickupStoreElements("block"),
-                              getPickupAddress()
-                              // setShowAddPickupStoreAddress("none"),
-                              // setCheckBoxChecked(false)
+                              getPickupAddress(),
+                              handlePickupStore(target.value)                              
                            ) : (
-                                 setShowAddPickupStoreElements("none")
-                                 // setShowAddPickupStoreAddress("none"),
-                                 // setCheckBoxChecked(false)
+                                 handlePickupStore(target.value)                                 
                               )
                         }}
                         id="shipping"
@@ -445,42 +498,21 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>
                      {Object.entries(pickupStoreAddress).length > 0 ? 
-                     (
-                        <div className="pickup_store_addres_info">
-                           <p>Address to pick the product up</p>
-      
-                           <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
-                           <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
-                           <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
-                           <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
-                        </div>
-                     )
-                     :
-                     (
-                        <p>There's no address for pick up to the store</p>
-                     )
-                  }
-
-
-                     {/* <div className="form-group">
-                        <label htmlFor="pickup">Select the Store address to pick up the product</label>
-                        <select className='new-entry-input'
-                           value={pickupStore}
-                           onChange={({ target }) => { setPickupStore(target.value) }}
-                           id="pickup"
-                        >
-                           <option value=''>Select a pick up store address</option>
-                           {pickupStoreCatalog.map((item, index) =>
-                              <option
-                                 value={item.pickup_id}
-                                 key={index}
-                              >
-                                 {item.pickup_store_address}
-                              </option>
-                           )}
-                        </select>
-                        <div className="error-validation">{errorsValidation.pickupStore}</div>
-                     </div>
+                        (
+                           <div className="pickup_store_addres_info">
+                              <p>Address to pick the product up</p>
+         
+                              <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
+                              <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
+                              <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
+                              <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+                           </div>
+                        )
+                        :
+                        (
+                           <p>There's no address for pick up to the store</p>
+                        )
+                     }                    
 
                      <div className="checbox-add-pickup-address">
                         <input
@@ -489,7 +521,7 @@ export default function CreateNewDealProduct(props) {
                            checked={checkBoxChecked}
                            onChange={handleChangeCheckbox}
                         />
-                        <label htmlFor="add-address"><b>Add a new address to pick up the product</b></label>
+                        <label htmlFor="add-address"><b>Update the address to pick up the product</b></label>
                      </div>
 
                      <div className="pickup-store-inputs" style={{ display: `${showAddPickupStoreAddress}` }}>
@@ -576,15 +608,13 @@ export default function CreateNewDealProduct(props) {
                               <label htmlFor="country"><b>Country</b></label>
                               <input type='text'
                                  className='new-entry-input'
-                                 value={country}
-                                 onChange={({ target }) => { setCountry(target.value) }}
+                                 defaultValue="US"                                 
                                  name="country"
                                  placeholder='Country'
-                              />
-                              <div className="error-validation">{errorsValidation.country}</div>
+                              />                              
                            </div>
                         </div>
-                     </div> */}
+                     </div>
                   </div>
 
                   <div className="buttons">
