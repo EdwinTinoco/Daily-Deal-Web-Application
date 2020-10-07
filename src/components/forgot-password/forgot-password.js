@@ -23,34 +23,32 @@ export default class forgotPassword extends Component {
       event.preventDefault();
 
       if (this.validate()) {
+         axios.post("http://localhost:5000/api/user/forgot-password",
+            {
+               email: this.state.email
+            }
+         ).then(response => {
+            console.log('forgot password', response.data);
 
-         console.log('submit forgot password');
+            if (response.data['message'] === "The email sent succesfully") {
+               this.setState({
+                  errorMessage: "We sent you an email with a link to reset your password",
+                  errorsValidation: {}
+               })
+            } else {
+               this.setState({
+                  errorMessage: "An error ocurred. Try again later",
+                  email: "",
+                  errorsValidation: {}
+               })
+            }
 
-
-         // axios.post("http://localhost:5000/api/user/login",
-         //    {
-         //       email: email
-         //    }
-         // ).then(response => {
-         //    console.log('response login customer', response.data);
-
-         //    if (response.data['message'] === "Email or password is wrong") {
-         //       setErrorMessage("Email or password is wrong")
-
-         //    } else if (response.data['user'].length > 0) {
-         //       console.log('si hay user', response.data['user'][0].user_id);
-
-         //       Cookies.set("_sb%_user%_session", `%encript%${response.data['user'][0].user_id}`, { expires: 1 })
-
-         //       props.handleSuccessfulAuth();
-         //    } else {
-         //       setErrorMessage(response.data)
-         //    }
-         // }).catch(error => {
-         //    setErrorMessage("An error ocurred. Try again later")
-         //    console.log('handleSubmit error', error);
-
-         // });
+         }).catch(error => {
+            this.setState({
+               errorMessage: "An error ocurred. Try again later"
+            })
+            console.log('handleSubmit error', error);
+         });
       }
    }
 
