@@ -8,6 +8,7 @@ export default function PreviewDealProduct(props) {
    const title = props.title
    const description = props.description
    const price = props.price
+   const comparePrice = props.comparePrice
    const stock = props.stock
 
 
@@ -23,6 +24,7 @@ export default function PreviewDealProduct(props) {
          </div>
 
          <div className="price-stock">
+            <p className="compare-price">${comparePrice}</p>
             <p className="price">${price}</p>
 
             <div className="stock">

@@ -204,6 +204,7 @@ export default function DealProduct(props) {
       picture_product,
       product_title,
       product_description,
+      product_compare_price,
       product_price
    } = productDeal
 
@@ -227,6 +228,7 @@ export default function DealProduct(props) {
                </div>
 
                <div className="price-stock">
+                  <p className="compare-price">${product_compare_price}</p>
                   <p className="price">${product_price}</p>
 
                   <div className="stock">

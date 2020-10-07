@@ -20,6 +20,7 @@ export default function CreateNewDealProduct(props) {
    const [title, setTitle] = useState("")
    const [description, setDescription] = useState("")
    const [price, setPrice] = useState("")
+   const [comparePrice, setComparePrice] = useState("")
    const [stock, setStock] = useState("")
    const [shippingTypeId, setShippingTypeId] = useState("")
    const [startedDealDate, setStartedDealDate] = useState("")
@@ -257,6 +258,11 @@ export default function CreateNewDealProduct(props) {
          errors["price"] = "Please enter a price";
       }
 
+      if (!comparePrice) {
+         isValid = false;
+         errors["comparePrice"] = "Please enter a price";
+      }
+
       if (!stock) {
          isValid = false;
          errors["stock"] = "Please enter a stock";
@@ -379,6 +385,18 @@ export default function CreateNewDealProduct(props) {
                         placeholder='Price'
                      />
                      <div className="error-validation">{errorsValidation.price}</div>
+                  </div>
+
+                  <div className="form-group">
+                     <label htmlFor="compare_price"><b>Compare Price</b></label>
+                     <input type='text'
+                        className='new-entry-input'
+                        value={comparePrice}
+                        onChange={({ target }) => { setComparePrice(target.value) }}
+                        name="compare_price"
+                        placeholder='Compare Price'
+                     />
+                     <div className="error-validation">{errorsValidation.comparePrice}</div>
                   </div>
 
                   <div className="form-group">
@@ -627,6 +645,7 @@ export default function CreateNewDealProduct(props) {
                               title={title}
                               description={description}
                               price={price}
+                              comparePrice={comparePrice}
                               stock={stock}
                            />
                         </div>
