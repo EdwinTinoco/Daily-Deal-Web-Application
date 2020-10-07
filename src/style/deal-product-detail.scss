@@ -34,8 +34,14 @@
          justify-content: space-around;
          align-items: center;
 
-         .price{    
-            margin-left: 105px;  
+         .compare-price{   
+            color: red;
+            font-size: 2.3rem;
+            font-weight: 700;
+            text-decoration: line-through;
+         }
+
+         .price{  
             color: black;
             font-size: 3.5rem;
             font-weight: 700;
