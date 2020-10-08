@@ -18,10 +18,10 @@ export default function PreviewDealProduct(props) {
             <img src={thumbImage1} alt="image" />
          </div>
 
-         <div className="title-description">
-            <p className="title">{title.toUpperCase()}</p>
-            <p className="description">{description}</p>
-         </div>
+
+         <p className="title">{title.toUpperCase()}</p>
+         <p className="description">{description}</p>
+
 
          <div className="price-stock">
             <p className="compare-price">${comparePrice}</p>

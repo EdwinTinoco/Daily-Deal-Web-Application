@@ -12,25 +12,23 @@
       .image img{
          width: 370px;
          height: 532px;
-      }
-
-      .title-description{
-         padding: 0px 50px;
-
-         .title{
-            margin-top: 20px;
-            text-align: left;
-            color: #575555;
-            font-size: 1.8rem;
-            font-weight: 700;
-         }
+      }      
          
-         .description{
-            text-align: left;
-            color: #858383;
-            font-size: 1.6rem;
-         }
-      }   
+      .title{
+         margin-top: 15px;
+         text-align: left;
+         color: #575555;
+         font-size: 1.8rem;
+         font-weight: 700;
+      }
+      
+      .description{
+         padding: 0px 10px;
+         text-align: left;
+         color: #858383;
+         font-size: 1.3rem;
+      }
+       
       
       .price-stock{ 
          width: 360px;
