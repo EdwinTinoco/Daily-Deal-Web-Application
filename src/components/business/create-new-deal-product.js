@@ -90,6 +90,12 @@ export default function CreateNewDealProduct(props) {
       setShippingTypeId("")
       setPreviewShow("none")
       setErrorsValidation({})
+      setStoreName("")
+      setLine1("")
+      setLine2("")
+      setCity("")
+      setZp("")
+      setState("")
       setShowAddPickupStoreElements("none")
       setShowAddPickupStoreAddress("none")
       setCheckBoxChecked(false)
@@ -164,17 +170,9 @@ export default function CreateNewDealProduct(props) {
             if (product['message'] === "Product created succesfully"){
                setDealProductId(product['result']["@dealId"])
                setUrlGenerated(product['result']["@generatedDealProductUrl"])
-               setTitle("")
-               setThumbImage1("")
-               setDescription("")
-               setPrice("")
-               setStock("")
-               setShippingTypeId("")
-               setPreviewShow("none")
-               setErrorsValidation({})
-               setShowAddPickupStoreElements("none")
-               setShowAddPickupStoreAddress("none")
-               setCheckBoxChecked(false)
+
+               handleClearInputs()
+
                setStartedDealDate(moment(startDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
                setFinishedDealDate(moment(finishDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
 
@@ -183,9 +181,34 @@ export default function CreateNewDealProduct(props) {
                // [thumbImage1Ref].forEach(ref => {
                //    ref.current.dropzone.removeAllFiles()
                // }); 
+
+               if (shippingTypeId === "2"){
+                  if (checkBoxChecked){
+
+                     console.log('si entro');
+                     
+                     await axios.post('http://localhost:5000/api/user/update/pickup-store', 
+                     {
+                        userId: user.user_id,
+                        storeName: storeName,
+                        line1: line1,
+                        line2: line2,
+                        city: city,
+                        zp: zp,
+                        state: state
+                     })
+                     .then(response => {
+                        console.log('update pick up store', response.data);
+                        
+                     })
+                     .catch(error =>{
+                        console.log('handleSubmitNewDeal update pickup store', error);                  
+                     })
+                  }
+               }
             } else{
                console.log('handleSubmitNewDeal error', product)
-            }
+            }         
       }
    }
 
@@ -418,8 +441,7 @@ export default function CreateNewDealProduct(props) {
                   <div className="form-group">
                      <label htmlFor="price"><b>Price (two decimal position after the period)</b></label>
                      <input type='text'
-                        min="0" 
-                        step="0.05"
+                        
                         className='new-entry-input'
                         value={price}
                         onChange={({ target }) => { setPrice(target.value) }}
@@ -432,8 +454,7 @@ export default function CreateNewDealProduct(props) {
                   <div className="form-group">
                      <label htmlFor="compare_price"><b>Compare Price (two decimal position after the period)</b></label>
                      <input type='text'
-                        min="0" 
-                        step="0.05"
+                        
                         className='new-entry-input'
                         value={comparePrice}
                         onChange={({ target }) => { setComparePrice(target.value) }}
@@ -445,7 +466,7 @@ export default function CreateNewDealProduct(props) {
 
                   <div className="form-group">
                      <label htmlFor="stock"><b>Stock</b></label>
-                     <input type='text'
+                     <input type='number'
                         className='new-entry-input'
                         value={stock}
                         onChange={({ target }) => { setStock(target.value) }}
