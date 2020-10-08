@@ -19,6 +19,15 @@
          position: absolute;
          background-color: #e7e4e4;     
    
+         .business-logo {
+            text-align: center;
+
+            img{               
+               width: 100px;
+               height: 100px;
+            }
+         }
+
          .image img{
             width: 370px;
             height: 490px;

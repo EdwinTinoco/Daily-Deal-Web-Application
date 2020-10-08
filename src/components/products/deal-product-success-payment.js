@@ -2,44 +2,40 @@ import React, { useState, useEffect } from "react"
 import axios from "axios";
 import Cookies from 'js-cookie';
 
-import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
-
-
 export default function DealProductSuccessPayment(props) {
-   const [dealId] = useState(props.match.params.slug)
    const [productDeal, setProductDeal] = useState({})
 
 
    const getProductDeal = () => {
-      let userCookie = Cookies.get("_sb%_user%_session")
-      let temp = 0
-      let userIdArr = []
-      let userId = ""
+      // let userCookie = Cookies.get("_sb%_user%_session")
+      // let temp = 0
+      // let userIdArr = []
+      // let userId = ""
 
-      if (userCookie !== undefined) {
-         for (var i = 0; i < userCookie.length; i++) {
-            if (userCookie[i] == "%") {
-               temp += 1
-            }
+      // if (userCookie !== undefined) {
+      //    for (var i = 0; i < userCookie.length; i++) {
+      //       if (userCookie[i] == "%") {
+      //          temp += 1
+      //       }
 
-            if (temp === 2) {
-               if (userCookie[i] !== "%") {
-                  userIdArr.push(userCookie[i])
-               }
-            }
-         }
+      //       if (temp === 2) {
+      //          if (userCookie[i] !== "%") {
+      //             userIdArr.push(userCookie[i])
+      //          }
+      //       }
+      //    }
 
-         userId = userIdArr.join('')
-      }
+      //    userId = userIdArr.join('')
+      // }
 
-      axios.get(`http://localhost:5000/deal/product/${dealId}`)
+      axios.get(`http://localhost:5000/deal/product/${props.match.params.slug}`)
          .then(response => {
             console.log('product deal', response.data);
 
             setProductDeal(response.data[0])
          })
          .catch(error => {
-            console.log('insertNewSale axios get error', error);
+            console.log('getProductDeal error', error);
          })
    }
 
@@ -52,7 +48,7 @@ export default function DealProductSuccessPayment(props) {
       <div className="success-payment">
          <div className="center">
             <div className="logo">
-               <img src={Logo} alt="kudu-logo" />
+               <img src={productDeal.business_logo_image} alt="business-logo" />
             </div>
 
             <div className="thanks">

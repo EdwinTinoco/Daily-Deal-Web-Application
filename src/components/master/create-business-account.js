@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios";
-import Cookies from 'js-cookie'
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from "react"
+import DropzoneComponent from "react-dropzone-component";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 
 export default function CreateBusinessAccount(props) {
-   const [idLastUser, setIdLastUser] = useState(0)
    const [name, setName] = useState("")
    const [line1, setLine1] = useState("")
    const [line2, setLine2] = useState("")
@@ -18,8 +15,29 @@ export default function CreateBusinessAccount(props) {
    const [confirmPassword, setConfirmPassword] = useState("")
    const [errorsValidation, setErrorsValidation] = useState({})
    const [message, setMessage] = useState("")
+   const [logo, setLogo] = useState("")
+   const logoRef = useRef()
 
+   const componentConfig = () => {
+      return {
+         iconFiletypes: [".jpg", ".png"],
+         showFiletypeIcon: true,
+         postUrl: "https://httpbin.org/post"
+      }
+   }
 
+   const djsConfig = () => {
+      return {
+         addRemoveLinks: true,
+         maxFiles: 1
+      }
+   }
+
+   const handleThumbDrop1 = () => {
+      return {
+         addedfile: file => setLogo(file)
+      };
+   }
 
    const handleSubmitRegisterNewUser = async (e) => {
       e.preventDefault();
@@ -40,6 +58,7 @@ export default function CreateBusinessAccount(props) {
                state: state,
                email: email,
                password: password,
+               logo: logo.dataURL,
                active: "Y"
             })
          });
@@ -60,8 +79,11 @@ export default function CreateBusinessAccount(props) {
             setEmail("")
             setPassword("")
             setConfirmPassword("")
+            setLogo('')
             setErrorsValidation({})
             setMessage("Business user account was created sucesfully")
+
+            logoRef.current.dropzone.removeAllFiles()
          } else {
             console.log('handleSubmitRegisterNewUser error', customer)
          }
@@ -168,6 +190,11 @@ export default function CreateBusinessAccount(props) {
             isValid = false;
             errors["password"] = "Passwords don't match";
          }
+      }
+
+      if (!logo) {
+         isValid = false;
+         errors["logo"] = "Please select a logo";
       }
 
       setErrorsValidation(errors)
@@ -306,6 +333,20 @@ export default function CreateBusinessAccount(props) {
                      onChange={({ target }) => { setConfirmPassword(target.value) }}
                   />
                   <div className="error-validation">{errorsValidation.confirmPassword}</div>
+               </div>
+
+               <div className="form-group">
+                  <label htmlFor="logo"><b>Select a logo</b></label>
+                  <DropzoneComponent
+                     name="logo"
+                     ref={logoRef}
+                     config={componentConfig()}
+                     djsConfig={djsConfig()}
+                     eventHandlers={handleThumbDrop1()}
+                  >
+                     <div className="dz-message">Drop the image here to upload</div>
+                  </DropzoneComponent>
+                  <div className="error-validation">{errorsValidation.logo}</div>
                </div>
 
                <div className="message">

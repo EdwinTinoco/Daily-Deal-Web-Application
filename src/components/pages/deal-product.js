@@ -205,7 +205,8 @@ export default function DealProduct(props) {
       product_title,
       product_description,
       product_compare_price,
-      product_price
+      product_price,
+      business_logo_image
    } = productDeal
 
 
@@ -218,6 +219,10 @@ export default function DealProduct(props) {
             ( */}
          <div className="content">
             <div className="deal-product-detail-main-wrapper">
+               <div className="business-logo">
+                  <img src={business_logo_image} alt="business-logo" />
+               </div>
+
                <div className="image">
                   <img src={picture_product} alt="image" />
                </div>
