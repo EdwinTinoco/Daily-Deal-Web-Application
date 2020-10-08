@@ -52,7 +52,6 @@ export default function NavigationBar(props) {
                } else {
                   handleLogout()
                }
-
             }).catch(error => {
                console.log('getCurrentUser error', error);
             });
@@ -83,7 +82,7 @@ export default function NavigationBar(props) {
                   (
                      <div className="link">
                         <Link to="/ma/dashboard">Dashboard</Link>
-                        <Link to='/create-business-account'>Create Account</Link>
+                        <Link to='/ma/create-business-account'>Create Account</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?
