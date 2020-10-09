@@ -52,10 +52,10 @@ export default class Login extends Component {
                if (response.data['user'][0].role_title !== "user") {
                   Cookies.set("_sb%_user%_session", `%encript%${response.data['user'][0].user_id}`, { expires: 1 })
 
-                  this.props.handleSuccessfulAuth(response.data['user'][0].role_title);
+                  this.props.handleSuccessfulAuth(response.data['user'][0].user_id, response.data['user'][0].role_title);
                } else {
                   this.setState({
-                     errorMessage: "Must be an Admin user account"
+                     errorMessage: "Email or password is wrong"
                   })
                }
             } else {
@@ -67,6 +67,8 @@ export default class Login extends Component {
             this.setState({
                errorMessage: "An error ocurred. Try again later"
             })
+
+            this.props.handleUnSuccessfulAuth();
          });
       }
    }
@@ -79,7 +81,7 @@ export default class Login extends Component {
                   <Link to='/'>Home</Link>
                </div>
 
-               <div className="have-an-account">
+               {/* <div className="have-an-account">
                   <div className="title">
                      <p>Don't have an account?</p>
                   </div>
@@ -89,7 +91,7 @@ export default class Login extends Component {
                         Sign up
                      </div>
                   </Link>
-               </div>
+               </div> */}
             </div>
 
 

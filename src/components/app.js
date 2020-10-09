@@ -28,9 +28,22 @@ import NoMatch from "./pages/no-match";
 
 export default function App(props) {
   const [userCookie, setUserCookie] = useState("")
-  const [user, setUser] = useState(0)
+  const [userId, setUserId] = useState("")
+  const [userRole, setUserRole] = useState("")
+  const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN")
 
   Icons();
+
+
+  const handleSuccessfulLogin = (userId, userRole) => {
+    setLoggedInStatus("LOGGED_IN")
+    setUserId(userId)
+    setUserRole(userRole)
+  }
+
+  const handleUnSuccessfulLogin = () => {
+    setLoggedInStatus("NOT_LOGGED_IN")
+  }
 
   const getUserCookie = () => {
     if (Cookies.get("_sb%_user%_session") !== undefined) {
@@ -64,17 +77,65 @@ export default function App(props) {
             console.log('response app user', response.data);
 
             if (response.data.length > 0) {
-              setUser(
-                response.data[0]
+              setLoggedInStatus('LOGGED_IN')
+
+              setUserId(
+                response.data[0].user_id
+              )
+
+              setUserRole(
+                response.data[0].role_title
               )
             }
           }).catch(error => {
             console.log('error', error);
+            setLoggedInStatus('NOT_LOGGED_IN')
           });
       }
 
     } else {
       console.log('user not logged');
+      setLoggedInStatus('NOT_LOGGED_IN')
+    }
+  }
+
+  const autorizedPages = () => {
+    if (userRole === "master_admin") {
+      return [
+        <Route
+          key="ma-dashboard"
+          path="/ma/dashboard"
+          component={MasterDashboard}
+        />,
+        <Route
+          key="ma-create-business-account"
+          path="/ma/create-business-account"
+          component={CreateBusinessAccount}
+        />,
+        <Route
+          key="ma-deals-business-detail"
+          path="/ma/deals-business/detail/:slug"
+          component={DealsBusinessDetail}
+        />
+      ]
+    } else if (userRole === "business_admin") {
+      return [
+        <Route
+          key="ba-dashboard"
+          path="/ba/dashboard"
+          component={BusinessDashboard}
+        />,
+        <Route
+          key="ba-new-deal"
+          path="/ba/new-deal"
+          component={CreateNewDealProduct}
+        />,
+        <Route
+          key="ba-active-deal-detail"
+          path="/ba/active-deal/detail/:slug"
+          component={ActiveDealDetail}
+        />
+      ]
     }
   }
 
@@ -91,21 +152,34 @@ export default function App(props) {
 
             <Route path='/auth/customer' component={AuthCustomer} />
             <Route path='/signup/customer' component={SignUpCustomer} />
-            <ProtectedAuth path='/auth' user={userCookie} component={Auth} />
+            <Route
+              path='/auth'
+              render={props => (
+                <Auth
+                  {...props}
+                  handleSuccessfulLogin={handleSuccessfulLogin}
+                  handleUnSuccessfulLogin={handleUnSuccessfulLogin}
+                />
+              )}
+            />
 
             <Route path='/forgot-password' component={forgotPassword} />
             <Route path='/reset-password/:slug' component={ResetPassword} />
 
-            <ProtectedMADashboard exact path='/ma/dashboard' user={userCookie} component={MasterDashboard} />
-            <ProtectedMACreateBusinessAccount path='/ma/create-business-account' user={userCookie} component={CreateBusinessAccount} />
-            <ProtectedMACreateDealsBusiness path='/ma/deals-business/detail/:slug' user={userCookie} component={DealsBusinessDetail} />
 
-            <Route exact path='/ba/dashboard' component={BusinessDashboard} />
+
+            {/* <Route exact path='/ma/dashboard' component={MasterDashboard} /> */}
+            {/* <Route path='/ma/create-business-account' component={CreateBusinessAccount} />
+            <Route path='/ma/deals-business/detail/:slug' component={DealsBusinessDetail} /> */}
+
+            {/* <Route exact path='/ba/dashboard' component={BusinessDashboard} />
             <Route path='/ba/new-deal' component={CreateNewDealProduct} />
-            <Route path='/ba/active-deal/detail/:slug' component={ActiveDealDetail} />
+            <Route path='/ba/active-deal/detail/:slug' component={ActiveDealDetail} /> */}
 
             <Route path='/deal/product/:slug' component={DealProduct} />
             <Route path="/success/:slug" component={DealProductSuccessPayment} />
+
+            {loggedInStatus === "LOGGED_IN" ? autorizedPages() : <Redirect to="/" />}
 
             <Route component={NoMatch} />
           </Switch>
@@ -132,77 +206,79 @@ export default function App(props) {
 //   )
 // }
 
-const ProtectedAuth = ({ user, component: Component, ...rest }) => {
-  console.log('protected from auth', user);
+// const ProtectedAuth = ({ user, component: Component, ...rest }) => {
+//   console.log('protected from auth', user);
 
-  return (
-    <Route
-      {...rest}
-      render={props => user === "" ?
-        (
-          <Component {...props} />
-        ) :
-        (
-          <Redirect to="/" />
-        )
-      }
-    />
-  )
-}
+//   return (
+//     <Route
+//       {...rest}
+//       render={props => user === "" ?
+//         (
+//           <Component {...props} />
+//         ) :
+//         (
+//           <Redirect to="/" />
+//         )
+//       }
+//     />
+//   )
+// }
 
-const ProtectedMADashboard = ({ user, component: Component, ...rest }) => {
-  let currentUser = Cookies.get("_sb%_user%_session")
-  console.log('protected from ma dashboard', user);
+// const ProtectedMADashboard = ({ role, component: Component, ...rest }) => {
+//   let currentUser = Cookies.get("_sb%_user%_session")
+//   console.log('protected from ma dashboard', role);
 
-  return (
-    <Route
-      {...rest}
-      render={props => currentUser !== "" && currentUser !== undefined ?
-        (
-          <Component {...props} />
-        ) :
-        (
-          <Redirect to="/" />
-        )
-      }
-    />
-  )
-}
+//   return (
+//     <Route
+//       {...rest}
+//       render={props => currentUser !== "" && role === "master_admin" ?
 
-const ProtectedMACreateBusinessAccount = ({ user, component: Component, ...rest }) => {
-  let currentUser = Cookies.get("_sb%_user%_session")
-  console.log('protected from ma create accunt', user);
+//         (
+//           <Component {...props} />
+//         )
+//         :
+//         (
+//           <Redirect to="/" />
+//         )
+//       }
+//     />
+//   )
+// }
 
-  return (
-    <Route
-      {...rest}
-      render={props => currentUser !== "" && currentUser !== undefined ?
-        (
-          <Component {...props} />
-        ) :
-        (
-          <Redirect to="/" />
-        )
-      }
-    />
-  )
-}
+// const ProtectedMACreateBusinessAccount = ({ user, component: Component, ...rest }) => {
+//   let currentUser = Cookies.get("_sb%_user%_session")
+//   console.log('protected from ma create accunt', user);
 
-const ProtectedMACreateDealsBusiness = ({ user, component: Component, ...rest }) => {
-  let currentUser = Cookies.get("_sb%_user%_session")
-  console.log('protected from ma create accunt', user);
+//   return (
+//     <Route
+//       {...rest}
+//       render={props => currentUser !== "" && currentUser !== undefined ?
+//         (
+//           <Component {...props} />
+//         ) :
+//         (
+//           <Redirect to="/" />
+//         )
+//       }
+//     />
+//   )
+// }
 
-  return (
-    <Route
-      {...rest}
-      render={props => currentUser !== "" && currentUser !== undefined ?
-        (
-          <Component {...props} />
-        ) :
-        (
-          <Redirect to="/" />
-        )
-      }
-    />
-  )
-}
+// const ProtectedMACreateDealsBusiness = ({ user, component: Component, ...rest }) => {
+//   let currentUser = Cookies.get("_sb%_user%_session")
+//   console.log('protected from ma create accunt', user);
+
+//   return (
+//     <Route
+//       {...rest}
+//       render={props => currentUser !== "" && currentUser !== undefined ?
+//         (
+//           <Component {...props} />
+//         ) :
+//         (
+//           <Redirect to="/" />
+//         )
+//       }
+//     />
+//   )
+// }
