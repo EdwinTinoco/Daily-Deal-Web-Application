@@ -26,6 +26,8 @@ export default function DealProduct(props) {
 
 
    const handleBuyButton = async (e) => {
+      setIsLoading(true)
+
       getCurrentStock()
 
       if (currentStock === undefined || currentStock === "") {
