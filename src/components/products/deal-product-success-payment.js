@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 
 export default function DealProductSuccessPayment(props) {
+   const [isLoading, setIsLoading] = useState(true)
    const [productDeal, setProductDeal] = useState({})
 
 
@@ -32,6 +33,8 @@ export default function DealProductSuccessPayment(props) {
          .then(response => {
             console.log('product deal', response.data);
 
+            setIsLoading(false)
+
             setProductDeal(response.data[0])
          })
          .catch(error => {
@@ -45,26 +48,39 @@ export default function DealProductSuccessPayment(props) {
 
 
    return (
-      <div className="success-payment">
-         <div className="center">
-            <div className="logo">
-               <img src={productDeal.business_logo_image} alt="business-logo" />
-            </div>
+      <div className="succes-payment-main-wrapper">
+         {isLoading ?
+            (
+               <div className="isloading">
+                  <FontAwesomeIcon icon="spinner" spin />
+                  <p>Loading...</p>
+               </div>
+            )
+            :
+            (
+               <div className="success-payment">
+                  <div className="center">
+                     <div className="logo">
+                        <img src={productDeal.business_logo_image} alt="business-logo" />
+                     </div>
 
-            <div className="thanks">
-               <p>Thank you!</p>
-            </div>
+                     <div className="thanks">
+                        <p>Thank you!</p>
+                     </div>
 
-            <div className="order">
-               <p>Your order was placed</p>
-            </div>
+                     <div className="order">
+                        <p>Your order was placed</p>
+                     </div>
 
-            <div className="email">
-               <p>You will receive an email confirmation</p>
-               {/* <p>{dealId}</p> */}
-            </div>
+                     <div className="email">
+                        <p>You will receive an email confirmation</p>
+                        {/* <p>{dealId}</p> */}
+                     </div>
 
-         </div>
+                  </div>
+               </div>
+            )
+         }
       </div>
    )
 }
