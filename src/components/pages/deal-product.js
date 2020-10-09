@@ -96,7 +96,6 @@ export default function DealProduct(props) {
             const session = await response.json();
             console.log('response from stripe backend', session);
 
-
             const result = await stripe.redirectToCheckout({
                sessionId: session.id,
             });
