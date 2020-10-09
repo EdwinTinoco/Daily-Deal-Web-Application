@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios";
 import Cookies from 'js-cookie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function DealProductSuccessPayment(props) {
    const [isLoading, setIsLoading] = useState(true)
