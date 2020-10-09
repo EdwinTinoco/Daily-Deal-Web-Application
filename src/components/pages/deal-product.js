@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import moment from 'moment';
 import DateCountdown from 'react-date-countdown-timer';
 import { loadStripe } from "@stripe/stripe-js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
 
