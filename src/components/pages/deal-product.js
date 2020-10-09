@@ -16,6 +16,7 @@ const Message = (props) => (
 );
 
 export default function DealProduct(props) {
+   const [isLoading, setIsLoading] = useState(true)
    const [user, setUser] = useState({})
    const [dealId] = useState(props.match.params.slug)
    const [productDeal, setProductDeal] = useState({})
@@ -157,13 +158,15 @@ export default function DealProduct(props) {
          })
    }
 
-   const getProductDeal = () => {
+   const getProductDeal = async () => {
       console.log('deal id', dealId);
 
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${dealId}`)
+      await axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${dealId}`)
          .then(response => {
             console.log('product deal', response.data);
-            console.log('current stock', response.data[0].stock_left);
+            console.log('current stock left', response.data[0].stock_left);
+
+            setIsLoading(false)
 
             setProductDeal(response.data[0])
             setCurrentStock(response.data[0].stock_left)
@@ -210,82 +213,94 @@ export default function DealProduct(props) {
 
 
    return (
-      <div className="deal-product-main-wrapper">
-         {/* {message ? (
+      <div className="main-wrapper">
+         {isLoading ?
+            (
+               <div className="isloading">
+                  <p>Loading...</p>
+               </div>
+            )
+            :
+            (
+               <div className="deal-product-main-wrapper">
+                  {/* {message ? (
             <Message dealId={deal_id} message={message} />
          )
             :
             ( */}
-         <div className="content">
-            <div className="deal-product-detail-main-wrapper">
-               <div className="business-logo">
-                  <img src={business_logo_image} alt="business-logo" />
-               </div>
+                  <div className="content">
+                     <div className="deal-product-detail-main-wrapper">
+                        <div className="business-logo">
+                           <img src={business_logo_image} alt="business-logo" />
+                        </div>
 
-               <div className="image">
-                  <img src={picture_product} alt="image" />
-               </div>
+                        <div className="image">
+                           <img src={picture_product} alt="image" />
+                        </div>
 
-               <div className="title-description">
-                  <p className="title">{product_title}</p>
-                  <p className="description">{product_description}</p>
-               </div>
+                        <div className="title-description">
+                           <p className="title">{product_title}</p>
+                           <p className="description">{product_description}</p>
+                        </div>
 
-               <div className="price-stock">
-                  <p className="compare-price">${product_compare_price}</p>
-                  <p className="price">${product_price}</p>
+                        <div className="price-stock">
+                           <p className="compare-price">${product_compare_price}</p>
+                           <p className="price">${product_price}</p>
 
-                  <div className="stock">
-                     <p className="number">{currentStock}</p>
+                           <div className="stock">
+                              <p className="number">{currentStock}</p>
 
-                     <p className="left">LEFT</p>
-                  </div>
-               </div>
+                              <p className="left">LEFT</p>
+                           </div>
+                        </div>
 
-               {/* <div className="countdown-deal">
+                        {/* <div className="countdown-deal">
                         <p>Deal ends in...</p>
 
                         <DateCountdown dateTo={'2020-09-26 08:30:10'} callback={() => 1 + 1} />
-                     </div> */}
+                        </div> */}
 
-               {Object.entries(user).length > 0 ?
-                  (
-                     <div className="buy-button">
-                        <button id="checkout-button" role="link" onClick={handleBuyButton}>
-                           BUY
+                        {Object.entries(user).length > 0 ?
+                           (
+                              <div className="buy-button">
+                                 <button id="checkout-button" role="link" onClick={handleBuyButton}>
+                                    BUY
                            </button>
-                     </div>
-                  )
-                  :
-                  (
-                     <div className="buy-link">
-                        <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>
-                           <div className="button">
-                              <p>BUY</p>
-                           </div>
-                        </Link>
-                     </div>
-                  )
-               }
+                              </div>
+                           )
+                           :
+                           (
+                              <div className="buy-link">
+                                 <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>
+                                    <div className="button">
+                                       <p>BUY</p>
+                                    </div>
+                                 </Link>
+                              </div>
+                           )
+                        }
 
-               {Object.entries(user).length < 1 ?
-                  (
-                     <div className="links-wrapper">
-                        <div className="link">
-                           <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>SIGN IN</Link>
-                        </div>
+                        {Object.entries(user).length < 1 ?
+                           (
+                              <div className="links-wrapper">
+                                 <div className="link">
+                                    <Link to={{ pathname: "/auth/customer", state: { dealId: dealId } }}>SIGN IN</Link>
+                                 </div>
 
-                        <div className="link">
-                           <Link to={{ pathname: "/signup/customer", state: { dealId: dealId } }}>SIGN UP</Link>
-                        </div>
+                                 <div className="link">
+                                    <Link to={{ pathname: "/signup/customer", state: { dealId: dealId } }}>SIGN UP</Link>
+                                 </div>
+                              </div>
+                           )
+                           :
+                           null
+                        }
                      </div>
-                  )
-                  :
-                  null
-               }
-            </div>
-         </div>
-         {/* )} */}
+                  </div>
+                  {/* )} */}
+               </div>
+            )
+         }
       </div>
    )
 }
