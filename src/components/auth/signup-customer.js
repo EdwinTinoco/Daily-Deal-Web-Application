@@ -127,7 +127,7 @@ export default function SignUpCustomer(props) {
          <div className="signup-form-wrapper">
             <div className="right-side">
                <p>Sign up</p>
-               <p>{props.location.state.dealId}</p>
+               {/* <p>{props.location.state.dealId}</p> */}
 
                <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
                   <div className="form-group">

@@ -182,7 +182,7 @@ export default function CreateNewDealProduct(props) {
                //    ref.current.dropzone.removeAllFiles()
                // }); 
 
-               if (shippingTypeId === "2"){
+               if (shippingTypeId === "11"){
                   if (checkBoxChecked){
 
                      console.log('si entro');
