@@ -59,7 +59,7 @@ export default function MasterDashboard(props) {
          var userId = userIdArr.join('')
       }
 
-      axios.get(`http://localhost:5000/api/all-active-deals`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/all-active-deals`)
          .then(response => {
             console.log('deal active', response.data);
 

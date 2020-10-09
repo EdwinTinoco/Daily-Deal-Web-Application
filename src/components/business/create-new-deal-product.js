@@ -143,7 +143,7 @@ export default function CreateNewDealProduct(props) {
          let startDateDB = createDateDB;
          let finishDateDB = moment().add(1, 'days').format();
 
-         const response = await fetch("http://localhost:5000/v1/products", {
+         const response = await fetch("https://et-daily-deal-backend.herokuapp.com/v1/products", {
                method: "POST",
                headers: {
                   'Content-Type': 'application/json'                  
@@ -187,7 +187,7 @@ export default function CreateNewDealProduct(props) {
 
                      console.log('si entro');
                      
-                     await axios.post('http://localhost:5000/api/user/update/pickup-store', 
+                     await axios.post('https://et-daily-deal-backend.herokuapp.com/api/user/update/pickup-store', 
                      {
                         userId: user.user_id,
                         storeName: storeName,
@@ -232,7 +232,7 @@ export default function CreateNewDealProduct(props) {
 
          let userId = userIdArr.join('')
 
-         axios.get(`http://localhost:5000/api/user/${userId}`)
+         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
             .then(response => {
                console.log('current user', response.data);
 
@@ -250,7 +250,7 @@ export default function CreateNewDealProduct(props) {
    }
 
    const getShippingTypes = () => {
-      axios.get('http://localhost:5000/api/shipping-types')
+      axios.get('https://et-daily-deal-backend.herokuapp.com/api/shipping-types')
          .then(response => {
             console.log('shipping types', response.data);
 
@@ -262,7 +262,7 @@ export default function CreateNewDealProduct(props) {
    }
 
    const getPickupAddress = () => {
-      axios.get(`http://localhost:5000/api/user/pickup-store/${user.user_id}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/pickup-store/${user.user_id}`)
          .then(response => {
             console.log('pick up store', response.data);
             if (response.data.length > 0){
