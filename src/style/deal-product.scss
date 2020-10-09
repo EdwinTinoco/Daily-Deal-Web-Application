@@ -154,6 +154,19 @@
                      box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
                   }
                }
+
+               .isloading{    
+                  svg{
+                     color: $orange-buttons;
+                     font-size: 1.3rem;
+                  }
+            
+                  p{
+                     margin-left: 10px;
+                     color: $gray-description;
+                     font-size: 1.3rem;
+                  }
+               }
             }
       
             .buy-link{

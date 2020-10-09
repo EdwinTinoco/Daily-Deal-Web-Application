@@ -98,6 +98,8 @@ export default function DealProduct(props) {
             const session = await response.json();
             console.log('response from stripe backend', session);
 
+            setIsLoading(false)
+
             const result = await stripe.redirectToCheckout({
                sessionId: session.id,
             });
@@ -267,7 +269,18 @@ export default function DealProduct(props) {
                               <div className="buy-button">
                                  <button id="checkout-button" role="link" onClick={handleBuyButton}>
                                     BUY
-                           </button>
+                                 </button>
+
+                                 {isLoading ?
+                                    (
+                                       <div className="isloading">
+                                          <FontAwesomeIcon icon="spinner" spin />
+                                          <p>Loading...</p>
+                                       </div>
+                                    )
+                                    :
+                                    null
+                                 }
                               </div>
                            )
                            :

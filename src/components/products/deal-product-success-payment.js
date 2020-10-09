@@ -8,7 +8,7 @@ export default function DealProductSuccessPayment(props) {
    const [productDeal, setProductDeal] = useState({})
 
 
-   const getProductDeal = () => {
+   const getProductDeal = async () => {
       // let userCookie = Cookies.get("_sb%_user%_session")
       // let temp = 0
       // let userIdArr = []
@@ -30,7 +30,7 @@ export default function DealProductSuccessPayment(props) {
       //    userId = userIdArr.join('')
       // }
 
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${props.match.params.slug}`)
+      await axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${props.match.params.slug}`)
          .then(response => {
             console.log('product deal', response.data);
 
