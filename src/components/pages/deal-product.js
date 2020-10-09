@@ -217,6 +217,7 @@ export default function DealProduct(props) {
          {isLoading ?
             (
                <div className="isloading">
+                  <FontAwesomeIcon icon="spinner" spin />
                   <p>Loading...</p>
                </div>
             )

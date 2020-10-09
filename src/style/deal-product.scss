@@ -1,203 +1,222 @@
-.deal-product-main-wrapper{
-   display: flex;
-   align-items: center;
-   justify-content: center;   
-   height: calc(100vh - 20px);
-
-   .content{
-      width: 379px;
-      height: 835px;
-      background-color: #d8d7d7;
+.main-wrapper{
+   .isloading{
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: center;   
+      flex-direction: columns;
+      justify-content: center;
       align-items: center;
 
-      .deal-product-detail-main-wrapper{
-         width: 370px;
-         height: 826px;
-         position: absolute;
-         background-color: #e7e4e4;     
+      svg{
+         font-size: 2.5rem;
+      }
+
+      p{
+         font-size: 2rem;
+      }
+   }
+
+   .deal-product-main-wrapper{
+      display: flex;
+      align-items: center;
+      justify-content: center;   
+      height: calc(100vh - 20px);
    
-         .business-logo {
-            text-align: center;
-
-            img{               
-               width: 100px;
-               height: 100px;
-            }
-         }
-
-         .image img{
+      .content{
+         width: 379px;
+         height: 835px;
+         background-color: #d8d7d7;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;   
+         align-items: center;
+   
+         .deal-product-detail-main-wrapper{
             width: 370px;
-            height: 490px;
-         }
+            height: 826px;
+            position: absolute;
+            background-color: #e7e4e4;     
+      
+            .business-logo {
+               text-align: center;
    
-         .title{
-            margin-top: 10px;
-            text-align: center;
-            color: #575555;
-            font-size: 1.8rem;
-            font-weight: 700;
-         }
-         
-         .description{
-            padding: 0px 10px;
-            text-align: left;
-            color: #858383;
-            font-size: 1.3rem;
-         }
-         
-         .price-stock{ 
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-   
-            .compare-price{   
-               color: red;
-               font-size: 2.3rem;
-               font-weight: 700;
-               text-decoration: line-through;
+               img{               
+                  width: 100px;
+                  height: 100px;
+               }
             }
    
-            .price{  
-               color: black;
-               font-size: 3.5rem;
+            .image img{
+               width: 370px;
+               height: 490px;
+            }
+      
+            .title{
+               margin-top: 10px;
+               text-align: center;
+               color: #575555;
+               font-size: 1.8rem;
                font-weight: 700;
             }
-   
-            .stock{
+            
+            .description{
+               padding: 0px 10px;
+               text-align: left;
+               color: #858383;
+               font-size: 1.3rem;
+            }
+            
+            .price-stock{ 
+               display: flex;
+               justify-content: space-around;
+               align-items: center;
+      
+               .compare-price{   
+                  color: red;
+                  font-size: 2.3rem;
+                  font-weight: 700;
+                  text-decoration: line-through;
+               }
+      
+               .price{  
+                  color: black;
+                  font-size: 3.5rem;
+                  font-weight: 700;
+               }
+      
+               .stock{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+      
+                  .number{
+                     text-align: center;
+                     margin-right: 3px;
+                     width: 30px;
+                     height: 30px;
+                     color: #f76d37;
+                     font-size: 1.8rem;
+                     font-weight: 700;
+                     border: 6px solid white;
+                     border-radius: 48%;
+                  }
+      
+                  .left{
+                     font-size: 1.4rem;
+                     font-style: italic;
+                     font-weight: 600;
+                     color: #b8b6b6;
+                  }
+               }
+            }  
+      
+            .countdown-deal{
+               margin-top: 10px;
+               background-color: #d4d4d4;
+               text-align: center;
+               font-size: 1.8rem;
+               font-style: italic;
+               font-weight: 700;
+               color: $orange_buttons;
+               
+               p{
+                  color: black;
+                  font-size: 1.2rem;
+               }
+            }
+            
+            .buy-button{
+               width: 370px;
+               background-color: #e7e4e4;
+               text-align: center;
+      
+               button{
+                  margin-top: 20px;
+                  padding: 10px 120px;
+                  background-color:  #f85312;
+                  border: 1px solid #f85312;
+                  border-radius: 8px;
+                  font-size: 3.3rem;
+                  color: white;
+                  outline: none;
+                  transition: 0.3s ease-in-out; 
+         
+                  &:hover{
+                     cursor: pointer;
+                     border: 1.5px solid #cc3c04;
+                     background-color:  #cc3c04;
+                  }
+      
+                  &:active {
+                     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
+                  }
+               }
+            }
+      
+            .buy-link{
+               width: 370px;
+               background-color: #e7e4e4;
+               text-align: center;
                display: flex;
                justify-content: center;
                align-items: center;
-   
-               .number{
-                  text-align: center;
-                  margin-right: 3px;
-                  width: 30px;
-                  height: 30px;
-                  color: #f76d37;
-                  font-size: 1.8rem;
-                  font-weight: 700;
-                  border: 6px solid white;
-                  border-radius: 48%;
-               }
-   
-               .left{
-                  font-size: 1.4rem;
-                  font-style: italic;
-                  font-weight: 600;
-                  color: #b8b6b6;
-               }
-            }
-         }  
-   
-         .countdown-deal{
-            margin-top: 10px;
-            background-color: #d4d4d4;
-            text-align: center;
-            font-size: 1.8rem;
-            font-style: italic;
-            font-weight: 700;
-            color: $orange_buttons;
-            
-            p{
-               color: black;
-               font-size: 1.2rem;
-            }
-         }
-         
-         .buy-button{
-            width: 370px;
-            background-color: #e7e4e4;
-            text-align: center;
-   
-            button{
-               margin-top: 20px;
-               padding: 10px 120px;
-               background-color:  #f85312;
-               border: 1px solid #f85312;
-               border-radius: 8px;
-               font-size: 3.3rem;
-               color: white;
-               outline: none;
-               transition: 0.3s ease-in-out; 
-      
-               &:hover{
-                  cursor: pointer;
-                  border: 1.5px solid #cc3c04;
-                  background-color:  #cc3c04;
-               }
-   
-               &:active {
-                  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
-               }
-            }
-         }
-   
-         .buy-link{
-            width: 370px;
-            background-color: #e7e4e4;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-            a{
-               text-decoration: none;
                
-               .button{         
-                  margin-top: 15px;
-                  width: 150px;
-                  background-color: $orange-buttons;
-                  border: 1.5px solid $orange-buttons;
-                  padding: 10px 80px;
-                  border-radius: 8px;
-                  position: relative;
-                  border-radius: 3px;
-                  transition: 0.3s ease-in-out;
+               a{
+                  text-decoration: none;
+                  
+                  .button{         
+                     margin-top: 15px;
+                     width: 150px;
+                     background-color: $orange-buttons;
+                     border: 1.5px solid $orange-buttons;
+                     padding: 10px 80px;
+                     border-radius: 8px;
+                     position: relative;
+                     border-radius: 3px;
+                     transition: 0.3s ease-in-out;
+            
+                     p{
+                        font-size: 3.3rem;
+                        color: white;
+                     }
+            
+                     &:hover{
+                        cursor: pointer;
+                        background-color: $orange-hover-buttons;           
+                     }
+                  }
+               }
+            }
          
-                  p{
-                     font-size: 3.3rem;
-                     color: white;
+            .links-wrapper{
+               width: 370px;
+               background-color: #e7e4e4;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+         
+               .link{
+                  margin: 6px 0px;
+                  padding: 6px 50px;
+                  border: 1.5px solid #e7e4e4;
+                  border-radius: 5px;
+                  transition: 0.3s ease-in-out;    
+                  
+                  a{
+                     text-decoration: none;
+                     font-size: 1.5rem;
+                     color: #b8b6b6;
+                     font-weight: bold;
                   }
          
                   &:hover{
                      cursor: pointer;
-                     background-color: $orange-hover-buttons;           
-                  }
+                     background-color: #d8d7d7;
+                     border: 1.5px solid #d8d7d7;            
+                  }        
                }
-            }
-         }
-      
-         .links-wrapper{
-            width: 370px;
-            background-color: #e7e4e4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-      
-            .link{
-               margin: 6px 0px;
-               padding: 6px 50px;
-               border: 1.5px solid #e7e4e4;
-               border-radius: 5px;
-               transition: 0.3s ease-in-out;    
-               
-               a{
-                  text-decoration: none;
-                  font-size: 1.5rem;
-                  color: #b8b6b6;
-                  font-weight: bold;
-               }
-      
-               &:hover{
-                  cursor: pointer;
-                  background-color: #d8d7d7;
-                  border: 1.5px solid #d8d7d7;            
-               }        
             }
          }
       }
    }
+
 }
