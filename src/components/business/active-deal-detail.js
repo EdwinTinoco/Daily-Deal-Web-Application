@@ -64,7 +64,7 @@ export default function ActiveDealDetail(props) {
 
 
    const getDeal = () => {
-      axios.get(`http://localhost:5000/api/active-deal/detail/${dealId}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deal/detail/${dealId}`)
          .then(response => {
             console.log('active deal product', response.data);
 
@@ -76,7 +76,7 @@ export default function ActiveDealDetail(props) {
    }
 
    const getSales = () => {
-      axios.get(`http://localhost:5000/api/sales-deal/detail/${props.match.params.slug}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/sales-deal/detail/${props.match.params.slug}`)
          .then(response => {
             console.log('sales', response.data);
 

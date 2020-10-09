@@ -28,7 +28,7 @@ export default function DealProductSuccessPayment(props) {
       //    userId = userIdArr.join('')
       // }
 
-      axios.get(`http://localhost:5000/deal/product/${props.match.params.slug}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${props.match.params.slug}`)
          .then(response => {
             console.log('product deal', response.data);
 

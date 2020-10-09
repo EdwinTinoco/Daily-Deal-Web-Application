@@ -23,7 +23,7 @@ export default class forgotPassword extends Component {
       event.preventDefault();
 
       if (this.validate()) {
-         axios.post("http://localhost:5000/api/user/forgot-password",
+         axios.post("https://et-daily-deal-backend.herokuapp.com/api/user/forgot-password",
             {
                email: this.state.email
             }

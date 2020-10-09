@@ -43,7 +43,7 @@ export default function CreateBusinessAccount(props) {
       e.preventDefault();
 
       if (validate()) {
-         const response = await fetch("http://localhost:5000/v1/customers", {
+         const response = await fetch("https://et-daily-deal-backend.herokuapp.com/v1/customers", {
             method: "POST",
             headers: {
                'Content-Type': 'application/json'

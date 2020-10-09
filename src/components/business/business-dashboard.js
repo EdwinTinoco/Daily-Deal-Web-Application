@@ -79,7 +79,7 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`http://localhost:5000/api/active-deals/${userId}`)
+         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/${userId}`)
             .then(response => {
                console.log('deals active', response.data);
 
@@ -116,7 +116,7 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
+         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/totals/${userId}`)
             .then(response => {
                console.log('deal active totals', response.data);
 

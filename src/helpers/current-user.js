@@ -22,7 +22,7 @@ const getCurrentUser = () => {
 
       let userId = userIdArr.join('')
 
-      axios.get(`http://localhost:5000/api/user/${userId}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
          .then(response => {
             console.log('current user', response.data);
 

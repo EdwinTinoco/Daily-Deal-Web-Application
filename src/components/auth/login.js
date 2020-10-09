@@ -36,7 +36,7 @@ export default class Login extends Component {
          })
       } else {
 
-         axios.post("http://localhost:5000/api/user/login",
+         axios.post("https://et-daily-deal-backend.herokuapp.com/api/user/login",
             {
                email: this.state.email,
                password: this.state.password

@@ -41,7 +41,7 @@ export default function DealProduct(props) {
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
 
       } else {
-         const checkPurchaseMessage = await axios.post('http://localhost:5000/api/user/check-purchase',
+         const checkPurchaseMessage = await axios.post('https://et-daily-deal-backend.herokuapp.com/api/user/check-purchase',
             {
                userId: user.user_id,
                dealId: dealId
@@ -70,7 +70,7 @@ export default function DealProduct(props) {
             total = (parseFloat(subtotal) + parseFloat(taxes)).toFixed(2)
             console.log('total', total);
 
-            const response = await fetch("http://localhost:5000/create-session", {
+            const response = await fetch("https://et-daily-deal-backend.herokuapp.com/create-session", {
                method: "POST",
                headers: {
                   'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ export default function DealProduct(props) {
 
          let userId = userIdArr.join('')
 
-         axios.get(`http://localhost:5000/api/user/${userId}`)
+         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
             .then(response => {
                console.log('current user', response.data);
 
@@ -149,7 +149,7 @@ export default function DealProduct(props) {
    }
 
    const getCurrentStock = async () => {
-      await axios.get(`http://localhost:5000/api/check-stock-left/${dealId}`)
+      await axios.get(`https://et-daily-deal-backend.herokuapp.com/api/check-stock-left/${dealId}`)
          .then(response => {
             setCurrentStock(response.data['stock_left'])
          })
@@ -161,7 +161,7 @@ export default function DealProduct(props) {
    const getProductDeal = () => {
       console.log('deal id', dealId);
 
-      axios.get(`http://localhost:5000/deal/product/${dealId}`)
+      axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${dealId}`)
          .then(response => {
             console.log('product deal', response.data);
             console.log('current stock', response.data[0].stock_left);
