@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 import Footer from '../footer/footer'
+import { devEnv } from "../../helpers/dev-env"
 
 export default function Home() {
    return (
@@ -13,6 +14,7 @@ export default function Home() {
          <div className="title-info-img">
             <div className="title">
                <p>Kudu Web Application</p>
+               <p>{devEnv}</p>
             </div>
 
             <div className="info">
