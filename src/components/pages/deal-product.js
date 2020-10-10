@@ -35,17 +35,21 @@ export default function DealProduct(props) {
 
       if (currentStock === undefined || currentStock === "") {
          alert('There was a issue with the product stock. Try later')
+         setShowSpinner("none")
 
       } else if (currentStock < 1) {
          alert("We're sorry you missed out on this deal today! Check back for future deals.")
+         setShowSpinner("none")
 
       } else if (moment().format() > productDeal.deal_finished_date) {
          alert("We're sorry the deal time is over. Check back for future deals.")
+         setShowSpinner("none")
 
       } else if (Cookies.get("_sb%_user%_session") === undefined) {
          setUser({})
 
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
+         setShowSpinner("none")
 
       } else {
          const checkPurchaseMessage = await axios.post(`${devEnv}/api/user/check-purchase`,
