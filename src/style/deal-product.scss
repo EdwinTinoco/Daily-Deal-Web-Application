@@ -157,7 +157,10 @@
 
                .isloading{    
                   text-align: center;
-                  
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
                   svg{
                      color: $orange-buttons;
                      font-size: 2rem;
