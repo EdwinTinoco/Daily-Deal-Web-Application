@@ -155,18 +155,23 @@
                   }
                }
 
-               .isloading{    
-                  svg{
-                     color: $orange-buttons;
-                     font-size: 1.3rem;
-                  }
-            
-                  p{
-                     margin-left: 10px;
-                     color: $gray-description;
-                     font-size: 1.3rem;
-                  }
+               .spinner{
+                  color: $orange-buttons;
+                  font-size: 1.3rem;
                }
+
+               // .isloading{    
+               //    svg{
+               //       color: $orange-buttons;
+               //       font-size: 1.3rem;
+               //    }
+            
+               //    p{
+               //       margin-left: 10px;
+               //       color: $gray-description;
+               //       font-size: 1.3rem;
+               //    }
+               // }
             }
       
             .buy-link{

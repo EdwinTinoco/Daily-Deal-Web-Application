@@ -18,6 +18,7 @@ const Message = (props) => (
 
 export default function DealProduct(props) {
    const [isLoading, setIsLoading] = useState(true)
+   const [showSpinner, setShowSpinner] = useState("none")
    const [user, setUser] = useState({})
    const [dealId] = useState(props.match.params.slug)
    const [productDeal, setProductDeal] = useState({})
@@ -27,6 +28,7 @@ export default function DealProduct(props) {
 
    const handleBuyButton = async (e) => {
       setIsLoading(true)
+      setShowSpinner("block")
 
       getCurrentStock()
 
@@ -101,6 +103,7 @@ export default function DealProduct(props) {
             console.log('response from stripe backend', session);
 
             setIsLoading(false)
+            setShowSpinner("none")
 
             const result = await stripe.redirectToCheckout({
                sessionId: session.id,
@@ -273,7 +276,9 @@ export default function DealProduct(props) {
                                     BUY
                                  </button>
 
-                                 {isLoading ?
+                                 <FontAwesomeIcon className="spinner" style={{ display: showSpinner }} icon="spinner" spin />
+
+                                 {/* {isLoading ?
                                     (
                                        <div className="isloading">
                                           <FontAwesomeIcon icon="spinner" spin />
@@ -282,7 +287,7 @@ export default function DealProduct(props) {
                                     )
                                     :
                                     null
-                                 }
+                                 } */}
                               </div>
                            )
                            :
