@@ -2,6 +2,8 @@ import React, { useState, } from "react"
 import Cookies from 'js-cookie'
 import { Link, useHistory } from "react-router-dom";
 
+import { devEnv } from "../../helpers/dev-env"
+
 export default function SignUpCustomer(props) {
    const history = useHistory();
 
@@ -16,7 +18,7 @@ export default function SignUpCustomer(props) {
       e.preventDefault();
 
       if (validate()) {
-         const response = await fetch("https://et-daily-deal-backend.herokuapp.com/v1/customers", {
+         const response = await fetch(`${devEnv}/v1/customers`, {
             method: "POST",
             headers: {
                'Content-Type': 'application/json'

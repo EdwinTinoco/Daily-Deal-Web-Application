@@ -9,6 +9,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 
 import Icons from "../helpers/icons";
+import { devEnv } from "../helpers/dev-env"
 
 import Home from './pages/home'
 import MasterDashboard from "./master/master-dashboard";
@@ -25,7 +26,6 @@ import SignUpCustomer from "./auth/signup-customer";
 import DealProduct from "./pages/deal-product";
 import DealProductSuccessPayment from "./products/deal-product-success-payment";
 import NoMatch from "./pages/no-match";
-import { devEnv } from "../helpers/dev-env"
 
 export default function App(props) {
   const [userCookie, setUserCookie] = useState("")
@@ -73,7 +73,7 @@ export default function App(props) {
 
         let userId = userIdArr.join('')
 
-        axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
+        axios.get(`${devEnv}/api/user/${userId}`)
           .then(response => {
             console.log('response app user', response.data);
 

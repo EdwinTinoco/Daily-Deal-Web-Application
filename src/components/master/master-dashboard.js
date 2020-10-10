@@ -5,6 +5,7 @@ import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import AllActiveDealsList from './all-active-deals-list'
+import { devEnv } from "../../helpers/dev-env"
 
 const state = {
    labels: ['January', 'February', 'March',
@@ -59,7 +60,7 @@ export default function MasterDashboard(props) {
          var userId = userIdArr.join('')
       }
 
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/all-active-deals`)
+      axios.get(`${devEnv}/api/all-active-deals`)
          .then(response => {
             console.log('deal active', response.data);
 

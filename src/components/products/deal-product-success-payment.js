@@ -3,6 +3,8 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { devEnv } from "../../helpers/dev-env"
+
 export default function DealProductSuccessPayment(props) {
    const [isLoading, setIsLoading] = useState(true)
    const [productDeal, setProductDeal] = useState({})
@@ -30,7 +32,7 @@ export default function DealProductSuccessPayment(props) {
       //    userId = userIdArr.join('')
       // }
 
-      await axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${props.match.params.slug}`)
+      await axios.get(`${devEnv}/deal/product/${props.match.params.slug}`)
          .then(response => {
             console.log('product deal', response.data);
 

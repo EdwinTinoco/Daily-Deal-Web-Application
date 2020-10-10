@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
+import { devEnv } from "../../helpers/dev-env"
 
 export default class ResetPassword extends Component {
    constructor(props) {
@@ -28,7 +29,7 @@ export default class ResetPassword extends Component {
          console.log('submit reset password');
 
 
-         axios.post(`https://et-daily-deal-backend.herokuapp.com/api/user/reset-password/${this.props.params.match.slug}`,
+         axios.post(`${devEnv}/api/user/reset-password/${this.props.params.match.slug}`,
             {
                token: this.props.params.match.slug,
                newPassword: password

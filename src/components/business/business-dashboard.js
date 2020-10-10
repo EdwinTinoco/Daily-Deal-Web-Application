@@ -5,6 +5,7 @@ import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import ActiveDealsList from './active-deals-list'
+import { devEnv } from "../../helpers/dev-env"
 
 const state = {
    labels: ['January', 'February', 'March',
@@ -79,7 +80,7 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/${userId}`)
+         axios.get(`${devEnv}/api/active-deals/${userId}`)
             .then(response => {
                console.log('deals active', response.data);
 
@@ -116,7 +117,7 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/totals/${userId}`)
+         axios.get(`${devEnv}/api/active-deals/totals/${userId}`)
             .then(response => {
                console.log('deal active totals', response.data);
 

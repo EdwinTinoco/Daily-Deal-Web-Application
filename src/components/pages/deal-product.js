@@ -7,6 +7,8 @@ import DateCountdown from 'react-date-countdown-timer';
 import { loadStripe } from "@stripe/stripe-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { devEnv } from "../../helpers/dev-env"
+
 const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
 
 const Message = (props) => (
@@ -46,7 +48,7 @@ export default function DealProduct(props) {
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
 
       } else {
-         const checkPurchaseMessage = await axios.post('https://et-daily-deal-backend.herokuapp.com/api/user/check-purchase',
+         const checkPurchaseMessage = await axios.post(`${devEnv}/api/user/check-purchase`,
             {
                userId: user.user_id,
                dealId: dealId
@@ -59,6 +61,7 @@ export default function DealProduct(props) {
 
          if (checkPurchaseMessage.data["@message"] === "The user already has a purchase") {
             alert('You already made a purchase. You can only make one purchase per deal.')
+            setShowSpinner("none")
 
          } else {
             const stripe = await stripePromise;
@@ -75,7 +78,7 @@ export default function DealProduct(props) {
             total = (parseFloat(subtotal) + parseFloat(taxes)).toFixed(2)
             console.log('total', total);
 
-            const response = await fetch("https://et-daily-deal-backend.herokuapp.com/create-session", {
+            const response = await fetch(`${devEnv}/create-session`, {
                method: "POST",
                headers: {
                   'Content-Type': 'application/json'
@@ -136,7 +139,7 @@ export default function DealProduct(props) {
 
          let userId = userIdArr.join('')
 
-         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
+         axios.get(`${devEnv}/api/user/${userId}`)
             .then(response => {
                console.log('current user', response.data);
 
@@ -155,7 +158,7 @@ export default function DealProduct(props) {
    }
 
    const getCurrentStock = async () => {
-      await axios.get(`https://et-daily-deal-backend.herokuapp.com/api/check-stock-left/${dealId}`)
+      await axios.get(`${devEnv}/api/check-stock-left/${dealId}`)
          .then(response => {
             setCurrentStock(response.data['stock_left'])
          })
@@ -167,7 +170,7 @@ export default function DealProduct(props) {
    const getProductDeal = async () => {
       console.log('deal id', dealId);
 
-      await axios.get(`https://et-daily-deal-backend.herokuapp.com/deal/product/${dealId}`)
+      await axios.get(`${devEnv}/deal/product/${dealId}`)
          .then(response => {
             console.log('product deal', response.data);
             console.log('current stock left', response.data[0].stock_left);

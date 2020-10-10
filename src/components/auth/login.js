@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
+import { devEnv } from "../../helpers/dev-env"
 
 export default class Login extends Component {
    constructor(props) {
@@ -36,7 +37,7 @@ export default class Login extends Component {
          })
       } else {
 
-         axios.post("https://et-daily-deal-backend.herokuapp.com/api/user/login",
+         axios.post(`${devEnv}/api/user/login`,
             {
                email: this.state.email,
                password: this.state.password

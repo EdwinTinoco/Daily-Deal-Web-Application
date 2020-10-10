@@ -10,6 +10,7 @@ import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import PreviewDealProduct from "./preview-deal-product"
+import { devEnv } from "../../helpers/dev-env"
 
 export default function CreateNewDealProduct(props) {
    const [user, setUser] = useState({})
@@ -143,7 +144,7 @@ export default function CreateNewDealProduct(props) {
          let startDateDB = createDateDB;
          let finishDateDB = moment().add(1, 'days').format();
 
-         const response = await fetch("https://et-daily-deal-backend.herokuapp.com/v1/products", {
+         const response = await fetch(`${devEnv}/v1/products`, {
                method: "POST",
                headers: {
                   'Content-Type': 'application/json'                  
@@ -187,7 +188,7 @@ export default function CreateNewDealProduct(props) {
 
                      console.log('si entro');
                      
-                     await axios.post('https://et-daily-deal-backend.herokuapp.com/api/user/update/pickup-store', 
+                     await axios.post(`${devEnv}/api/user/update/pickup-store`, 
                      {
                         userId: user.user_id,
                         storeName: storeName,
@@ -232,7 +233,7 @@ export default function CreateNewDealProduct(props) {
 
          let userId = userIdArr.join('')
 
-         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
+         axios.get(`${devEnv}/api/user/${userId}`)
             .then(response => {
                console.log('current user', response.data);
 
@@ -250,7 +251,7 @@ export default function CreateNewDealProduct(props) {
    }
 
    const getShippingTypes = () => {
-      axios.get('https://et-daily-deal-backend.herokuapp.com/api/shipping-types')
+      axios.get(`${devEnv}/api/shipping-types`)
          .then(response => {
             console.log('shipping types', response.data);
 
@@ -262,7 +263,7 @@ export default function CreateNewDealProduct(props) {
    }
 
    const getPickupAddress = () => {
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/pickup-store/${user.user_id}`)
+      axios.get(`${devEnv}/api/user/pickup-store/${user.user_id}`)
          .then(response => {
             console.log('pick up store', response.data);
             if (response.data.length > 0){

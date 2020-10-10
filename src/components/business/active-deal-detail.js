@@ -5,6 +5,7 @@ import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 import { CSVLink, CSVDownload } from "react-csv";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
+import { devEnv } from "../../helpers/dev-env"
 
 
 export default function ActiveDealDetail(props) {
@@ -64,7 +65,7 @@ export default function ActiveDealDetail(props) {
 
 
    const getDeal = () => {
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deal/detail/${dealId}`)
+      axios.get(`${devEnv}/api/active-deal/detail/${dealId}`)
          .then(response => {
             console.log('active deal product', response.data);
 
@@ -76,7 +77,7 @@ export default function ActiveDealDetail(props) {
    }
 
    const getSales = () => {
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/sales-deal/detail/${props.match.params.slug}`)
+      axios.get(`${devEnv}/api/sales-deal/detail/${props.match.params.slug}`)
          .then(response => {
             console.log('sales', response.data);
 

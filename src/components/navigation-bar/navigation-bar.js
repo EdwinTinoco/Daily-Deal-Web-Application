@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
+import { devEnv } from "../../helpers/dev-env"
 
 
 export default function NavigationBar(props) {
@@ -36,7 +37,7 @@ export default function NavigationBar(props) {
 
          let userId = userIdArr.join('')
 
-         axios.get(`https://et-daily-deal-backend.herokuapp.com/api/user/${userId}`)
+         axios.get(`${devEnv}/api/user/${userId}`)
             .then(response => {
                console.log('Navigation Bar current user', response.data);
 

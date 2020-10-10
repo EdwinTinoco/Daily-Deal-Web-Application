@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import ActiveDealsList from '../business/active-deals-list'
+import { devEnv } from "../../helpers/dev-env"
 
 const state = {
    labels: ['January', 'February', 'March',
@@ -59,7 +60,7 @@ export default function DealsBusinessDetail(props) {
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
 
    const getActiveDealsList = () => {
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/${userId}`)
+      axios.get(`${devEnv}/api/active-deals/${userId}`)
          .then(response => {
             console.log('deal active', response.data);
 
@@ -73,7 +74,7 @@ export default function DealsBusinessDetail(props) {
    }
 
    const getActiveDealsTotals = () => {
-      axios.get(`https://et-daily-deal-backend.herokuapp.com/api/active-deals/totals/${userId}`)
+      axios.get(`${devEnv}/api/active-deals/totals/${userId}`)
          .then(response => {
             console.log('deal active totals', response.data);
 

@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
+import { devEnv } from "../../helpers/dev-env"
 
 export default class forgotPassword extends Component {
    constructor(props) {
@@ -23,7 +24,7 @@ export default class forgotPassword extends Component {
       event.preventDefault();
 
       if (this.validate()) {
-         axios.post("https://et-daily-deal-backend.herokuapp.com/api/user/forgot-password",
+         axios.post(`${devEnv}/api/user/forgot-password`,
             {
                email: this.state.email
             }
@@ -127,7 +128,6 @@ export default class forgotPassword extends Component {
                         </div>
                         <div className="error-validation">{this.state.errorsValidation.email}</div>
                      </div>
-
 
                      <button className="btn" type="submit">Submit</button>
                   </form>
