@@ -274,7 +274,7 @@ export default function DealProduct(props) {
                                     BUY
                                  </button>
 
-                                 <div className="isloading" style={{ display: showSpinner }}>
+                                 <div className="spinner" style={{ display: showSpinner }}>
                                     <FontAwesomeIcon icon="spinner" spin />
                                     <p>Loading...</p>
                                  </div>
