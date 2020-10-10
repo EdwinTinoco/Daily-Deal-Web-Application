@@ -153,25 +153,20 @@
                   &:active {
                      box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
                   }
-               }
+               }             
 
-               .spinner{
-                  color: $orange-buttons;
-                  font-size: 1.3rem;
-               }
-
-               // .isloading{    
-               //    svg{
-               //       color: $orange-buttons;
-               //       font-size: 1.3rem;
-               //    }
+               .isloading{    
+                  svg{
+                     color: $orange-buttons;
+                     font-size: 2rem;
+                  }
             
-               //    p{
-               //       margin-left: 10px;
-               //       color: $gray-description;
-               //       font-size: 1.3rem;
-               //    }
-               // }
+                  p{
+                     margin-left: 10px;
+                     color: $gray-description;
+                     font-size: 1.8rem;
+                  }
+               }
             }
       
             .buy-link{

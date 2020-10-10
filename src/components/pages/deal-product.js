@@ -274,18 +274,10 @@ export default function DealProduct(props) {
                                     BUY
                                  </button>
 
-                                 <FontAwesomeIcon className="spinner" style={{ display: showSpinner }} icon="spinner" spin />
-
-                                 {/* {isLoading ?
-                                    (
-                                       <div className="isloading">
-                                          <FontAwesomeIcon icon="spinner" spin />
-                                          <p>Loading...</p>
-                                       </div>
-                                    )
-                                    :
-                                    null
-                                 } */}
+                                 <div className="isloading" style={{ display: showSpinner }}>
+                                    <FontAwesomeIcon icon="spinner" spin />
+                                    <p>Loading...</p>
+                                 </div>
                               </div>
                            )
                            :
