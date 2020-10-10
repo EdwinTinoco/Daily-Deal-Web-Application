@@ -27,7 +27,6 @@ export default function DealProduct(props) {
 
 
    const handleBuyButton = async (e) => {
-      setIsLoading(true)
       setShowSpinner("block")
 
       getCurrentStock()
@@ -102,7 +101,6 @@ export default function DealProduct(props) {
             const session = await response.json();
             console.log('response from stripe backend', session);
 
-            setIsLoading(false)
             setShowSpinner("none")
 
             const result = await stripe.redirectToCheckout({
