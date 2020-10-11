@@ -31,40 +31,27 @@ export default function DealProduct(props) {
    const handleBuyButton = async (e) => {
       setShowSpinner("block")
 
-      getCurrentStock()
-
-      if (currentStock === undefined || currentStock === "") {
-         alert('There was a issue with the product stock. Try later')
-         setShowSpinner("none")
-
-      } else if (currentStock < 1) {
-         alert("We're sorry you missed out on this deal today! Check back for future deals.")
-         setShowSpinner("none")
-
-      } else if (moment().format() > productDeal.deal_finished_date) {
-         alert("We're sorry the deal time is over. Check back for future deals.")
-         setShowSpinner("none")
-
-      } else if (Cookies.get("_sb%_user%_session") === undefined) {
+      if (Cookies.get("_sb%_user%_session") === undefined) {
          setUser({})
 
          alert("You must log in to make a purchase. If you don't have an account click in Sign Up")
          setShowSpinner("none")
 
       } else {
-         const checkPurchaseMessage = await axios.post(`${devEnv}/api/user/check-purchase`,
+         const checkStockDatePurchase = await axios.post(`${devEnv}/api/user/check-sdp`,
             {
                userId: user.user_id,
-               dealId: dealId
+               dealId: dealId,
+               currentDate: moment().format()
             })
             .catch(error => {
-               console.log('check purchase error', error);
+               console.log('check Stock Date Purchasee error', error);
             })
 
-         console.log('checkpurchase', checkPurchaseMessage.data);
+         console.log('checkStockDatePurchase', checkStockDatePurchase.data);
 
-         if (checkPurchaseMessage.data["@message"] === "The user already has a purchase") {
-            alert('You already made a purchase. You can only make one purchase per deal.')
+         if (checkStockDatePurchase.data["@message"] !== "") {
+            alert(checkStockDatePurchase.data["@message"])
             setShowSpinner("none")
 
          } else {
@@ -161,15 +148,15 @@ export default function DealProduct(props) {
       }
    }
 
-   const getCurrentStock = async () => {
-      await axios.get(`${devEnv}/api/check-stock-left/${dealId}`)
-         .then(response => {
-            setCurrentStock(response.data['stock_left'])
-         })
-         .catch(error => {
-            console.log('getCurrentStock error', error);
-         })
-   }
+   // const getCurrentStock = async () => {
+   //    await axios.get(`${devEnv}/api/check-stock-left/${dealId}`)
+   //       .then(response => {
+   //          setCurrentStock(response.data['stock_left'])
+   //       })
+   //       .catch(error => {
+   //          console.log('getCurrentStock error', error);
+   //       })
+   // }
 
    const getProductDeal = async () => {
       console.log('deal id', dealId);
@@ -191,7 +178,6 @@ export default function DealProduct(props) {
 
    useEffect(() => {
       getCurrentUser()
-
       getProductDeal()
 
       // const updateCurrentStock = setInterval(() => {
@@ -199,11 +185,9 @@ export default function DealProduct(props) {
       // }, 100000);
 
       const query = new URLSearchParams(window.location.search);
-
       if (query.get("success")) {
          setMessage("Order placed! You will receive an email confirmation.");
       }
-
       if (query.get("canceled")) {
          setMessage(
             "Order canceled -- continue to shop around and checkout when you're ready."
@@ -282,8 +266,7 @@ export default function DealProduct(props) {
                                  </button>
 
                                  <div className="spinner" style={{ display: showSpinner }}>
-                                    <FontAwesomeIcon icon="spinner" spin />
-                                    <p>Loading...</p>
+                                    <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
                                  </div>
                               </div>
                            )

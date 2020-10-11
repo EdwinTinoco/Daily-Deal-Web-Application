@@ -132,7 +132,6 @@
    
             .buttons{
                button{
-                  margin-top: 50px;
                   background-color: $orange-buttons;
                   border: 1px solid $orange-buttons;
                   border-radius: 5px;
@@ -147,6 +146,26 @@
                      background-color: #cc3c04;
                      border: 1px solid #cc3c04;
                   }
+               }
+            }
+
+            .spinner{   
+               width: 100%; 
+               margin-top: 10px;
+               text-align: center;
+               // display: flex;
+               // justify-content: center;
+               // align-items: center;
+
+               svg{
+                  color: $orange-buttons;
+                  font-size: 2rem;
+               }
+         
+               p{
+                  margin-left: 10px;
+                  color: $gray-description;
+                  font-size: 1.8rem;
                }
             }
          }

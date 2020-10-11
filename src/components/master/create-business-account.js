@@ -296,6 +296,7 @@ export default function CreateBusinessAccount(props) {
                         defaultValue="US"
                         name="country"
                         placeholder='Country'
+                        disabled="disabled"
                      />
                   </div>
                </div>

@@ -4,6 +4,7 @@ import Cookies, { set } from 'js-cookie';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
 import DropzoneComponent from "react-dropzone-component";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
@@ -13,6 +14,7 @@ import PreviewDealProduct from "./preview-deal-product"
 import { devEnv } from "../../helpers/dev-env"
 
 export default function CreateNewDealProduct(props) {
+   const [showSpinner, setShowSpinner] = useState("none")
    const [user, setUser] = useState({})
    const [dealProductId, setDealProductId] = useState(0)
    const [urlGenerated, setUrlGenerated] = useState("")
@@ -138,6 +140,7 @@ export default function CreateNewDealProduct(props) {
 
    const handleSubmitNewDeal = async (e) => {
       e.preventDefault()
+      setShowSpinner("block")
 
       if (validate()) {
          let createDateDB = moment().format();
@@ -207,9 +210,13 @@ export default function CreateNewDealProduct(props) {
                      })
                   }
                }
+
+               setShowSpinner("none")
             } else{
                console.log('handleSubmitNewDeal error', product)
             }         
+      } else {
+         // setShowSpinner("none")
       }
    }
 
@@ -633,6 +640,7 @@ export default function CreateNewDealProduct(props) {
                                  defaultValue="US"                                 
                                  name="country"
                                  placeholder='Country'
+                                 disabled="disabled"
                               />                              
                            </div>
                         </div>
@@ -642,6 +650,10 @@ export default function CreateNewDealProduct(props) {
                   <div className="buttons">
                      <button type="button" onClick={handlePreviewDealProduct}>Preview</button>
                      <button type="submit">Create Deal and Generate URL</button>
+                  </div>
+
+                  <div className="spinner" style={{ display: showSpinner }}>
+                     <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>                     
                   </div>
                </form>
 
