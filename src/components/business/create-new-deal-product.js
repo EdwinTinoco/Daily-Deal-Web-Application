@@ -171,7 +171,7 @@ export default function CreateNewDealProduct(props) {
 
             const product = await response.json();
 
-            if (product['message'] === "Product created succesfully"){
+            if (product['message'] === ""){
                setDealProductId(product['result']["@dealId"])
                setUrlGenerated(product['result']["@generatedDealProductUrl"])
 
@@ -186,7 +186,7 @@ export default function CreateNewDealProduct(props) {
                //    ref.current.dropzone.removeAllFiles()
                // }); 
 
-               if (shippingTypeId === "11"){
+               if (shippingTypeId === "2"){
                   if (checkBoxChecked){
 
                      console.log('si entro');
@@ -213,7 +213,8 @@ export default function CreateNewDealProduct(props) {
 
                setShowSpinner("none")
             } else{
-               console.log('handleSubmitNewDeal error', product)
+               setShowSpinner("none")
+               alert(product['message'])
             }         
       } else {
          setShowSpinner("none")
