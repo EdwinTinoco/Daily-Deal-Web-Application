@@ -141,6 +141,24 @@
                   border: 1px solid #cc3c04;
                }              
             }
+
+            .spinner{    
+               margin-top: 10px;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+
+               svg{
+                  color: $orange-buttons;
+                  font-size: 2rem;
+               }
+         
+               p{
+                  margin-left: 10px;
+                  color: $gray-description;
+                  font-size: 1.8rem;
+               }
+            }
          }
 
          .forgot-password{                        

@@ -216,7 +216,7 @@ export default function CreateNewDealProduct(props) {
                console.log('handleSubmitNewDeal error', product)
             }         
       } else {
-         // setShowSpinner("none")
+         setShowSpinner("none")
       }
    }
 

@@ -8,23 +8,26 @@ import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 import { devEnv } from "../../helpers/dev-env"
 
 export default function LoginCustomer(props) {
+   const [showSpinner, setShowSpinner] = useState("none")
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [errorMessage, setErrorMessage] = useState("")
    const [errorsValidation, setErrorsValidation] = useState({})
 
-   const handleSubmit = (event) => {
+   const handleSubmit = async (event) => {
       event.preventDefault();
+      setShowSpinner("block")
 
       if (validate()) {
 
-         axios.post(`${devEnv}/api/user/login`,
+         await axios.post(`${devEnv}/api/user/login`,
             {
                email: email,
                password: password
             }
          ).then(response => {
             console.log('response login customer', response.data);
+            setShowSpinner("none")
 
             if (response.data['message'] === "Email or password is wrong") {
                setErrorMessage("Email or password is wrong")
@@ -43,7 +46,10 @@ export default function LoginCustomer(props) {
             console.log('handleSubmit error', error);
 
          });
+      } else {
+         setShowSpinner("none")
       }
+
    }
 
    const validate = () => {
@@ -131,6 +137,10 @@ export default function LoginCustomer(props) {
                   </div>
 
                   <button className="btn" type="submit">Log In</button>
+
+                  <div className="spinner" style={{ display: showSpinner }}>
+                     <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
+                  </div>
                </form>
 
                <div className="forgot-password">

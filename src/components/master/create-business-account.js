@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react"
 import DropzoneComponent from "react-dropzone-component";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 import { devEnv } from "../../helpers/dev-env"
 
 export default function CreateBusinessAccount(props) {
+   const [showSpinner, setShowSpinner] = useState("none")
    const [name, setName] = useState("")
    const [line1, setLine1] = useState("")
    const [line2, setLine2] = useState("")
@@ -42,6 +44,7 @@ export default function CreateBusinessAccount(props) {
 
    const handleSubmitRegisterNewUser = async (e) => {
       e.preventDefault();
+      setShowSpinner("block")
 
       if (validate()) {
          const response = await fetch(`${devEnv}/v1/customers`, {
@@ -69,6 +72,7 @@ export default function CreateBusinessAccount(props) {
 
          if (customer['message'] === "A user with that email already exist") {
             setMessage("A user with that email already exist")
+            setShowSpinner("none")
 
          } else if (customer['message'] === "Customer created succesfully") {
             setName("")
@@ -83,6 +87,7 @@ export default function CreateBusinessAccount(props) {
             setLogo('')
             setErrorsValidation({})
             setMessage("Business user account was created sucesfully")
+            setShowSpinner("none")
 
             logoRef.current.dropzone.removeAllFiles()
          } else {
@@ -129,6 +134,8 @@ export default function CreateBusinessAccount(props) {
          //    .catch(error => {
          //       console.log('handleSubmitRegisterNewUser error', error)
          //    })
+      } else {
+         setShowSpinner("none")
       }
    }
 
@@ -355,10 +362,13 @@ export default function CreateBusinessAccount(props) {
                   <p>{message}</p>
                </div>
 
+               <div className="spinner" style={{ display: showSpinner }}>
+                  <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
+               </div>
+
                <button type='submit' className='add-button'>Create Account</button>
             </form>
          </div>
       </div>
    )
-
 }

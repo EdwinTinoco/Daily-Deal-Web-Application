@@ -14,7 +14,8 @@ export default class Login extends Component {
       this.state = {
          email: "",
          password: "",
-         errorMessage: ""
+         errorMessage: "",
+         showSpinner: "none"
       };
 
       this.handleChange = this.handleChange.bind(this);
@@ -31,9 +32,14 @@ export default class Login extends Component {
    handleSubmit(event) {
       event.preventDefault();
 
+      this.setState({
+         showSpinner: "block"
+      })
+
       if (this.state.email === "" || this.state.password === "") {
          this.setState({
-            errorMessage: "Email or password is wrong"
+            errorMessage: "Email or password is wrong",
+            showSpinner: "none"
          })
       } else {
 
@@ -44,6 +50,10 @@ export default class Login extends Component {
             }
          ).then(response => {
             console.log('response login', response.data);
+
+            this.setState({
+               showSpinner: "none"
+            })
 
             if (response.data['message'] === "Email or password is wrong") {
                this.setState({
@@ -142,6 +152,10 @@ export default class Login extends Component {
                      </div>
 
                      <button className="btn" type="submit">Log In</button>
+
+                     <div className="spinner" style={{ display: this.state.showSpinner }}>
+                        <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
+                     </div>
                   </form>
 
                   <div className="forgot-password">
