@@ -22,6 +22,7 @@ import Auth from "./pages/auth";
 import AuthCustomer from "./pages/auth-customer";
 import forgotPassword from "./forgot-password/forgot-password";
 import ResetPassword from "./forgot-password/reset-password";
+import SignUpAdmin from "./auth/signup-admin";
 import SignUpCustomer from "./auth/signup-customer";
 import DealProduct from "./pages/deal-product";
 import DealProductSuccessPayment from "./products/deal-product-success-payment";
@@ -153,6 +154,7 @@ export default function App(props) {
 
             <Route path='/auth/customer' component={AuthCustomer} />
             <Route path='/signup/customer' component={SignUpCustomer} />
+            <Route path='/signup/admin' component={SignUpAdmin} />
             <Route
               path='/auth'
               render={props => (

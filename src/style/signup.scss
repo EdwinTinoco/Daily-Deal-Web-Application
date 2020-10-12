@@ -4,22 +4,7 @@
       background-color: $gray-bg-dealproduct; 
       display: flex;
       justify-content: space-between;
-      align-items: center;
-
-      .home-link{
-         margin-left: 10px;
-
-         a{
-            text-decoration: none;
-            font-size: 1.3rem;
-            color: $gray-description;
-            transition: 0.3s ease-in-out;
-
-            &:hover{
-               color: $orange-buttons;
-            }
-         }
-      }
+      align-items: center;      
 
       .have-an-account{ 
          margin-right: 10px;     
@@ -52,28 +37,7 @@
             }         
          }
       }   
-   }
-
-   .skewed-header{
-      position: relative;
-      height: 500px;
-      overflow: hidden;
-
-      .header-bg{
-         position: absolute;
-         top: 0;
-         bottom: 0;
-         right: 0;
-         left: 0;
-         height: 100%;
-         width: 100%;
-         background-repeat: no-repeat;
-         background-size: 100%;
-         transform: skewY(-6deg);
-         transform-origin: top left;
-         filter: brightness(50%);
-      }
-   }
+   }   
 
    .signup-form-wrapper{
       .right-side{
@@ -135,6 +99,24 @@
                   cursor: pointer;
                   background-color: #cc3c04;
                   border: 1px solid #cc3c04;
+               }
+            }
+
+            .spinner{    
+               margin-top: 10px;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+
+               svg{
+                  color: $orange-buttons;
+                  font-size: 2rem;
+               }
+         
+               p{
+                  margin-left: 10px;
+                  color: $gray-description;
+                  font-size: 1.8rem;
                }
             }
          }

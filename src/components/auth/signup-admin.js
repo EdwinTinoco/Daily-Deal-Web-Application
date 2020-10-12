@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { devEnv } from "../../helpers/dev-env"
 
-export default function SignUpCustomer(props) {
+export default function SignUpAdmin(props) {
    const history = useHistory();
 
    const [showSpinner, setShowSpinner] = useState("none")
    const [name, setName] = useState("")
    const [email, setEmail] = useState("")
+   const [adminCode, setAdminCode] = useState("")
    const [password, setPassword] = useState("")
    const [confirmPassword, setConfirmPassword] = useState("")
    const [errorsValidation, setErrorsValidation] = useState({})
@@ -27,35 +28,37 @@ export default function SignUpCustomer(props) {
                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-               role: "user",
+               role: "master_admin",
                name: name,
                email: email,
+               code: adminCode,
                password: password,
                active: "Y"
             })
          });
 
-         const customer = await response.json();
-         console.log('customer', customer);
+         const masterAdmin = await response.json();
+         console.log('masterAdmin', masterAdmin);
 
-         if (customer['message'] === "A user with that email already exist") {
+         if (masterAdmin['message'] === "A user with that email already exist") {
             setMessage("A user with that email already exist")
             setShowSpinner("none")
 
-         } else if (customer['message'] === "Customer created succesfully") {
+         } else if (masterAdmin['message'] === "Master admin account created succesfully") {
             setName("")
             setEmail("")
             setPassword("")
+            setAdminCode("")
             setConfirmPassword("")
             setErrorsValidation({})
             setMessage("The customer user account was created succesfully")
             setShowSpinner("none")
 
-            Cookies.set("_sb%_user%_session", `%encript%${customer['result']['@userId']}`, { expires: 1 })
+            Cookies.set("_sb%_user%_session", `%encript%${masterAdmin['result']['@userId']}`, { expires: 1 })
 
-            history.push(`/deal/product/${props.location.state.dealId}`);
+            history.push("/ma/dashboard");
          } else {
-            console.log('handleSubmitRegisterNewUser error', customer)
+            console.log('handleSubmitRegisterNewUser error', masterAdmin)
          }
       } else {
          setShowSpinner("none")
@@ -85,6 +88,11 @@ export default function SignUpCustomer(props) {
          }
       }
 
+      if (!adminCode) {
+         isValid = false;
+         errors["adminCode"] = "Please enter your admin code";
+      }
+
       if (!password) {
          isValid = false;
          errors["password"] = "Please enter your password";
@@ -108,7 +116,6 @@ export default function SignUpCustomer(props) {
       return isValid;
    }
 
-
    return (
       <div className="signup-main-wrapper" >
          <div className="header">
@@ -117,7 +124,7 @@ export default function SignUpCustomer(props) {
                   <p>Already have an account?</p>
                </div>
 
-               <Link to={{ pathname: `/auth/customer`, state: { dealId: props.location.state.dealId } }}>
+               <Link to="/auth">
                   <div className="login-button">
                      Login
                      </div>
@@ -152,6 +159,18 @@ export default function SignUpCustomer(props) {
                         onChange={({ target }) => { setEmail(target.value) }}
                      />
                      <div className="error-validation">{errorsValidation.email}</div>
+                  </div>
+
+                  <div className="form-group">
+                     <label htmlFor="admin-code"><b>Code</b></label>
+                     <input type='password'
+                        className='new-entry-input'
+                        name="admin-code"
+                        placeholder='Code'
+                        value={adminCode}
+                        onChange={({ target }) => { setAdminCode(target.value) }}
+                     />
+                     <div className="error-validation">{errorsValidation.adminCode}</div>
                   </div>
 
                   <div className="form-group">
