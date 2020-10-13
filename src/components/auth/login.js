@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import moment from 'moment';
 import { Link } from "react-router-dom";
 import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,7 +47,8 @@ export default class Login extends Component {
          axios.post(`${devEnv}/api/user/login`,
             {
                email: this.state.email,
-               password: this.state.password
+               password: this.state.password,
+               currentDate: moment().format()
             }
          ).then(response => {
             console.log('response login', response.data);
