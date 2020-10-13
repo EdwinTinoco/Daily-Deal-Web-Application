@@ -49,7 +49,6 @@ export default function LoginCustomer(props) {
       } else {
          setShowSpinner("none")
       }
-
    }
 
    const validate = () => {
@@ -150,5 +149,4 @@ export default function LoginCustomer(props) {
          </div>
       </div>
    );
-
 }

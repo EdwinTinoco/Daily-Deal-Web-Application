@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
