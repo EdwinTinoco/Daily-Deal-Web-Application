@@ -34,11 +34,12 @@ export default class forgotPassword extends Component {
             if (response.data['message'] === "The email sent succesfully") {
                this.setState({
                   errorMessage: "We sent you an email with a link to reset your password",
+                  email: "",
                   errorsValidation: {}
                })
             } else {
                this.setState({
-                  errorMessage: "An error ocurred. Try again later",
+                  errorMessage: "Something is wrong with the email, try again",
                   email: "",
                   errorsValidation: {}
                })

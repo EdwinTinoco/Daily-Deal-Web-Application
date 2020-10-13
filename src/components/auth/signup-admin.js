@@ -44,21 +44,22 @@ export default function SignUpAdmin(props) {
             setMessage("A user with that email already exist")
             setShowSpinner("none")
 
-         } else if (masterAdmin['message'] === "Master admin account created succesfully") {
+         } else if (masterAdmin['message'] === "Customer created succesfully") {
             setName("")
             setEmail("")
             setPassword("")
             setAdminCode("")
             setConfirmPassword("")
             setErrorsValidation({})
-            setMessage("The customer user account was created succesfully")
+            setMessage("The master admin account was created succesfully")
             setShowSpinner("none")
 
             Cookies.set("_sb%_user%_session", `%encript%${masterAdmin['result']['@userId']}`, { expires: 1 })
 
             history.push("/ma/dashboard");
-         } else {
-            console.log('handleSubmitRegisterNewUser error', masterAdmin)
+         } else if (masterAdmin['message'] === "The admin code is wrong") {
+            setMessage("The admin code is wrong")
+            setShowSpinner("none")
          }
       } else {
          setShowSpinner("none")
