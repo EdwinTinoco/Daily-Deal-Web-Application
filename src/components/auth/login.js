@@ -159,7 +159,7 @@ export default class Login extends Component {
                   </form>
 
                   <div className="forgot-password">
-                     <Link to="/forgot-password">Forgot your password?</Link>
+                     <Link to={{ pathname: "/forgot-password", state: { userRole: "admin" } }}>Forgot your password?</Link>
                   </div>
                </div>
             </div>

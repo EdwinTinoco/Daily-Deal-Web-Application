@@ -16,7 +16,7 @@ export default class AuthCustomer extends Component {
    render() {
       return (
          <div className="auth-page-wrapper">
-            <LoginCustomer handleSuccessfulAuth={this.handleSuccessfulAuth} />
+            <LoginCustomer dealId={this.props.location.state.dealId} handleSuccessfulAuth={this.handleSuccessfulAuth} />
          </div>
       );
    }

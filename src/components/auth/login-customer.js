@@ -83,7 +83,7 @@ export default function LoginCustomer(props) {
    return (
       <div className="login-main-wrapper">
          <div className="back-to-product-deal">
-            <Link to="http://localhost:3000/deal/product/42">Back to the Deal</Link>
+            <Link to={`/deal/product/${props.dealId}`}>Back to the Deal</Link>
          </div>
          <div className="login-form-center">
             <div className="login-container">
@@ -144,7 +144,7 @@ export default function LoginCustomer(props) {
                </form>
 
                <div className="forgot-password">
-                  <Link to={{ pathname: "/forgot-password", state: { login: "customer" } }} >Forgot your password?</Link>
+                  <Link to={{ pathname: "/forgot-password", state: { userRole: "customer", dealId: props.dealId } }} >Forgot your password?</Link>
                </div>
             </div>
          </div>
