@@ -88,7 +88,7 @@ export default function BusinessDashboard(props) {
                )
             })
             .catch(error => {
-               console.log('getDealActive error', error);
+               console.log('getBaDealsList error', error);
             })
       }
    }
@@ -159,7 +159,7 @@ export default function BusinessDashboard(props) {
                )
             })
             .catch(error => {
-               console.log('getChartAllDealsTotalsSales error', error);
+               console.log('getBaChartAllDealsTotalsSales error', error);
             })
       }
    }

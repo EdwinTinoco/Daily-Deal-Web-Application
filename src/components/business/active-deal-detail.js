@@ -215,7 +215,7 @@ export default function ActiveDealDetail(props) {
 
          <div className="deal-sales-details-list">
             <div className="title-export-csv">
-               <h2>Sales Details</h2>
+               <h2>Deal Sales Details</h2>
 
                <div className="export-csv">
                   <CSVLink

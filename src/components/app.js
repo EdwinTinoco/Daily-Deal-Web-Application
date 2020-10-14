@@ -120,11 +120,11 @@ export default function App(props) {
           path="/ma/deals-business/detail/:slug"
           component={DealsBusinessDetail}
         />,
-        <Route
-          key="ma-deals-business-detail"
-          path="/ma/business/product-deal/detail/:slug"
-          component={BusinessProductDealDetail}
-        />,
+        // <Route
+        //   key="ma-deals-business-detail"
+        //   path="/ma/business/product-deal/detail/:slug"
+        //   component={BusinessProductDealDetail}
+        // />,
         <Route
           key="ba-active-deal-detail"
           path="/ba/active-deal/detail/:slug"
