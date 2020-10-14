@@ -62,7 +62,7 @@ export default function Footer(props) {
 
          <div className="copyright-wrapper">
             <div className="info">
-               <p>&copy; 2020 Daily Deal Web Application &#124; All rights reserved</p>
+               <p>&copy; 2020 Kudu Company &#124; All rights reserved</p>
             </div>
 
             <div className="powered-by">
