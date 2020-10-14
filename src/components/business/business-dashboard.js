@@ -7,58 +7,57 @@ import NavigationBar from "../navigation-bar/navigation-bar"
 import ActiveDealsList from './active-deals-list'
 import { devEnv } from "../../helpers/dev-env"
 
-const state = {
-   labels: ['January', 'February', 'March',
-      'April', 'Nov'],
-   datasets: [
-      {
-         label: 'Rainfall',
-         backgroundColor: '#facf57',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [65, 59, 80, 81, 211]
-      },
-      {
-         label: 'hola',
-         backgroundColor: '#8d8c8c',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [26, 148, 66, 247, 206]
-      },
-      {
-         label: 'otro',
-         backgroundColor: '#00A6B4',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [79, 202, 115, 183, 166]
-      },
-      {
-         label: 'clocks',
-         backgroundColor: '#ddd',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [87, 42, 93, 78, 191]
-      },
-      {
-         label: 'jackets',
-         backgroundColor: '#6800B4',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [46, 221, 99, 188, 137]
-      },
-      {
-         label: 'shoes',
-         backgroundColor: '#f85312',
-         borderColor: 'rgba(0,0,0,1)',
-         data: [32, 176, 201, 474, 114]
-      }
-   ]
-}
+// const state = {
+//    labels: ['January'],
+//    datasets: [
+//       {
+//          label: 'Rainfall',
+//          backgroundColor: '#facf57',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [65, 78]
+//       },
+//       {
+//          label: 'hola',
+//          backgroundColor: '#8d8c8c',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [26]
+//       },
+//       {
+//          label: 'otro',
+//          backgroundColor: '#00A6B4',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [79, 202]
+//       },
+//       {
+//          label: 'clocks',
+//          backgroundColor: '#ddd',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [87, 42, 93, 78, 191]
+//       },
+//       {
+//          label: 'jackets',
+//          backgroundColor: '#6800B4',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [46, 221, 99, 188, 137]
+//       },
+//       {
+//          label: 'shoes',
+//          backgroundColor: '#f85312',
+//          borderColor: 'rgba(0,0,0,1)',
+//          data: [32, 176, 201, 474, 114]
+//       }
+//    ]
+// }
 
 export default function BusinessDashboard(props) {
    const [userId, setUserId] = useState()
    const [activeDealsList, setActiveDealsList] = useState([])
-   const [headerActiveDealsTotals, setHeaderActiveDealsTotals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
+   const [dataChart, setDataChart] = useState({})
 
 
-   const getActiveDealsList = () => {
+   const getBaDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
       let userIdArr = []
@@ -80,7 +79,7 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`${devEnv}/api/active-deals/${userId}`)
+         axios.get(`${devEnv}/api/ba/deals/${userId}`)
             .then(response => {
                console.log('deals active', response.data);
 
@@ -94,8 +93,7 @@ export default function BusinessDashboard(props) {
       }
    }
 
-
-   const getActiveDealsTotals = () => {
+   const getBaChartAllDealsTotalsSales = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
       let userIdArr = []
@@ -117,9 +115,33 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`${devEnv}/api/active-deals/totals/${userId}`)
+         let monthYear = []
+         let monthYearNoDuplicates = []
+         let dataSet = []
+
+         axios.get(`${devEnv}/api/ba/all-deals/totals/${userId}`)
             .then(response => {
-               console.log('deal active totals', response.data);
+               console.log('all deals totals', response.data);
+
+               for (let obj of response.data) {
+                  monthYear.push(obj.month_year)
+
+                  console.log('total sales', obj.total_sales.toFixed(2));
+
+                  dataSet.push({
+                     label: obj.product_title,
+                     backgroundColor: ['#facf57', '#8d8c8c', '#ddd'],
+                     borderColor: 'rgba(0,0,0,1)',
+                     data: [parseFloat(obj.total_sales).toFixed(2)]
+                  })
+               }
+
+               monthYearNoDuplicates = [...new Set(monthYear)];
+
+               setDataChart({
+                  labels: monthYearNoDuplicates,
+                  datasets: dataSet
+               })
 
                let granTotal = 0
                for (var total of response.data) {
@@ -128,16 +150,16 @@ export default function BusinessDashboard(props) {
 
                setActiveDealsGranTotal(granTotal.toFixed(2))
 
-               let header = Object.keys(response.data[0])
-               header.shift()
-               setHeaderActiveDealsTotals(header)
+               // let header = Object.keys(response.data[0])
+               // header.shift()
+               // setHeaderActiveDealsTotals(header)
 
                setActiveDealsTotals(
                   response.data
                )
             })
             .catch(error => {
-               console.log('getActiveDealsTotals error', error);
+               console.log('getChartAllDealsTotalsSales error', error);
             })
       }
    }
@@ -161,7 +183,9 @@ export default function BusinessDashboard(props) {
       })
    }
 
-   const tableHeaderActivateDealsTotals = () => {
+   const tableHeaderActiveDealsTotals = () => {
+      let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
+
       return headerActiveDealsTotals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>
       })
@@ -179,8 +203,8 @@ export default function BusinessDashboard(props) {
    }
 
    useEffect(() => {
-      getActiveDealsTotals()
-      getActiveDealsList()
+      getBaChartAllDealsTotalsSales()
+      getBaDealsList()
    }, [])
 
    return (
@@ -190,11 +214,11 @@ export default function BusinessDashboard(props) {
          <div className="chart-total-sales-info">
             <div className="chart-deals">
                <Bar
-                  data={state}
+                  data={dataChart}
                   options={{
                      title: {
                         display: true,
-                        text: 'Sales per product deal',
+                        text: 'Totals per product deal',
                         fontSize: 20
                      },
                      legend: {
@@ -223,7 +247,7 @@ export default function BusinessDashboard(props) {
 
                   <table id='totals-deals-sales-table'>
                      <tbody>
-                        <tr>{tableHeaderActivateDealsTotals()}</tr>
+                        <tr>{tableHeaderActiveDealsTotals()}</tr>
                         {acitveDealsTotals()}
                      </tbody>
                   </table>
