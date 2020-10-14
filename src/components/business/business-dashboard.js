@@ -81,7 +81,7 @@ export default function BusinessDashboard(props) {
 
          axios.get(`${devEnv}/api/ba/deals/${userId}`)
             .then(response => {
-               console.log('deals active', response.data);
+               console.log('deals', response.data);
 
                setActiveDealsList(
                   response.data
@@ -257,7 +257,7 @@ export default function BusinessDashboard(props) {
 
          <div className="active-deals-wrapper">
             <div className="title">
-               <h2>Acitve Deals Information</h2>
+               <h2>Deals List</h2>
             </div>
 
             <table id='active-deals-table'>

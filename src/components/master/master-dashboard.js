@@ -40,29 +40,9 @@ export default function MasterDashboard(props) {
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
 
    const getAllActiveDealsList = () => {
-      let userCookie = Cookies.get("_sb%_user%_session")
-      let temp = 0
-      let userIdArr = []
-
-      if (userCookie !== undefined) {
-         for (var i = 0; i < userCookie.length; i++) {
-            if (userCookie[i] == "%") {
-               temp += 1
-            }
-
-            if (temp === 2) {
-               if (userCookie[i] !== "%") {
-                  userIdArr.push(userCookie[i])
-               }
-            }
-         }
-
-         var userId = userIdArr.join('')
-      }
-
-      axios.get(`${devEnv}/api/all-active-deals`)
+      axios.get(`${devEnv}/api/ma/all-active-deals`)
          .then(response => {
-            console.log('deal active', response.data);
+            console.log('all active deals', response.data);
 
             setAllActiveDeals(
                response.data
@@ -72,52 +52,6 @@ export default function MasterDashboard(props) {
             console.log('getAllActiveDealsList error', error);
          })
    }
-
-   // const getActiveDealsTotals = () => {
-   //    let userCookie = Cookies.get("_sb%_user%_session")
-   //    let temp = 0
-   //    let userIdArr = []
-
-   //    if (userCookie !== undefined) {
-   //       for (var i = 0; i < userCookie.length; i++) {
-   //          if (userCookie[i] == "%") {
-   //             temp += 1
-   //          }
-
-   //          if (temp === 2) {
-   //             if (userCookie[i] !== "%") {
-   //                userIdArr.push(userCookie[i])
-   //             }
-   //          }
-   //       }
-
-   //       var userId = userIdArr.join('')
-
-   //       setUserId(userId)
-   //    }
-   //    axios.get(`http://localhost:5000/api/active-deals/totals/${userId}`)
-   //       .then(response => {
-   //          console.log('deal active totals', response.data);
-
-   //          let granTotal = 0
-   //          for (var total of response.data) {
-   //             granTotal += parseFloat(total.total_sales)
-   //          }
-
-   //          setActiveDealsGranTotal(granTotal.toFixed(2))
-
-   //          let header = Object.keys(response.data[0])
-   //          header.shift()
-   //          setHeaderActiveDealsTotals(header)
-
-   //          setActiveDealsTotals(
-   //             response.data
-   //          )
-   //       })
-   //       .catch(error => {
-   //          console.log('getActiveDealsTotals error', error);
-   //       })
-   // }
 
    const tableHeaderAllActiveDeals = () => {
       let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
@@ -138,25 +72,7 @@ export default function MasterDashboard(props) {
       })
    }
 
-   // const tableHeaderActivateDealsTotals = () => {
-   //    return headerActiveDealsTotals.map((key, index) => {
-   //       return <th key={index}>{key.toUpperCase()}</th>
-   //    })
-   // }
-
-   // const acitveDealsTotals = () => {
-   //    return activeDealsTotals.map(item => {
-   //       return (
-   //          <ActiveDealsTotalsSalesList
-   //             key={item.product_id}
-   //             item={item}
-   //          />
-   //       )
-   //    })
-   // }
-
    useEffect(() => {
-      // getActiveDealsTotals()
       getAllActiveDealsList()
    }, [])
 
@@ -210,7 +126,7 @@ export default function MasterDashboard(props) {
 
          <div className="active-deals-wrapper">
             <div className="title">
-               <h2>Acitve Deals List</h2>
+               <h2>Deals List</h2>
             </div>
 
             <table id='active-deals-table'>

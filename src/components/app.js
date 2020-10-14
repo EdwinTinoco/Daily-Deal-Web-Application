@@ -15,6 +15,7 @@ import Home from './pages/home'
 import MasterDashboard from "./master/master-dashboard";
 import CreateBusinessAccount from "./master/create-business-account";
 import DealsBusinessDetail from "./master/deals-business-detail";
+import BusinessProductDealDetail from "./master/business-product-deal-detail";
 import BusinessDashboard from "./business/business-dashboard";
 import CreateNewDealProduct from "./business/create-new-deal-product";
 import ActiveDealDetail from "./business/active-deal-detail";
@@ -118,6 +119,16 @@ export default function App(props) {
           key="ma-deals-business-detail"
           path="/ma/deals-business/detail/:slug"
           component={DealsBusinessDetail}
+        />,
+        <Route
+          key="ma-deals-business-detail"
+          path="/ma/business/product-deal/detail/:slug"
+          component={BusinessProductDealDetail}
+        />,
+        <Route
+          key="ba-active-deal-detail"
+          path="/ba/active-deal/detail/:slug"
+          component={ActiveDealDetail}
         />
       ]
     } else if (userRole === "business_admin") {

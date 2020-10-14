@@ -19,7 +19,7 @@ export default function AllActiveDealsList(props) {
    return (
       <tr key={props.key}>
          <td>
-            <Link to={`/ba/active-deal/detail/${deal_id}`}>
+            <Link to={`/ma/business/product-deal/detail/${deal_id}`}>
                {product_title}
             </Link>
          </td>
