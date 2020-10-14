@@ -128,9 +128,14 @@ export default function BusinessDashboard(props) {
 
                   console.log('total sales', obj.total_sales.toFixed(2));
 
+                  var letters = "0123456789ABCDEF";
+                  var color = '#';
+                  for (var i = 0; i < 6; i++)
+                     color += letters[(Math.floor(Math.random() * 16))];
+
                   dataSet.push({
                      label: obj.product_title,
-                     backgroundColor: ['#facf57', '#8d8c8c', '#ddd'],
+                     backgroundColor: [color],
                      borderColor: 'rgba(0,0,0,1)',
                      data: [parseFloat(obj.total_sales).toFixed(2)]
                   })
