@@ -151,6 +151,8 @@ export default function MasterDashboard(props) {
             <div className="chart-deals">
                <Bar
                   data={dataChart}
+                  width={110}
+                  height={40}
                   options={{
                      title: {
                         display: true,
@@ -160,7 +162,8 @@ export default function MasterDashboard(props) {
                      legend: {
                         display: true,
                         position: 'right'
-                     }
+                     },
+                     maintainAspectRatio: false
                   }}
                />
             </div>
