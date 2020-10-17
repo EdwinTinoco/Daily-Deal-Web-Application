@@ -117,6 +117,7 @@ export default function BusinessDashboard(props) {
 
          let monthYear = []
          let monthYearNoDuplicates = []
+         let data = []
          let dataSet = []
 
          axios.get(`${devEnv}/api/ba/all-deals/totals/${userId}`)
@@ -126,12 +127,17 @@ export default function BusinessDashboard(props) {
                for (let obj of response.data) {
                   monthYear.push(obj.month_year)
 
+
                   console.log('total sales', obj.total_sales.toFixed(2));
 
                   var letters = "0123456789ABCDEF";
                   var color = '#';
                   for (var i = 0; i < 6; i++)
                      color += letters[(Math.floor(Math.random() * 16))];
+
+                  // data.push(parseFloat(obj.total_sales).toFixed(2))
+                  console.log('data array', data);
+
 
                   dataSet.push({
                      label: obj.product_title,

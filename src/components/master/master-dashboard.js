@@ -83,7 +83,7 @@ export default function MasterDashboard(props) {
             monthYearNoDuplicates = [...new Set(monthYear)];
 
             setDataChart({
-               labels: monthYearNoDuplicates,
+               labels: monthYear,
                datasets: dataSet
             })
 
