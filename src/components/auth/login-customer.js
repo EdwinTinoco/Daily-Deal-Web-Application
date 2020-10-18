@@ -45,6 +45,7 @@ export default function LoginCustomer(props) {
             }
          }).catch(error => {
             setErrorMessage("An error ocurred. Try again later")
+            setShowSpinner("none")
             console.log('handleSubmit error', error);
 
          });
