@@ -78,7 +78,8 @@ export default class Login extends Component {
             }
          }).catch(error => {
             this.setState({
-               errorMessage: "An error ocurred. Try again later"
+               errorMessage: "An error ocurred. Try again later",
+               showSpinner: "none"
             })
 
             this.props.handleUnSuccessfulAuth();
