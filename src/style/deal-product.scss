@@ -44,18 +44,18 @@
                text-align: center;
    
                img{               
-                  width: 100px;
-                  height: 70px;
+                  width: 70px;
+                  height: 50px;
                }
             }
    
             .image img{
                width: 370px;
-               height: 490px;
+               height: 470px;
             }
       
             .title{
-               margin-top: 10px;
+               margin-top: 5px;
                text-align: center;
                color: #575555;
                font-size: 1.8rem;
@@ -70,6 +70,7 @@
             }
             
             .price-stock{ 
+               margin-top: 5px;
                display: flex;
                justify-content: space-around;
                align-items: center;
@@ -98,7 +99,7 @@
                      width: 30px;
                      height: 30px;
                      color: #f76d37;
-                     font-size: 1.8rem;
+                     font-size: 1.7rem;
                      font-weight: 700;
                      border: 6px solid white;
                      border-radius: 48%;
@@ -113,20 +114,20 @@
                }
             }  
       
-            .countdown-deal{
-               margin-top: 10px;
-               background-color: #d4d4d4;
-               text-align: center;
-               font-size: 1.8rem;
-               font-style: italic;
-               font-weight: 700;
-               color: $orange_buttons;
+            // .countdown-deal{
+            //    margin-top: 10px;
+            //    background-color: #d4d4d4;
+            //    text-align: center;
+            //    font-size: 1.8rem;
+            //    font-style: italic;
+            //    font-weight: 700;
+            //    color: $orange_buttons;
                
-               p{
-                  color: black;
-                  font-size: 1.2rem;
-               }
-            }
+            //    p{
+            //       color: black;
+            //       font-size: 1.2rem;
+            //    }
+            // }
             
             .buy-button{
                width: 370px;
@@ -134,7 +135,7 @@
                text-align: center;
       
                button{
-                  margin-top: 20px;
+                  margin-top: 10px;
                   padding: 10px 120px;
                   background-color:  #f85312;
                   border: 1px solid #f85312;
@@ -186,7 +187,7 @@
                   text-decoration: none;
                   
                   .button{         
-                     margin-top: 15px;
+                     margin-top: 10px;
                      width: 150px;
                      background-color: $orange-buttons;
                      border: 1.5px solid $orange-buttons;

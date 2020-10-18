@@ -443,6 +443,7 @@ export default function CreateNewDealProduct(props) {
                         onChange={({ target }) => { setDescription(target.value) }}
                         name="description"
                         placeholder='Description'
+                        maxLength={271}
                      />
                      <div className="error-validation">{errorsValidation.description}</div>
                   </div>

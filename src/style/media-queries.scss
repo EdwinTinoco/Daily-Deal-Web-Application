@@ -1,0 +1,92 @@
+@media screen and (max-width: 615px){
+   // Login (Master, Business account)
+   .login-main-wrapper{
+      .login-form-center{
+         .login-container{
+            width: 350px;  
+         }
+      }
+   } 
+   
+   // Deal product
+   .main-wrapper{
+      .deal-product-main-wrapper{
+         height: calc(100vh - 1px);
+
+         .content{
+            width: 370px;
+            height: 810px;
+            
+            .deal-product-detail-main-wrapper{
+               width: 361px;
+               height: 801px;
+
+               .business-logo {      
+                  img{               
+                     width: 60px;
+                     height: 40px;
+                  }
+               }
+
+               .image img{
+                  width: 361px;
+                  height: 450px;
+               }
+
+               .title{
+                  font-size: 1.7rem;
+               }
+
+               .price-stock{ 
+                  margin-top: 5px;
+         
+                  .compare-price{  
+                     font-size: 2.1rem;
+                  }
+         
+                  .price{  
+                     font-size: 3.3rem;
+                  }
+         
+                  .stock{         
+                     .number{
+                        font-size: 1.5rem;
+                     }
+         
+                     .left{
+                        font-size: 1.2rem;
+                     }
+                  }
+               }
+
+               .buy-button{
+                  width: 361px;
+
+                  button{
+                     padding: 10px 110px;
+                  }
+               }
+
+               .buy-link{
+                  width: 361px;
+
+                  a{
+                     .button{  
+                        width: 140px;
+                     }
+                  }
+               }
+
+               .links-wrapper{
+                  width: 361px;        
+               }
+            }
+         }
+      }
+   }
+
+
+
+
+
+}
