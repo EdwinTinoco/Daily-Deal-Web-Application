@@ -38,6 +38,7 @@ export default function forgotPassword(props) {
 
          }).catch(error => {
             setMessage("An error ocurred. Try again later")
+            setShowSpinner("none")
             console.log('handleSubmit error', error);
          });
       } else {
