@@ -56,6 +56,8 @@ export default function SignUpAdmin(props) {
 
             Cookies.set("_sb%_user%_session", `%encript%${masterAdmin['result']['@userId']}`, { expires: 1 })
 
+            window.location.reload(false);
+
             history.push("/ma/dashboard");
          } else if (masterAdmin['message'] === "The admin code is wrong") {
             setMessage("The admin code is wrong")
