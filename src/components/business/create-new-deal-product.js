@@ -25,7 +25,7 @@ export default function CreateNewDealProduct(props) {
    const [price, setPrice] = useState("")
    const [comparePrice, setComparePrice] = useState("")
    const [stock, setStock] = useState("")
-   const [squ, setSqu] = useState("")
+   const [sku, setSku] = useState("")
    const [shippingTypeId, setShippingTypeId] = useState("")
    const [startedDealDate, setStartedDealDate] = useState("")
    const [finishedDealDate, setFinishedDealDate] = useState("")
@@ -35,8 +35,7 @@ export default function CreateNewDealProduct(props) {
    const thumbImage1Ref = useRef()
    const thumbImage2Ref = useRef()
 
-   //const [pickupStoreCatalog, setPickupStoreCatalog] = useState([])
-   //const [pickupStore, setPickupStore] = useState("")
+   
    const [storeName, setStoreName] = useState("")
    const [line1, setLine1] = useState("")
    const [line2, setLine2] = useState("")
@@ -89,7 +88,7 @@ export default function CreateNewDealProduct(props) {
       setPrice("")
       setComparePrice("")
       setStock("")
-      setSqu("")
+      setSku("")
       setShippingTypeId("")
       setPreviewShow("none")
       setErrorsValidation({})
@@ -128,7 +127,6 @@ export default function CreateNewDealProduct(props) {
 
    const handleChangeCheckbox = () => {
       if (!checkBoxChecked) {
-         //setPickupStore("")
          setShowAddPickupStoreAddress('block')
          setCheckBoxChecked(true)
 
@@ -159,7 +157,7 @@ export default function CreateNewDealProduct(props) {
                   description: description,
                   price: parseFloat(price).toFixed(2),
                   comparePrice: parseFloat(comparePrice).toFixed(2),
-                  squ: squ,
+                  sku: sku,
                   stock: parseInt(stock),
                   shippingTypeId: shippingTypeId,
                   createdDealDate: createDateDB,
@@ -487,15 +485,15 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="squ"><b>SQU</b></label>
+                     <label htmlFor="sku"><b>SKU</b></label>
                      <input type='text'
                         className='new-entry-input'
-                        value={squ}
-                        onChange={({ target }) => { setSqu(target.value) }}
-                        name="squ"
-                        placeholder='SQU'
+                        value={sku}
+                        onChange={({ target }) => { setSku(target.value) }}
+                        name="sku"
+                        placeholder='SKU'
                      />
-                     <div className="error-validation">{errorsValidation.squ}</div>
+                     <div className="error-validation">{errorsValidation.sku}</div>
                   </div>
 
                   <div className="form-group">
