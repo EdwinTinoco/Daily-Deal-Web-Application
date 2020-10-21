@@ -51,14 +51,12 @@ export default function SignUpAdmin(props) {
             setAdminCode("")
             setConfirmPassword("")
             setErrorsValidation({})
-            setMessage("The master admin account was created succesfully")
+            setMessage("The master admin account was created succesfully. Now you can login!")
             setShowSpinner("none")
 
             Cookies.set("_sb%_user%_session", `%encript%${masterAdmin['result']['@userId']}`, { expires: 1 })
 
-            window.location.reload(false);
-
-            history.push("/ma/dashboard");
+            // history.push("/ma/dashboard");
          } else if (masterAdmin['message'] === "The admin code is wrong") {
             setMessage("The admin code is wrong")
             setShowSpinner("none")
