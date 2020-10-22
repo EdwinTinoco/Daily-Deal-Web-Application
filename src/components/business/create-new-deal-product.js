@@ -101,6 +101,7 @@ export default function CreateNewDealProduct(props) {
       setShowAddPickupStoreElements("none")
       setShowAddPickupStoreAddress("none")
       setCheckBoxChecked(false)
+      thumbImage1Ref.current.dropzone.removeAllFiles()
    }
 
    const handlePreviewDealProduct = () => {
