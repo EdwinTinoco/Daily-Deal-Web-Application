@@ -682,7 +682,10 @@ export default function CreateNewDealProduct(props) {
 
                      <div className="copy-button">
                         <CopyToClipboard text={urlGenerated}>
-                           <button>Copy URL</button>
+                           <button>
+                              <FontAwesomeIcon icon="link" />
+                              Copy URL
+                           </button>
                         </CopyToClipboard>
                      </div>
                   </div>
