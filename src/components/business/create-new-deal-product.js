@@ -211,12 +211,12 @@ export default function CreateNewDealProduct(props) {
                      await axios.post(`${devEnv}/api/user/pickup-address/add`, 
                      {
                         dealId: product['result']["@dealId"],
-                        storeName: businessAddress.user_name,
-                        line1: businessAddress.pickup_line_1,
-                        line2: businessAddress.pickup_line_2,
-                        city: businessAddress.pickup_city,
-                        zp: businessAddress.pickup_zip_code,
-                        state: businessAddress.pickup_state,
+                        storeName: businessAddress.business_address_name,
+                        line1: businessAddress.business_address_line_1,
+                        line2: businessAddress.business_address_line_2,
+                        city: businessAddress.business_address_city,
+                        zp: businessAddress.business_address_zip_code,
+                        state: businessAddress.business_address_state,
                         country: "US"
                      })
                      .then(response => {
@@ -552,9 +552,9 @@ export default function CreateNewDealProduct(props) {
                               <p>Address to pick the product up</p>
          
                               <p>{`Store: ${businessAddress.business_address_name}`}</p>
-                              <p>{`${businessAddress.pickup_line_1} ${businessAddress.pickup_line_2}`}</p>
-                              <p>{`${businessAddress.pickup_city}, ${businessAddress.pickup_state}`}</p>
-                              <p>{`${businessAddress.pickup_zip_code}, ${businessAddress.pickup_country}`}</p>
+                              <p>{`${businessAddress.business_address_line_1} ${businessAddress.business_address_line_2}`}</p>
+                              <p>{`${businessAddress.business_address_city}, ${businessAddress.business_address_state}`}</p>
+                              <p>{`${businessAddress.business_address_zip_code}, ${businessAddress.business_address_country}`}</p>
                            </div>
                         )
                         :
