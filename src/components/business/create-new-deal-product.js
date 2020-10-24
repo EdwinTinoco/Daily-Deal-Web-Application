@@ -45,7 +45,7 @@ export default function CreateNewDealProduct(props) {
    const [showPickupStoreElements, setShowAddPickupStoreElements] = useState("none")
    const [showAddPickupStoreAddress, setShowAddPickupStoreAddress] = useState("none")
    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
-   const [pickupStoreAddress, setPickupStoreAddress] = useState({})
+   const [businessAddress, setBusinessAddress] = useState({})
 
 
    const componentConfig = () => {
@@ -187,25 +187,44 @@ export default function CreateNewDealProduct(props) {
 
                if (shippingTypeId === "2"){
                   if (checkBoxChecked){
-
                      console.log('si entro');
                      
-                     await axios.post(`${devEnv}/api/user/update/pickup-store`, 
+                     await axios.post(`${devEnv}/api/user/pickup-store/add`, 
                      {
-                        userId: user.user_id,
+                        dealId: product['result']["@dealId"],
                         storeName: storeName,
                         line1: line1,
                         line2: line2,
                         city: city,
                         zp: zp,
-                        state: state
+                        state: state,
+                        country: "US"
                      })
                      .then(response => {
-                        console.log('update pick up store', response.data);
+                        console.log('add pick up address', response.data);
                         
                      })
                      .catch(error =>{
-                        console.log('handleSubmitNewDeal update pickup store', error);                  
+                        console.log('handleSubmitNewDeal add pickup address', error);                  
+                     })
+                  } else {
+                     await axios.post(`${devEnv}/api/user/pickup-store/add`, 
+                     {
+                        dealId: product['result']["@dealId"],
+                        storeName: businessAddress.user_name,
+                        line1: businessAddress.pickup_line_1,
+                        line2: businessAddress.pickup_line_2,
+                        city: businessAddress.pickup_city,
+                        zp: businessAddress.pickup_zip_code,
+                        state: businessAddress.pickup_state,
+                        country: "US"
+                     })
+                     .then(response => {
+                        console.log('add pick up store', response.data);
+                        
+                     })
+                     .catch(error =>{
+                        console.log('handleSubmitNewDeal add pickup address', error);                  
                      })
                   }
                }
@@ -269,12 +288,12 @@ export default function CreateNewDealProduct(props) {
          })
    }
 
-   const getPickupAddress = () => {
-      axios.get(`${devEnv}/api/user/pickup-store/${user.user_id}`)
+   const getBusinessAddress = () => {
+      axios.get(`${devEnv}/api/user/business-address/${user.user_id}`)
          .then(response => {
             console.log('pick up store', response.data);
             if (response.data.length > 0){
-               setPickupStoreAddress(response.data[0])
+               setBusinessAddress(response.data[0])
             }
 
          })
@@ -505,7 +524,7 @@ export default function CreateNewDealProduct(props) {
                            setShippingTypeId(target.value)
 
                            target.value === "2" ? (
-                              getPickupAddress(),
+                              getBusinessAddress(),
                               handlePickupStore(target.value)                              
                            ) : (
                                  handlePickupStore(target.value)                                 
@@ -526,16 +545,16 @@ export default function CreateNewDealProduct(props) {
                      <div className="error-validation">{errorsValidation.shippingTypeId}</div>
                   </div>
 
-                  <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>
+                  <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>  
                      {Object.entries(pickupStoreAddress).length > 0 ? 
                         (
                            <div className="pickup_store_addres_info">
                               <p>Address to pick the product up</p>
          
-                              <p>{`Store: ${pickupStoreAddress.user_name}`}</p>
-                              <p>{`${pickupStoreAddress.pickup_line_1} ${pickupStoreAddress.pickup_line_2}`}</p>
-                              <p>{`${pickupStoreAddress.pickup_city}, ${pickupStoreAddress.pickup_state}`}</p>
-                              <p>{`${pickupStoreAddress.pickup_zip_code}, ${pickupStoreAddress.pickup_country}`}</p>
+                              <p>{`Store: ${businessAddress.user_name}`}</p>
+                              <p>{`${businessAddress.pickup_line_1} ${businessAddress.pickup_line_2}`}</p>
+                              <p>{`${businessAddress.pickup_city}, ${businessAddress.pickup_state}`}</p>
+                              <p>{`${businessAddress.pickup_zip_code}, ${businessAddress.pickup_country}`}</p>
                            </div>
                         )
                         :
@@ -551,7 +570,7 @@ export default function CreateNewDealProduct(props) {
                            checked={checkBoxChecked}
                            onChange={handleChangeCheckbox}
                         />
-                        <label htmlFor="add-address"><b>Update the address to pick up the product</b></label>
+                        <label htmlFor="add-address"><b>Click here if you want to change address to pick up the product</b></label>
                      </div>
 
                      <div className="pickup-store-inputs" style={{ display: `${showAddPickupStoreAddress}` }}>
