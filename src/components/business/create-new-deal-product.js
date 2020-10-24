@@ -201,8 +201,7 @@ export default function CreateNewDealProduct(props) {
                         country: "US"
                      })
                      .then(response => {
-                        console.log('add pick up address', response.data);
-                        
+                        console.log('add pick up address', response.data);                        
                      })
                      .catch(error =>{
                         console.log('handleSubmitNewDeal add pickup address', error);                  
@@ -220,8 +219,7 @@ export default function CreateNewDealProduct(props) {
                         country: "US"
                      })
                      .then(response => {
-                        console.log('add pickup address', response.data);
-                        
+                        console.log('add pickup address', response.data);                        
                      })
                      .catch(error =>{
                         console.log('handleSubmitNewDeal add pickup address', error);                  
@@ -570,7 +568,7 @@ export default function CreateNewDealProduct(props) {
                            checked={checkBoxChecked}
                            onChange={handleChangeCheckbox}
                         />
-                        <label htmlFor="add-address"><b>Click here if you want to change address to pick up the product</b></label>
+                        <label htmlFor="add-address"><b>Click here if you want to change the address to pick up the product</b></label>
                      </div>
 
                      <div className="pickup-store-inputs" style={{ display: `${showAddPickupStoreAddress}` }}>
