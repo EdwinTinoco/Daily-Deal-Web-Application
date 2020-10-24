@@ -189,7 +189,7 @@ export default function CreateNewDealProduct(props) {
                   if (checkBoxChecked){
                      console.log('si entro');
                      
-                     await axios.post(`${devEnv}/api/user/pickup-store/add`, 
+                     await axios.post(`${devEnv}/api/user/pickup-address/add`, 
                      {
                         dealId: product['result']["@dealId"],
                         storeName: storeName,
@@ -208,7 +208,7 @@ export default function CreateNewDealProduct(props) {
                         console.log('handleSubmitNewDeal add pickup address', error);                  
                      })
                   } else {
-                     await axios.post(`${devEnv}/api/user/pickup-store/add`, 
+                     await axios.post(`${devEnv}/api/user/pickup-address/add`, 
                      {
                         dealId: product['result']["@dealId"],
                         storeName: businessAddress.user_name,
@@ -220,7 +220,7 @@ export default function CreateNewDealProduct(props) {
                         country: "US"
                      })
                      .then(response => {
-                        console.log('add pick up store', response.data);
+                        console.log('add pickup address', response.data);
                         
                      })
                      .catch(error =>{
@@ -291,14 +291,14 @@ export default function CreateNewDealProduct(props) {
    const getBusinessAddress = () => {
       axios.get(`${devEnv}/api/user/business-address/${user.user_id}`)
          .then(response => {
-            console.log('pick up store', response.data);
+            console.log('business address', response.data);
             if (response.data.length > 0){
                setBusinessAddress(response.data[0])
             }
 
          })
          .catch(error => {
-            console.log('getPickupAddress error', error);
+            console.log('getBusinessAddress error', error);
          })
    }
 
@@ -546,12 +546,12 @@ export default function CreateNewDealProduct(props) {
                   </div>
 
                   <div className="pickup-store-group" style={{ display: `${showPickupStoreElements}` }}>  
-                     {Object.entries(pickupStoreAddress).length > 0 ? 
+                     {Object.entries(businessAddress).length > 0 ? 
                         (
                            <div className="pickup_store_addres_info">
                               <p>Address to pick the product up</p>
          
-                              <p>{`Store: ${businessAddress.user_name}`}</p>
+                              <p>{`Store: ${businessAddress.business_address_name}`}</p>
                               <p>{`${businessAddress.pickup_line_1} ${businessAddress.pickup_line_2}`}</p>
                               <p>{`${businessAddress.pickup_city}, ${businessAddress.pickup_state}`}</p>
                               <p>{`${businessAddress.pickup_zip_code}, ${businessAddress.pickup_country}`}</p>
