@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios";
 import Cookies from 'js-cookie';
 import moment from 'moment';
-import DateCountdown from 'react-date-countdown-timer';
+// import DateCountdown from 'react-date-countdown-timer';
 import { loadStripe } from "@stripe/stripe-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
