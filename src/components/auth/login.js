@@ -48,7 +48,7 @@ export default class Login extends Component {
             {
                email: this.state.email,
                password: this.state.password,
-               currentDate: moment().format()
+               currentDate: moment.utc().format()
             }
          ).then(response => {
             console.log('response login', response.data);
