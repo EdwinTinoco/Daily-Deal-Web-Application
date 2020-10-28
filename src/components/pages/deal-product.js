@@ -105,6 +105,7 @@ export default function DealProduct(props) {
                console.log('result error', result.error.message);
 
                setMessage(result.error.message)
+               setShowSpinner("none")
             }
          }
       }
