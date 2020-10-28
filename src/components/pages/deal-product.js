@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -42,7 +42,7 @@ export default function DealProduct(props) {
             {
                userId: user.user_id,
                dealId: dealId,
-               currentDate: moment().format()
+               currentDate: moment.utc().format()
             })
             .catch(error => {
                console.log('check Stock Date Purchasee error', error);

@@ -142,9 +142,16 @@ export default function CreateNewDealProduct(props) {
       setShowSpinner("block")
 
       if (validate()) {
-         let createDateDB = moment().format();
+
+         // var date = moment.utc().format();
+         // console.log(date, "- now in UTC"); 
+
+         // var local = moment.utc(date).local().format();
+         // console.log(local, "- UTC now to local");
+
+         let createDateDB = moment.utc().format();
          let startDateDB = createDateDB;
-         let finishDateDB = moment().add(1, 'days').format();
+         let finishDateDB = moment.utc().add(1, 'days').format();
 
          const response = await fetch(`${devEnv}/v1/products`, {
                method: "POST",
@@ -176,8 +183,8 @@ export default function CreateNewDealProduct(props) {
 
                handleClearInputs()
 
-               setStartedDealDate(moment(startDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
-               setFinishedDealDate(moment(finishDateDB).format("MMMM Do YYYY, hh:mm:ss a"))
+               setStartedDealDate(moment.utc(startDateDB).local().format("MMMM Do YYYY, hh:mm:ss a"))
+               setFinishedDealDate(moment.utc(finishDateDB).local().format("MMMM Do YYYY, hh:mm:ss a"))
 
                thumbImage1Ref.current.dropzone.removeAllFiles()
 
