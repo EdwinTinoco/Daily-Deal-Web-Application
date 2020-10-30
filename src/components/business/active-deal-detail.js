@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 import { CSVLink, CSVDownload } from "react-csv";
@@ -115,7 +116,7 @@ export default function ActiveDealDetail(props) {
                <tr key={item.sales_id}>
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
-                  <td>{item.sales_date}</td>
+                  <td>{moment.utc(item.sales_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
                   <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
@@ -135,7 +136,7 @@ export default function ActiveDealDetail(props) {
                <tr key={item.sales_id}>
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
-                  <td>{item.sales_date}</td>
+                  <td>{moment.utc(item.sales_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
                   <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
@@ -155,7 +156,7 @@ export default function ActiveDealDetail(props) {
                <tr key={item.sales_id}>
                   <td>{item.user_name}</td>
                   <td>{item.user_email}</td>
-                  <td>{item.sales_date}</td>
+                  <td>{moment.utc(item.sales_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
                   <td>{item.product_title}</td>
                   <td>{`$${item.sales_subtotal}`}</td>
                   <td>{`$${item.sales_taxes}`}</td>
