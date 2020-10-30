@@ -84,7 +84,7 @@ export default function DealProduct(props) {
                   "customerEmail": user.user_email,
                   "stripeCustomerId": user.user_stripe_customer_id,
                   "dealId": dealId,
-                  "saleDate": moment().format(),
+                  "saleDate": moment.utc().format(),
                   "subtotal": subtotal,
                   "taxes": taxes,
                   "total": total,
