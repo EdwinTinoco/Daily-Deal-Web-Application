@@ -156,7 +156,7 @@ export default function MasterDashboard(props) {
                   options={{
                      title: {
                         display: true,
-                        text: 'Sales per product deal',
+                        text: 'Sales per Business Account',
                         fontSize: 10
                      },
                      legend: {
