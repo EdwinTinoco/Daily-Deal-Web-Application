@@ -80,6 +80,7 @@ export default function DealProduct(props) {
                   "productImage": productDeal.picture_product,
                   "productDescription": productDeal.product_description,
                   "stripeProductId": productDeal.product_stripe_id,
+                  // "stripePriceId": productDeal.product_stripe_price_id,
                   "customerUserId": user.user_id,
                   "customerEmail": user.user_email,
                   "stripeCustomerId": user.user_stripe_customer_id,

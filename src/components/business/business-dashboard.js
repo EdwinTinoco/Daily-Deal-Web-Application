@@ -213,6 +213,17 @@ export default function BusinessDashboard(props) {
       })
    }
 
+   const checkStripeSkuStock = () => {
+      axios.get(`${devEnv}/api/check-stripe-sku/${"sku_IIx9ovOYhU3yne"}`)
+         .then(response => {
+            console.log('stripe sku', response.data);
+         })
+         .catch(error => {
+            console.log('checkSkuStock error', error);
+
+         })
+   }
+
    useEffect(() => {
       getBaChartAllDealsTotalsSales()
       getBaDealsList()
@@ -267,6 +278,10 @@ export default function BusinessDashboard(props) {
                   </table>
                </div>
             </div>
+         </div>
+
+         <div className="check-sku-inventory">
+            <button type="button" onClick={checkStripeSkuStock}>Check SKU Stock</button>
          </div>
 
          <div className="active-deals-wrapper">
