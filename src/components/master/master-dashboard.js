@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
@@ -39,7 +40,9 @@ export default function MasterDashboard(props) {
    const [dataChart, setDataChart] = useState({})
 
    const getAllActiveDealsList = () => {
-      axios.get(`${devEnv}/api/ma/all-active-deals`)
+      let currentDate = moment.utc().format()
+
+      axios.get(`${devEnv}/api/ma/all-active-deals/${currentDate}`)
          .then(response => {
             console.log('all active deals', response.data);
 
