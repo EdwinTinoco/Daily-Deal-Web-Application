@@ -207,7 +207,8 @@ export default function ActiveDealDetail(props) {
             <div className="deal-info">
                <p className="title">Deal Info</p>
                <p className="url">{`Deal url: ${deal_url}`}</p>
-               <p className="dates">{`Created Date: ${deal_started_date}`}</p>
+               <p className="dates">{`Started Date: ${moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
+               <p className="dates">{`Finished Date: ${moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
                <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
                <p className="status">{`Deal Status: ${deal_status}`}</p>
             </div>

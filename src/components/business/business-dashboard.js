@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
@@ -57,6 +58,44 @@ export default function BusinessDashboard(props) {
    const [dataChart, setDataChart] = useState({})
 
 
+   // const updateDealStatus = () => {
+   //    let userCookie = Cookies.get("_sb%_user%_session")
+   //    let temp = 0
+   //    let userIdArr = []
+
+   //    if (userCookie !== undefined) {
+   //       for (var i = 0; i < userCookie.length; i++) {
+   //          if (userCookie[i] == "%") {
+   //             temp += 1
+   //          }
+
+   //          if (temp === 2) {
+   //             if (userCookie[i] !== "%") {
+   //                userIdArr.push(userCookie[i])
+   //             }
+   //          }
+   //       }
+
+   //       var userId = userIdArr.join('')
+
+   //       setUserId(userId)
+
+   //       axios.post(`${devEnv}/api/update/deals-status`,
+   //          {
+   //             userId: userId,
+   //             currentDate: moment.utc().format()
+   //          }
+   //       ).then(response => {
+   //          console.log('update deal status', response.data);
+
+   //       }).catch(error => {
+   //          console.log('updateDealStatus error', error);
+
+   //       })
+   //    }
+   // }
+
+
    const getBaDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
@@ -79,9 +118,14 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         axios.get(`${devEnv}/api/ba/deals/${userId}`)
+         axios.post(`${devEnv}/api/ba/deals`,
+            {
+               userId: userId,
+               currentDate: moment.utc().format()
+            }
+         )
             .then(response => {
-               console.log('deals', response.data);
+               console.log('deals list', response.data);
 
                setActiveDealsList(
                   response.data
@@ -225,6 +269,7 @@ export default function BusinessDashboard(props) {
    }
 
    useEffect(() => {
+      // updateDealStatus()
       getBaChartAllDealsTotalsSales()
       getBaDealsList()
    }, [])
