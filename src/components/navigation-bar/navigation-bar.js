@@ -90,7 +90,7 @@ export default function NavigationBar(props) {
                      (
                         <div className="link">
                            <Link to="/ba/dashboard">Dashboard</Link>
-                           <Link to="/ba/new-deal">Deals</Link>
+                           <Link to="/ba/new-deal">Add Deal</Link>
                         </div>
                      )
                      : null
@@ -100,7 +100,6 @@ export default function NavigationBar(props) {
          </div>
 
          <div className="right-column">
-
             {Object.entries(user).length > 0 ?
                (
                   <div className="user-info-logout">
@@ -119,7 +118,6 @@ export default function NavigationBar(props) {
 
                      <div className="logout">
                         <FontAwesomeIcon onClick={handleLogout} icon="sign-out-alt" />
-                        <p>Logout</p>
                      </div>
                   </div>
                )

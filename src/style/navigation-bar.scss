@@ -1,5 +1,5 @@
 .navigation-bar-main-wrapper{
-   height: 52px;
+   height: 40px;
    background-color: $gray-bg-dealproduct;
    display: flex;
    justify-content: space-between;
@@ -8,22 +8,27 @@
    .left-column{
       img{
          margin-left: 8px;
-         width: 100px;
-         height: 70px;
+         width: 90px;
+         height: 60px;
       }
    }
 
    .center-column{
       .links{
-         width: 500px;
+         width: 700px;
          display: flex;
          justify-content: space-between;
          align-items: center;
    
          .link{
+            width: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
             a{
                color: $gray-titles;
-               font-size: 1.6rem;
+               font-size: 1.4rem;
                font-weight: 600;
                text-decoration: none;
                transition: 0.3s ease-in-out;
@@ -37,7 +42,7 @@
    }
 
    .right-column{
-      margin-right: 8px;
+      margin-right: 3px;
       
       .user-info-logout{
          display: flex;
@@ -45,8 +50,9 @@
          align-items: center;
 
          .user-info{
-            color: $gray-titles;
-            font-size: 1.2rem;
+            text-align: center;
+            color: $gray-description;
+            font-size: 1.1rem;
          }
 
          .logout{
@@ -55,17 +61,13 @@
 
             svg{
                color: $orange-buttons;
-               font-size: 2.5rem;
+               font-size: 2.3rem;
                transition: 0.3s ease-in-out;
 
                &:hover{
                   cursor: pointer;
                   color: $gray-description;
                }
-            }
-
-            p{
-               color: $gray-description;
             }
          }
       }
@@ -80,7 +82,7 @@
                margin-right: 3px;
                text-decoration: none;
                color: $gray-titles;
-               font-size: 1.3rem;
+               font-size: 1.2rem;
                font-weight: 600;
                transition: 0.3s ease-in-out;
 
