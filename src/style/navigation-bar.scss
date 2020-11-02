@@ -8,8 +8,8 @@
    .left-column{
       img{
          margin-left: 8px;
-         width: 120px;
-         height: 90px;
+         width: 100px;
+         height: 70px;
       }
    }
 
@@ -27,7 +27,7 @@
                font-weight: 600;
                text-decoration: none;
                transition: 0.3s ease-in-out;
-
+               
                &:hover{
                   color: $orange-buttons;
                }

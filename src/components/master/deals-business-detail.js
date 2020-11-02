@@ -57,7 +57,11 @@ export default function BusinessDashboard(props) {
 
 
    const getBaDealsList = () => {
-      axios.get(`${devEnv}/api/ba/deals/${props.match.params.slug}`)
+      axios.post(`${devEnv}/api/ba/deals`,
+         {
+            userId: props.match.params.slug,
+            currentDate: moment.utc().format()
+         })
          .then(response => {
             console.log('deals', response.data);
 
@@ -66,7 +70,7 @@ export default function BusinessDashboard(props) {
             )
          })
          .catch(error => {
-            console.log('getDealActive error', error);
+            console.log('getBaDealsList error', error);
          })
    }
 

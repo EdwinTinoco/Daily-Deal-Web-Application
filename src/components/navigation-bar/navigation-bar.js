@@ -83,7 +83,7 @@ export default function NavigationBar(props) {
                   (
                      <div className="link">
                         <Link to="/ma/dashboard">Dashboard</Link>
-                        <Link to='/ma/create-business-account'>Create Account</Link>
+                        <Link to='/ma/create-business-account'>Add Business</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?
