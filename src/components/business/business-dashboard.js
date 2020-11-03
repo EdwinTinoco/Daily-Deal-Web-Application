@@ -137,7 +137,6 @@ export default function BusinessDashboard(props) {
                for (let obj of response.data) {
                   month.push(obj.month)
 
-
                   // console.log('total sales', obj.total_sales.toFixed(2));
 
                   var letters = "0123456789ABCDEF";
