@@ -9,7 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { devEnv } from "../../helpers/dev-env"
 
-const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
+// Edwin Stripe public key
+// const stripePromise = loadStripe("pk_test_51HTxLRAFD2E6aSKk4f3OQMDwGevL1dXK2Sd0dL0qZYx5CXbYcOghi8ste5kVZbJGuUeGO1EjFxhd9hvmp5NupDrN00hRF1kuNL")
+
+// Stripe public Key
+const stripePromise = loadStripe("pk_test_51HXZA6F3M3OrXfq78UWOhSzqHY2wWIqvz0LQvx7qsFWj1x0VzBH4V1UsgIVGU08eUTIQS6VUbcFA5Drc74Wd3yQb00gWwXDopE")
 
 const Message = (props) => (
    <section>

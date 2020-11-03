@@ -1,5 +1,4 @@
 import React, { useState, } from "react"
-import Cookies from 'js-cookie'
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

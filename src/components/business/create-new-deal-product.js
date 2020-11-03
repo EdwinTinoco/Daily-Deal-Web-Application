@@ -142,13 +142,6 @@ export default function CreateNewDealProduct(props) {
       setShowSpinner("block")
 
       if (validate()) {
-
-         // var date = moment.utc().format();
-         // console.log(date, "- now in UTC"); 
-
-         // var local = moment.utc(date).local().format();
-         // console.log(local, "- UTC now to local");
-
          let createDateDB = moment.utc().format();
          let startDateDB = createDateDB;
          let finishDateDB = moment.utc().add(1, 'days').format();
