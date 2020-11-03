@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AllActiveDealsList(props) {
@@ -29,7 +30,7 @@ export default function AllActiveDealsList(props) {
             </Link>
          </td>
          <td>{user_email}</td>
-         <td>{deal_created_date}</td>
+         <td>{moment.utc(deal_created_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
          <td>{stock_quantity}</td>
          <td>{stock_left}</td>
          <td>{`$${product_price}`}</td>

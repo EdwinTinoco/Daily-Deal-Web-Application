@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from 'moment';
-import Cookies from 'js-cookie';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
