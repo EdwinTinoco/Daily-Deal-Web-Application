@@ -56,6 +56,7 @@ export default function BusinessDashboard(props) {
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
    const [dataChart, setDataChart] = useState({})
+   const [year, setYear] = useState("")
 
 
    const getBaDealsList = () => {
@@ -121,8 +122,9 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         let monthYear = []
-         let monthYearNoDuplicates = []
+         let month = []
+         let monthNoDuplicates = []
+         let monthWord = []
          let data = []
          let dataSet = []
 
@@ -130,11 +132,13 @@ export default function BusinessDashboard(props) {
             .then(response => {
                console.log('all deals totals', response.data);
 
+               setYear(response.data[0]['year'])
+
                for (let obj of response.data) {
-                  monthYear.push(obj.month_year)
+                  month.push(obj.month)
 
 
-                  console.log('total sales', obj.total_sales.toFixed(2));
+                  // console.log('total sales', obj.total_sales.toFixed(2));
 
                   var letters = "0123456789ABCDEF";
                   var color = '#';
@@ -142,8 +146,7 @@ export default function BusinessDashboard(props) {
                      color += letters[(Math.floor(Math.random() * 16))];
 
                   // data.push(parseFloat(obj.total_sales).toFixed(2))
-                  console.log('data array', data);
-
+                  // console.log('data array', data);
 
                   dataSet.push({
                      label: obj.product_title,
@@ -153,10 +156,54 @@ export default function BusinessDashboard(props) {
                   })
                }
 
-               monthYearNoDuplicates = [...new Set(monthYear)];
+               monthNoDuplicates = [...new Set(month)];
+               console.log('labels', monthNoDuplicates);
+
+               for (var item of monthNoDuplicates) {
+                  switch (item) {
+                     case 1:
+                        monthWord.push('Jan');
+                        break;
+                     case 2:
+                        monthWord.push('feb');
+                        break;
+                     case 3:
+                        monthWord.push('Mar');
+                        break;
+                     case 4:
+                        monthWord.push('Apr');
+                        break;
+                     case 5:
+                        monthWord.push('May');
+                        break;
+                     case 6:
+                        monthWord.push('Jun');
+                        break;
+                     case 7:
+                        monthWord.push('Jul');
+                        break;
+                     case 8:
+                        monthWord.push('Aug');
+                        break;
+                     case 9:
+                        monthWord.push('Sep');
+                        break;
+                     case 10:
+                        monthWord.push('Oct');
+                        break;
+                     case 11:
+                        monthWord.push('Nov');
+                        break;
+                     case 12:
+                        monthWord.push('Dec');
+                        break;
+                  }
+               }
+
+               console.log('month word', monthWord);
 
                setDataChart({
-                  labels: monthYearNoDuplicates,
+                  labels: monthWord,
                   datasets: dataSet
                })
 
@@ -243,13 +290,13 @@ export default function BusinessDashboard(props) {
             <div className="chart-deals">
                <Bar
                   data={dataChart}
-                  width={110}
+                  width={120}
                   height={40}
                   options={{
                      title: {
                         display: true,
-                        text: 'Totals per product deal',
-                        fontSize: 20
+                        text: `Product deals totals per month in ${year}`,
+                        fontSize: 15
                      },
                      legend: {
                         display: true,
