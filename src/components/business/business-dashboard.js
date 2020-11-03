@@ -58,44 +58,6 @@ export default function BusinessDashboard(props) {
    const [dataChart, setDataChart] = useState({})
 
 
-   // const updateDealStatus = () => {
-   //    let userCookie = Cookies.get("_sb%_user%_session")
-   //    let temp = 0
-   //    let userIdArr = []
-
-   //    if (userCookie !== undefined) {
-   //       for (var i = 0; i < userCookie.length; i++) {
-   //          if (userCookie[i] == "%") {
-   //             temp += 1
-   //          }
-
-   //          if (temp === 2) {
-   //             if (userCookie[i] !== "%") {
-   //                userIdArr.push(userCookie[i])
-   //             }
-   //          }
-   //       }
-
-   //       var userId = userIdArr.join('')
-
-   //       setUserId(userId)
-
-   //       axios.post(`${devEnv}/api/update/deals-status`,
-   //          {
-   //             userId: userId,
-   //             currentDate: moment.utc().format()
-   //          }
-   //       ).then(response => {
-   //          console.log('update deal status', response.data);
-
-   //       }).catch(error => {
-   //          console.log('updateDealStatus error', error);
-
-   //       })
-   //    }
-   // }
-
-
    const getBaDealsList = () => {
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
@@ -269,7 +231,6 @@ export default function BusinessDashboard(props) {
    }
 
    useEffect(() => {
-      // updateDealStatus()
       getBaChartAllDealsTotalsSales()
       getBaDealsList()
    }, [])
@@ -294,6 +255,7 @@ export default function BusinessDashboard(props) {
                         display: true,
                         position: 'right'
                      },
+                     responsive: true,
                      maintainAspectRatio: false
                   }}
                />
@@ -325,9 +287,9 @@ export default function BusinessDashboard(props) {
             </div>
          </div>
 
-         <div className="check-sku-inventory">
+         {/* <div className="check-sku-inventory">
             <button type="button" onClick={checkStripeSkuStock}>Check SKU Stock</button>
-         </div>
+         </div> */}
 
          <div className="active-deals-wrapper">
             <div className="title">
