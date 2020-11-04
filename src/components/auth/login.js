@@ -129,7 +129,7 @@ export default class Login extends Component {
                      <div className="form-group">
                         <label htmlFor="email"><b>Email address</b></label>
                         <div className="inputs">
-                           <FontAwesomeIcon icon="envelope" />
+                           <FontAwesomeIcon icon="user" />
                            <input
                               type="email"
                               name="email"
