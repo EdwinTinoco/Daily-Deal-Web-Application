@@ -216,9 +216,10 @@ export default function CreateBusinessAccount(props) {
          <NavigationBar />
 
          <div className="signup-form-wrapper">
-            <p>Create Business Account</p>
 
             <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
+               <p>Create Business Account</p>
+
                <div className="form-group">
                   <label htmlFor="name"><b>Company / Name</b></label>
                   <input type='text'
