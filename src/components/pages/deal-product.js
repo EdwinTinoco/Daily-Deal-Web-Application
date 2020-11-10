@@ -35,7 +35,7 @@ export default function DealProduct(props) {
    const handleLogout = () => {
       setUser({})
       Cookies.remove("_sb%_user%_session")
-      // window.location.reload(false);
+      window.location.reload(false);
    }
 
    const handleBuyButton = async (e) => {
