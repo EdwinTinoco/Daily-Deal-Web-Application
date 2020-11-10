@@ -32,6 +32,12 @@ export default function DealProduct(props) {
    const [message, setMessage] = useState("");
 
 
+   const handleLogout = () => {
+      setUser({})
+      Cookies.remove("_sb%_user%_session")
+      // window.location.reload(false);
+   }
+
    const handleBuyButton = async (e) => {
       setShowSpinner("block")
 
@@ -267,12 +273,16 @@ export default function DealProduct(props) {
                         {Object.entries(user).length > 0 ?
                            (
                               <div className="buy-button">
-                                 <button id="checkout-button" role="link" onClick={handleBuyButton}>
+                                 <button id="checkout-button" className="buy" role="link" onClick={handleBuyButton}>
                                     BUY
                                  </button>
 
+                                 <button type="button" className="logout" onClick={handleLogout}>
+                                    LOG OUT
+                                 </button>
+
                                  <div className="spinner" style={{ display: showSpinner }}>
-                                    <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
+                                    <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
                                  </div>
                               </div>
                            )

@@ -29,7 +29,7 @@ export default function SignUpAdmin(props) {
             body: JSON.stringify({
                role: "master_admin",
                name: name,
-               email: email,
+               email: email.toLowerCase(),
                code: adminCode,
                password: password,
                active: "Y"

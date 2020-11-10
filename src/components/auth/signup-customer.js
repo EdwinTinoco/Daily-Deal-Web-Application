@@ -29,7 +29,7 @@ export default function SignUpCustomer(props) {
             body: JSON.stringify({
                role: "user",
                name: name,
-               email: email,
+               email: email.toLowerCase(),
                password: password,
                active: "Y"
             })
