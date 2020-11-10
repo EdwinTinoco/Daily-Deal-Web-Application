@@ -232,6 +232,20 @@ export default function CreateBusinessAccount(props) {
                   <div className="error-validation">{errorsValidation.name}</div>
                </div>
 
+               <div className="form-group">
+                  <label htmlFor="logo"><b>Select a logo</b></label>
+                  <DropzoneComponent
+                     name="logo"
+                     ref={logoRef}
+                     config={componentConfig()}
+                     djsConfig={djsConfig()}
+                     eventHandlers={handleThumbDrop1()}
+                  >
+                     <div className="dz-message">Drop the image here to upload</div>
+                  </DropzoneComponent>
+                  <div className="error-validation">{errorsValidation.logo}</div>
+               </div>
+
                <div className="address">
                   <div className="form-group">
                      <label htmlFor="line1"><b>Address</b></label>
@@ -343,20 +357,6 @@ export default function CreateBusinessAccount(props) {
                      onChange={({ target }) => { setConfirmPassword(target.value) }}
                   />
                   <div className="error-validation">{errorsValidation.confirmPassword}</div>
-               </div>
-
-               <div className="form-group">
-                  <label htmlFor="logo"><b>Select a logo</b></label>
-                  <DropzoneComponent
-                     name="logo"
-                     ref={logoRef}
-                     config={componentConfig()}
-                     djsConfig={djsConfig()}
-                     eventHandlers={handleThumbDrop1()}
-                  >
-                     <div className="dz-message">Drop the image here to upload</div>
-                  </DropzoneComponent>
-                  <div className="error-validation">{errorsValidation.logo}</div>
                </div>
 
                <div className="message">
