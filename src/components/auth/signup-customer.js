@@ -126,9 +126,9 @@ export default function SignUpCustomer(props) {
          </div>
 
          <div className="signup-form-wrapper">
-
             <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
                <p>Sign up</p>
+
                <div className="form-group">
                   <label htmlFor="name"><b>Name</b></label>
                   <input type='text'

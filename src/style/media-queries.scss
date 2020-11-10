@@ -188,9 +188,17 @@
    }
 
    // Signup Customer
-   // .signup-main-wrapper{
-
-   // }
+   .signup-main-wrapper{
+      .signup-form-wrapper{
+         .signup-form{          
+            .form-group{
+               .new-entry-input{ 
+                  width: 280px;
+               }
+            }
+         }
+      }
+   }
 
 
 

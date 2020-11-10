@@ -133,81 +133,79 @@ export default function SignUpAdmin(props) {
          </div>
 
          <div className="signup-form-wrapper">
-            <div className="right-side">
+            <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
                <p>Sign up</p>
 
-               <form onSubmit={handleSubmitRegisterNewUser} className="signup-form">
-                  <div className="form-group">
-                     <label htmlFor="name"><b>Name</b></label>
-                     <input type='text'
-                        className='new-entry-input'
-                        name="name"
-                        placeholder='Name'
-                        value={name}
-                        onChange={({ target }) => { setName(target.value) }}
-                     />
-                     <div className="error-validation">{errorsValidation.name}</div>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="name"><b>Name</b></label>
+                  <input type='text'
+                     className='new-entry-input'
+                     name="name"
+                     placeholder='Name'
+                     value={name}
+                     onChange={({ target }) => { setName(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.name}</div>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="email"><b>Email address</b></label>
-                     <input type='text'
-                        className='new-entry-input'
-                        name="email"
-                        placeholder='Email'
-                        value={email}
-                        onChange={({ target }) => { setEmail(target.value) }}
-                     />
-                     <div className="error-validation">{errorsValidation.email}</div>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="email"><b>Email address</b></label>
+                  <input type='text'
+                     className='new-entry-input'
+                     name="email"
+                     placeholder='Email'
+                     value={email}
+                     onChange={({ target }) => { setEmail(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.email}</div>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="admin-code"><b>Code</b></label>
-                     <input type='password'
-                        className='new-entry-input'
-                        name="admin-code"
-                        placeholder='Code'
-                        value={adminCode}
-                        onChange={({ target }) => { setAdminCode(target.value) }}
-                     />
-                     <div className="error-validation">{errorsValidation.adminCode}</div>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="admin-code"><b>Code</b></label>
+                  <input type='password'
+                     className='new-entry-input'
+                     name="admin-code"
+                     placeholder='Code'
+                     value={adminCode}
+                     onChange={({ target }) => { setAdminCode(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.adminCode}</div>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="password"><b>Password</b></label>
-                     <input type='password'
-                        className='new-entry-input'
-                        name="password"
-                        placeholder='Password'
-                        value={password}
-                        onChange={({ target }) => { setPassword(target.value) }}
-                     />
-                     <div className="error-validation">{errorsValidation.password}</div>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="password"><b>Password</b></label>
+                  <input type='password'
+                     className='new-entry-input'
+                     name="password"
+                     placeholder='Password'
+                     value={password}
+                     onChange={({ target }) => { setPassword(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.password}</div>
+               </div>
 
-                  <div className="form-group">
-                     <label htmlFor="confirm-password"><b>Confirm Password</b></label>
-                     <input type='password'
-                        className='new-entry-input'
-                        name="confirmPassword"
-                        placeholder='Confirm Password'
-                        value={confirmPassword}
-                        onChange={({ target }) => { setConfirmPassword(target.value) }}
-                     />
-                     <div className="error-validation">{errorsValidation.confirmPassword}</div>
-                  </div>
+               <div className="form-group">
+                  <label htmlFor="confirm-password"><b>Confirm Password</b></label>
+                  <input type='password'
+                     className='new-entry-input'
+                     name="confirmPassword"
+                     placeholder='Confirm Password'
+                     value={confirmPassword}
+                     onChange={({ target }) => { setConfirmPassword(target.value) }}
+                  />
+                  <div className="error-validation">{errorsValidation.confirmPassword}</div>
+               </div>
 
-                  <div className="message">
-                     <p>{message}</p>
-                  </div>
+               <div className="message">
+                  <p>{message}</p>
+               </div>
 
-                  <button type='submit' className='signup-button'>Sign up</button>
+               <button type='submit' className='signup-button'>Sign up</button>
 
-                  <div className="spinner" style={{ display: showSpinner }}>
-                     <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
-                  </div>
-               </form>
-            </div>
+               <div className="spinner" style={{ display: showSpinner }}>
+                  <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
+               </div>
+            </form>
          </div>
       </div>
    )
