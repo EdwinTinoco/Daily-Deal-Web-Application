@@ -13,7 +13,7 @@ export default function Home() {
 
          <div className="title-info-img">
             <div className="title">
-               <p>Kudu Web Application</p>
+               <p>Kudu Daily Deals</p>
                <p>{devEnv}</p>
             </div>
 
