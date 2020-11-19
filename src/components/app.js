@@ -15,7 +15,6 @@ import Home from './pages/home'
 import MasterDashboard from "./master/master-dashboard";
 import CreateBusinessAccount from "./master/create-business-account";
 import DealsBusinessDetail from "./master/deals-business-detail";
-import BusinessProductDealDetail from "./master/business-product-deal-detail";
 import BusinessDashboard from "./business/business-dashboard";
 import CreateNewDealProduct from "./business/create-new-deal-product";
 import ActiveDealDetail from "./business/active-deal-detail";
@@ -120,11 +119,6 @@ export default function App(props) {
           path="/ma/deals-business/detail/:slug"
           component={DealsBusinessDetail}
         />,
-        // <Route
-        //   key="ma-deals-business-detail"
-        //   path="/ma/business/product-deal/detail/:slug"
-        //   component={BusinessProductDealDetail}
-        // />,
         <Route
           key="ba-active-deal-detail"
           path="/ba/active-deal/detail/:slug"
@@ -202,97 +196,3 @@ export default function App(props) {
     </div>
   );
 }
-
-
-// const ProtectedHome = ({ user, component: Component, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={props => user === "" ?
-//         (
-//           <Component {...props} />
-//         ) :
-//         (
-//           <Redirect to="/ma/dashboard" />
-//         )
-//       }
-//     />
-//   )
-// }
-
-// const ProtectedAuth = ({ user, component: Component, ...rest }) => {
-//   console.log('protected from auth', user);
-
-//   return (
-//     <Route
-//       {...rest}
-//       render={props => user === "" ?
-//         (
-//           <Component {...props} />
-//         ) :
-//         (
-//           <Redirect to="/" />
-//         )
-//       }
-//     />
-//   )
-// }
-
-// const ProtectedMADashboard = ({ role, component: Component, ...rest }) => {
-//   let currentUser = Cookies.get("_sb%_user%_session")
-//   console.log('protected from ma dashboard', role);
-
-//   return (
-//     <Route
-//       {...rest}
-//       render={props => currentUser !== "" && role === "master_admin" ?
-
-//         (
-//           <Component {...props} />
-//         )
-//         :
-//         (
-//           <Redirect to="/" />
-//         )
-//       }
-//     />
-//   )
-// }
-
-// const ProtectedMACreateBusinessAccount = ({ user, component: Component, ...rest }) => {
-//   let currentUser = Cookies.get("_sb%_user%_session")
-//   console.log('protected from ma create accunt', user);
-
-//   return (
-//     <Route
-//       {...rest}
-//       render={props => currentUser !== "" && currentUser !== undefined ?
-//         (
-//           <Component {...props} />
-//         ) :
-//         (
-//           <Redirect to="/" />
-//         )
-//       }
-//     />
-//   )
-// }
-
-// const ProtectedMACreateDealsBusiness = ({ user, component: Component, ...rest }) => {
-//   let currentUser = Cookies.get("_sb%_user%_session")
-//   console.log('protected from ma create accunt', user);
-
-//   return (
-//     <Route
-//       {...rest}
-//       render={props => currentUser !== "" && currentUser !== undefined ?
-//         (
-//           <Component {...props} />
-//         ) :
-//         (
-//           <Redirect to="/" />
-//         )
-//       }
-//     />
-//   )
-// }

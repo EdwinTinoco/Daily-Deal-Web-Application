@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from 'moment';
 import Cookies from 'js-cookie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
@@ -57,6 +58,7 @@ export default function BusinessDashboard(props) {
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
    const [dataChart, setDataChart] = useState({})
    const [year, setYear] = useState("")
+   const [showSpinner, setShowSpinner] = useState("none")
 
 
    const getBaDealsList = () => {
@@ -100,7 +102,9 @@ export default function BusinessDashboard(props) {
       }
    }
 
-   const getBaChartAllDealsTotalsSales = () => {
+   const getBaChartAllDealsTotalsSales = async () => {
+      setShowSpinner("block")
+
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
       let userIdArr = []
@@ -128,7 +132,7 @@ export default function BusinessDashboard(props) {
          let data = []
          let dataSet = []
 
-         axios.get(`${devEnv}/api/ba/all-deals/totals/${userId}`)
+         await axios.get(`${devEnv}/api/ba/all-deals/totals/${userId}`)
             .then(response => {
                console.log('all deals totals', response.data);
 
@@ -220,9 +224,12 @@ export default function BusinessDashboard(props) {
                setActiveDealsTotals(
                   response.data
                )
+
+               setShowSpinner("none")
             })
             .catch(error => {
                console.log('getBaChartAllDealsTotalsSales error', error);
+               setShowSpinner("none")
             })
       }
    }
@@ -285,70 +292,82 @@ export default function BusinessDashboard(props) {
       <div className="business-admin-main-wrapper">
          <NavigationBar />
 
-         <div className="chart-total-sales-info">
-            <div className="chart-deals">
-               <Bar
-                  data={dataChart}
-                  width={120}
-                  height={40}
-                  options={{
-                     title: {
-                        display: true,
-                        text: `Product deals totals per month in ${year}`,
-                        fontSize: 15
-                     },
-                     legend: {
-                        display: true,
-                        position: 'right'
-                     },
-                     responsive: true,
-                     maintainAspectRatio: false
-                  }}
-               />
-            </div>
+         {showSpinner === "block" ? 
+            (
+               <div className="spinner" style={{ display: showSpinner }}>
+                  <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+               </div> 
+            )
+            :
+            (
+               <div>
+                  <div className="chart-total-sales-info">
+                     <div className="chart-deals">
+                        <Bar
+                           data={dataChart}
+                           width={120}
+                           height={40}
+                           options={{
+                              title: {
+                                 display: true,
+                                 text: `Product deals totals per month in ${year}`,
+                                 fontSize: 15
+                              },
+                              legend: {
+                                 display: true,
+                                 position: 'right'
+                              },
+                              responsive: true,
+                              maintainAspectRatio: false
+                           }}
+                        />
+                     </div>
 
-            <div className="deals-total-sales-info">
-               <div className="gran-total-sales">
-                  <div className="title">
-                     <p>Total Sales</p>
+                     <div className="deals-total-sales-info">
+                        <div className="gran-total-sales">
+                           <div className="title">
+                              <p>Total Sales</p>
+                           </div>
+
+                           <div className="total">
+                              <p>{`$${activeDealsGranTotal}`}</p>
+                           </div>
+                        </div>
+
+                        <div className="deals-total-sales-list">
+                           <div className="title">
+                              <h2>Deals Sales</h2>
+                           </div>
+
+                           <table id='totals-deals-sales-table'>
+                              <tbody>
+                                 <tr>{tableHeaderActiveDealsTotals()}</tr>
+                                 {acitveDealsTotals()}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
                   </div>
 
-                  <div className="total">
-                     <p>{`$${activeDealsGranTotal}`}</p>
+                  {/* <div className="check-sku-inventory">
+                     <button type="button" onClick={checkStripeSkuStock}>Check SKU Stock</button>
+                  </div> */}
+
+                  <div className="active-deals-wrapper">
+                     <div className="title">
+                        <h2>Deals List</h2>
+                     </div>
+
+                     <table id='active-deals-table'>
+                        <tbody>
+                           <tr>{tableHeaderActiveDeals()}</tr>
+                           {acitveDealsItems()}
+                        </tbody>
+                     </table>
                   </div>
                </div>
-
-               <div className="deals-total-sales-list">
-                  <div className="title">
-                     <h2>Deals Sales</h2>
-                  </div>
-
-                  <table id='totals-deals-sales-table'>
-                     <tbody>
-                        <tr>{tableHeaderActiveDealsTotals()}</tr>
-                        {acitveDealsTotals()}
-                     </tbody>
-                  </table>
-               </div>
-            </div>
-         </div>
-
-         {/* <div className="check-sku-inventory">
-            <button type="button" onClick={checkStripeSkuStock}>Check SKU Stock</button>
-         </div> */}
-
-         <div className="active-deals-wrapper">
-            <div className="title">
-               <h2>Deals List</h2>
-            </div>
-
-            <table id='active-deals-table'>
-               <tbody>
-                  <tr>{tableHeaderActiveDeals()}</tr>
-                  {acitveDealsItems()}
-               </tbody>
-            </table>
-         </div>
+            )
+         }
       </div>
    )
 }

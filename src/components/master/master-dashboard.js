@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
 
 import NavigationBar from "../navigation-bar/navigation-bar"
@@ -37,6 +38,7 @@ export default function MasterDashboard(props) {
    const [allActiveDeals, setAllActiveDeals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [dataChart, setDataChart] = useState({})
+   const [showSpinner, setShowSpinner] = useState("none")
 
    const getAllActiveDealsList = () => {
       let currentDate = moment.utc().format()
@@ -54,13 +56,14 @@ export default function MasterDashboard(props) {
          })
    }
 
-   const getBaChartAllDealsTotalsSales = () => {
+   const getBaChartAllDealsTotalsSales = async () => {
+      setShowSpinner("block")
 
       let monthYear = []
       let monthYearNoDuplicates = []
       let dataSet = []
 
-      axios.get(`${devEnv}/api/ma/all-deals/totals`)
+      await axios.get(`${devEnv}/api/ma/all-deals/totals`)
          .then(response => {
             console.log('all ma deals totals', response.data);
 
@@ -96,9 +99,12 @@ export default function MasterDashboard(props) {
             setActiveDealsTotals(
                response.data
             )
+
+            setShowSpinner("none")
          })
          .catch(error => {
             console.log('getBaChartAllDealsTotalsSales error', error);
+            setShowSpinner("none")
          })
    }
 
@@ -149,55 +155,67 @@ export default function MasterDashboard(props) {
       <div className="master-admin-main-wrapper">
          <NavigationBar />
 
-         <div className="chart-total-sales-info">
-            <div className="chart-deals">
-               <Bar
-                  data={dataChart}
-                  width={110}
-                  height={40}
-                  options={{
-                     title: {
-                        display: true,
-                        text: 'Sales per Business Account',
-                        fontSize: 10
-                     },
-                     legend: {
-                        display: true,
-                        position: 'right'
-                     },
-                     maintainAspectRatio: false
-                  }}
-               />
-            </div>
+         {showSpinner === "block" ? 
+            (
+               <div className="spinner" style={{ display: showSpinner }}>
+                  <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+               </div> 
+            )
+            :
+            (
+               <div>
+                  <div className="chart-total-sales-info">
+                     <div className="chart-deals">
+                        <Bar
+                           data={dataChart}
+                           width={110}
+                           height={40}
+                           options={{
+                              title: {
+                                 display: true,
+                                 text: 'Sales per Business Account',
+                                 fontSize: 10
+                              },
+                              legend: {
+                                 display: true,
+                                 position: 'right'
+                              },
+                              maintainAspectRatio: false
+                           }}
+                        />
+                     </div>
 
-            <div className="deals-total-sales-info">
-               <div className="deals-total-sales">
-                  <div className="title">
-                     <h2>Deals Sales</h2>
+                     <div className="deals-total-sales-info">
+                        <div className="deals-total-sales">
+                           <div className="title">
+                              <h2>Deals Sales</h2>
+                           </div>
+
+                           <table id='totals-deals-sales-table'>
+                              <tbody>
+                                 <tr>{tableHeaderActiveDealsTotals()}</tr>
+                                 {acitveDealsTotals()}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
                   </div>
 
-                  <table id='totals-deals-sales-table'>
-                     <tbody>
-                        <tr>{tableHeaderActiveDealsTotals()}</tr>
-                        {acitveDealsTotals()}
-                     </tbody>
-                  </table>
+                  <div className="active-deals-wrapper">
+                     <div className="title">
+                        <h2>Deals List</h2>
+                     </div>
+
+                     <table id='active-deals-table'>
+                        <tbody>
+                           <tr>{tableHeaderAllActiveDeals()}</tr>
+                           {allAcitveDealsItems()}
+                        </tbody>
+                     </table>
+                  </div>
                </div>
-            </div>
-         </div>
-
-         <div className="active-deals-wrapper">
-            <div className="title">
-               <h2>Deals List</h2>
-            </div>
-
-            <table id='active-deals-table'>
-               <tbody>
-                  <tr>{tableHeaderAllActiveDeals()}</tr>
-                  {allAcitveDealsItems()}
-               </tbody>
-            </table>
-         </div>
+            )
+         }
       </div>
    )
 }

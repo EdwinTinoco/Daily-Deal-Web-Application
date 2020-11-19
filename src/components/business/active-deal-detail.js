@@ -13,6 +13,7 @@ export default function ActiveDealDetail(props) {
    const [dealId] = useState(props.match.params.slug)
    const [deal, setDeal] = useState({})
    const [sales, setSales] = useState([])
+   const [showSpinner, setShowSpinner] = useState("none")
 
    const [csvHeadersShippingToCustomer] = useState([
       { label: "Customer Name", key: "user_name" },
@@ -77,15 +78,20 @@ export default function ActiveDealDetail(props) {
          })
    }
 
-   const getSales = () => {
-      axios.get(`${devEnv}/api/sales-deal/detail/${props.match.params.slug}`)
+   const getSales = async () => {
+      setShowSpinner("block")
+
+      await axios.get(`${devEnv}/api/sales-deal/detail/${props.match.params.slug}`)
          .then(response => {
             console.log('sales', response.data);
 
             setSales(response.data)
+
+            setShowSpinner("none")
          })
          .catch(error => {
             console.log('getSales error', error);
+            setShowSpinner("none")
          })
    }
 
@@ -193,6 +199,7 @@ export default function ActiveDealDetail(props) {
    return (
       <div className="deal-detail-main-wrapper">
          <NavigationBar />
+
          <div className="deal-detail-info">
             <div className="product-info">
                <p className="title">Product Info</p>
@@ -235,12 +242,31 @@ export default function ActiveDealDetail(props) {
                </div>
             </div>
 
-            <table id='deal-sales-table'>
-               <tbody>
-                  <tr>{tableHeaderADealSales()}</tr>
-                  {DealSales()}
-               </tbody>
-            </table>
+            
+
+            {sales.length > 0 ? 
+               (
+                  <table id='deal-sales-table'>
+                     <tbody>
+                        <tr>{tableHeaderADealSales()}</tr>
+                           {DealSales()}
+                     </tbody>
+                  </table>
+               )
+               :
+               (
+                  <div className="no-sales">
+                     <div className="spinner" style={{ display: showSpinner }}>
+                        <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+                     </div>   
+
+                     {showSpinner === "none" ? 
+                        <h3>There's no sales for this product yet</h3>
+                        : null
+                     }                  
+                  </div>
+               )
+            }            
          </div>
       </div>
    )
