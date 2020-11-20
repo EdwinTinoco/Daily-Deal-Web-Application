@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 
-export default function Footer(props) {
+export default function Footer() {
    return (
       <div className="footer-main-wrapper">
          <div className="columns-wrapper">
@@ -30,7 +30,7 @@ export default function Footer(props) {
                   </div>
 
                   <div className="link">
-                     <Link to="/contact">Contact Us</Link>
+                     <Link to="/">Contact Us</Link>
                   </div>
                </div>
             </div>

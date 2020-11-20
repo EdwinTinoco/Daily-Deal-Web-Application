@@ -8,7 +8,7 @@ import Logo from '../../../static/assets/images/logo/kudu-LogoLightBG.png'
 import { devEnv } from "../../helpers/dev-env"
 
 
-export default function NavigationBar(props) {
+export default function NavigationBar() {
    const [user, setUser] = useState({})
 
    const handleLogout = () => {

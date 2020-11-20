@@ -29,6 +29,7 @@ export default function ActiveDealDetail(props) {
    const [deal, setDeal] = useState({})
    const [sales, setSales] = useState([])
    const [showSpinner, setShowSpinner] = useState("none")
+   const [showSpinner2, setShowSpinner2] = useState("none")
 
    const [csvHeadersShippingToCustomer] = useState([
       { label: "Customer Name", key: "user_name" },
@@ -81,16 +82,21 @@ export default function ActiveDealDetail(props) {
    ])
 
 
-   const getDeal = () => {
-      axios.get(`${devEnv}/api/active-deal/detail/${dealId}`)
-         .then(response => {
-            console.log('active deal product', response.data);
+   const getDeal = async () => {
+      setShowSpinner2("block");
+      
+      await axios.get(`${devEnv}/api/active-deal/detail/${dealId}`)
+      .then(response => {
+         console.log('active deal product', response.data);
+         
+         setDeal(response.data[0])
 
-            setDeal(response.data[0])
-         })
-         .catch(error => {
-            console.log('getDeal error', error);
-         })
+         setShowSpinner2("none");
+      })
+      .catch(error => {
+         console.log('getDeal error', error);
+         setShowSpinner2("none");
+      })
    }
 
    const getSales = async () => {
@@ -220,7 +226,16 @@ export default function ActiveDealDetail(props) {
                   <p className="title">Product Info</p>
 
                   <div className="img-info">
-                     <img className="picture" src={picture_product} alt="picture" />
+                     {Object.entries(deal).length > 0 ?
+                        (
+                           <img className="picture" src={picture_product} alt="picture" />
+                        ):
+                        (
+                           <div className="spinner" style={{ display: showSpinner2 }}>
+                              <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+                           </div> 
+                        )
+                     }
 
                      <div className="info">
                         <p className="product-title">{product_title}</p>
