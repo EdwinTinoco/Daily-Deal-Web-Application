@@ -36,7 +36,6 @@ export default function App(props) {
 
   Icons();
 
-
   const handleSuccessfulLogin = (userId, userRole) => {
     setLoggedInStatus("LOGGED_IN")
     setUserId(userId)
