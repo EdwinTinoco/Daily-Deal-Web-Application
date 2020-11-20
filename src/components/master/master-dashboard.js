@@ -168,13 +168,13 @@ export default function MasterDashboard(props) {
                      <div className="chart-deals">
                         <Bar
                            data={dataChart}
-                           width={110}
+                           width={150}
                            height={40}
                            options={{
                               title: {
                                  display: true,
                                  text: 'Sales per Business Account',
-                                 fontSize: 10
+                                 fontSize: 15
                               },
                               legend: {
                                  display: true,

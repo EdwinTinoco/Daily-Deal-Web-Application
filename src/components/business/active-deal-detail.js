@@ -2,12 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { CSVLink, CSVDownload } from "react-csv";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 import { devEnv } from "../../helpers/dev-env"
 
+const state = {
+   labels: ['January', 'February', 'March',
+            'April', 'May'],
+   datasets: [
+     {
+       label: 'Rainfall',
+       fill: false,
+       lineTension: 0.4,
+       backgroundColor: 'rgba(75,192,192,1)',
+       borderColor: 'rgba(0,0,0,1)',
+       borderWidth: 1,
+       data: [65, 59, 80, 81, 56]
+     }
+   ]
+ }
 
 export default function ActiveDealDetail(props) {
    const [dealId] = useState(props.match.params.slug)
@@ -174,7 +189,6 @@ export default function ActiveDealDetail(props) {
       })
    }
 
-
    useEffect(() => {
       getDeal()
       getSales()
@@ -200,24 +214,53 @@ export default function ActiveDealDetail(props) {
       <div className="deal-detail-main-wrapper">
          <NavigationBar />
 
-         <div className="deal-detail-info">
-            <div className="product-info">
-               <p className="title">Product Info</p>
-               <img className="picture" src={picture_product} alt="picture" />
-               <p className="product-title">{product_title}</p>
-               <p className="description">{product_description}</p>
-               <p className="stock">{`Stock: ${stock_quantity}`}</p>
-               <p className="stock">{`Left: ${stock_left}`}</p>
-               <p className="price">{`$${product_price}`}</p>
+         <div className="deal-detail-info-chart">
+            <div className="deal-detail-info">
+               <div className="product-info">
+                  <p className="title">Product Info</p>
+
+                  <div className="img-info">
+                     <img className="picture" src={picture_product} alt="picture" />
+
+                     <div className="info">
+                        <p className="product-title">{product_title}</p>
+                        <p className="description">{product_description}</p>
+                        <p className="stock">{`Stock: ${stock_quantity}`}</p>
+                        <p className="stock">{`Left: ${stock_left}`}</p>
+                        <p className="price">{`$${product_price}`}</p>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="deal-info">
+                  <p className="title">Deal Info</p>
+                  <p className="url">{`Deal url: ${deal_url}`}</p>
+                  <p className="dates">{`Started Date: ${moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
+                  <p className="dates">{`Finished Date: ${moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
+                  <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
+                  <p className="status">{`Deal Status: ${deal_status}`}</p>
+               </div>
             </div>
 
-            <div className="deal-info">
-               <p className="title">Deal Info</p>
-               <p className="url">{`Deal url: ${deal_url}`}</p>
-               <p className="dates">{`Started Date: ${moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
-               <p className="dates">{`Finished Date: ${moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
-               <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
-               <p className="status">{`Deal Status: ${deal_status}`}</p>
+            <div className="deal-detail-chart">
+               <Line
+                  data={state}
+                  width={100}
+                  height={40}
+                  options={{
+                     title: { 
+                        display: true,
+                        text: 'Average Rainfall per month',
+                        fontSize: 15
+                     },
+                     legend: {
+                        display: true,
+                        position: 'right'
+                     },
+                     responsive: true,
+                     maintainAspectRatio: false
+                  }}
+               />
             </div>
          </div>
 
@@ -240,9 +283,7 @@ export default function ActiveDealDetail(props) {
                      <p>Export to CSV</p>
                   </CSVLink>
                </div>
-            </div>
-
-            
+            </div>            
 
             {sales.length > 0 ? 
                (
