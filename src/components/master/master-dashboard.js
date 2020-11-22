@@ -42,7 +42,7 @@ export default function MasterDashboard(props) {
    const [showSpinner, setShowSpinner] = useState("none")
    const [showSpinner2, setShowSpinner2] = useState("none")
    const [activePage, setActivePage] = useState(1)
-   const [perPage] = useState(10)
+   const [perPage] = useState(15)
    const [pageRange] = useState(5)
    const [totalRecords, setTotalrecords] = useState(0)
    const [resultsRecords, setResultsRecords] = useState(0)
@@ -51,11 +51,17 @@ export default function MasterDashboard(props) {
       setActivePage(pageNumber);
 
       var offset = (pageNumber - 1) * perPage
-      getAllActiveDealsList(offset)
+      var first_load = false;
+      
+      getAllActiveDealsList(offset, first_load)
     }
 
-   const getAllActiveDealsList = async (offset) => {
-      setShowSpinner2("block")
+   const getAllActiveDealsList = async (offset, first_load) => {
+      if (first_load){
+         setShowSpinner2("none")
+      }else {
+         setShowSpinner2("block")
+      }
 
       await axios.post(`${devEnv}/api/ma/all-active-deals`,
       {
@@ -180,7 +186,9 @@ export default function MasterDashboard(props) {
       getBaChartAllDealsTotalsSales()
 
       var offset = 0;
-      getAllActiveDealsList(offset)
+      var first_load = true;
+
+      getAllActiveDealsList(offset, first_load)
    }, [])
 
    return (
