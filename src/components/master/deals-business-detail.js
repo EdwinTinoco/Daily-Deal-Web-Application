@@ -219,7 +219,7 @@ export default function BusinessDashboard(props) {
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Deal ID", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal #", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
 
       return headerActiveDeals.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>

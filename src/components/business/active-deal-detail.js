@@ -122,7 +122,7 @@ export default function ActiveDealDetail(props) {
 
       await axios.post(`${devEnv}/api/sales-deal/detail`,
       {
-         dealId: props.match.params.slug,
+         dealId: parseInt(props.match.params.slug),
          perPage: perPage,
          offset: offset
       })
