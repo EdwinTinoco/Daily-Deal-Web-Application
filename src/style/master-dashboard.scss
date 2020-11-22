@@ -76,6 +76,7 @@
 
    .active-deals-wrapper{
       margin-top: 25px ;
+
       .title{
          background-color: #facf57;
          text-align: center;
@@ -109,6 +110,53 @@
             color: white;
             font-size: 1rem;
          }  
+      }
+
+      .pagination{         
+         margin-top: 1px;
+         display: flex;
+         justify-content: left;
+         align-items: center;
+         list-style-type: none;
+
+         // li{
+         //    border: 1px solid #545454;
+         //    padding: 2px 5px;
+         // }
+
+         a{
+            color: #545454;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            padding: 1px 6px;
+            transition: 0.3s ease-in-out;
+
+            &:hover{
+               background-color: blue
+            }
+         }
+      }
+
+      .spinner2{ 
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         margin-top: -50px;
+         margin-left: -50px;
+         width: 100px;
+         height: 100px;
+   
+         svg{
+            color: $orange-buttons;
+            font-size: 3rem;
+         }
+   
+         p{
+            margin-top: 10px;
+            color: $gray-description;
+            font-size: 1.5rem;
+         }
       }
    }
 }

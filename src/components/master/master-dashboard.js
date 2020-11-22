@@ -3,6 +3,8 @@ import axios from "axios";
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
+import Pagination from "react-js-pagination";
+// require("bootstrap/less/bootstrap.less");
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import AllActiveDealsList from './all-active-deals-list'
@@ -34,26 +36,52 @@ import { devEnv } from "../../helpers/dev-env"
 // }
 
 export default function MasterDashboard(props) {
-   const [userId, setUserId] = useState()
+   // const [userId, setUserId] = useState()
    const [allActiveDeals, setAllActiveDeals] = useState([])
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [dataChart, setDataChart] = useState({})
    const [showSpinner, setShowSpinner] = useState("none")
+   const [showSpinner2, setShowSpinner2] = useState("none")
+   const [activePage, setActivePage] = useState(1)
+   const [perPage, setPerPage] = useState(3)
+   const [pageRange, setPageRange] = useState(5)
+   const [offset, setOffset] = useState(0)
+   const [totalRecords, setTotalrecords] = useState(0)
 
-   const getAllActiveDealsList = () => {
-      let currentDate = moment.utc().format()
+   const handlePageChange = (pageNumber) => {
+      console.log(`active page is ${pageNumber}`);
+      setActivePage(pageNumber);
+      setOffset(pageNumber * perPage)
 
-      axios.get(`${devEnv}/api/ma/all-active-deals/${currentDate}`)
-         .then(response => {
-            console.log('all active deals', response.data);
+      getAllActiveDealsList()
+    }
 
-            setAllActiveDeals(
-               response.data
-            )
-         })
-         .catch(error => {
-            console.log('getAllActiveDealsList error', error);
-         })
+   const getAllActiveDealsList = async () => {
+      setShowSpinner2("block")
+
+      await axios.post(`${devEnv}/api/ma/all-active-deals`,
+      {
+         currentDate: moment.utc().format(),
+         perPage: perPage,
+         offset: offset
+      })
+      .then(response => {
+         console.log('all active deals', response.data);
+
+         setAllActiveDeals(
+            response.data['all_deals']
+         )
+
+         setTotalrecords(
+            response.data['total_records']['@total_records']
+         )
+
+         setShowSpinner2("none")
+      })
+      .catch(error => {
+         console.log('getAllActiveDealsList error', error);
+         setShowSpinner2("none")
+      })
    }
 
    const getBaChartAllDealsTotalsSales = async () => {
@@ -206,12 +234,45 @@ export default function MasterDashboard(props) {
                         <h2>Deals List</h2>
                      </div>
 
-                     <table id='active-deals-table'>
-                        <tbody>
-                           <tr>{tableHeaderAllActiveDeals()}</tr>
-                           {allAcitveDealsItems()}
-                        </tbody>
-                     </table>
+                    
+                        {showSpinner2 === "none" ? 
+                           (
+                              <table id='active-deals-table'>
+                                 <tbody>
+                                    <tr>{tableHeaderAllActiveDeals()}</tr>
+                                    {allAcitveDealsItems()}
+                                 </tbody>     
+                              </table>     
+                           ):
+                           (
+                              <div>
+                                 <table id='active-deals-table'>
+                                    <tbody>
+                                       <tr>{tableHeaderAllActiveDeals()}</tr>
+                                    </tbody>
+                                 </table>    
+
+                                 <div className="spinner2" style={{ display: showSpinner2 }}>
+                                    <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+                                 </div> 
+                              </div>
+                           )
+                        }
+                     
+
+                     <Pagination
+                        prevPageText='prev'
+                        nextPageText='next'
+                        firstPageText='first'
+                        lastPageText='last'
+                        activePage={activePage}
+                        itemsCountPerPage={perPage}
+                        totalItemsCount={totalRecords}
+                        pageRangeDisplayed={pageRange}
+                        onChange={handlePageChange}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                     />
                   </div>
                </div>
             )
