@@ -4,6 +4,7 @@ import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Line } from 'react-chartjs-2';
 import { CSVLink, CSVDownload } from "react-csv";
+import Pagination from "react-js-pagination";
 
 import NavigationBar from '../navigation-bar/navigation-bar'
 import { devEnv } from "../../helpers/dev-env"
@@ -29,7 +30,12 @@ export default function ActiveDealDetail(props) {
    const [deal, setDeal] = useState({})
    const [sales, setSales] = useState([])
    const [showSpinner, setShowSpinner] = useState("none")
-   const [showSpinner2, setShowSpinner2] = useState("none")
+   const [showSpinner2, setShowSpinner2] = useState("none")   
+   const [activePage, setActivePage] = useState(1)
+   const [perPage] = useState(15)
+   const [pageRange] = useState(5)
+   const [totalRecords, setTotalrecords] = useState(0)
+   const [resultsRecords, setResultsRecords] = useState(0)
 
    const [csvHeadersShippingToCustomer] = useState([
       { label: "Customer Name", key: "user_name" },
@@ -81,9 +87,17 @@ export default function ActiveDealDetail(props) {
       { label: "Shipping Type", key: "shipping_type_title" }
    ])
 
+   const handlePageChange = (pageNumber) => {
+      setActivePage(pageNumber);
+
+      var offset = (pageNumber - 1) * perPage
+      var first_load = false;
+      
+      getSalesList(offset, first_load)
+    }
 
    const getDeal = async () => {
-      setShowSpinner2("block");
+      setShowSpinner("block");
       
       await axios.get(`${devEnv}/api/active-deal/detail/${dealId}`)
       .then(response => {
@@ -91,28 +105,47 @@ export default function ActiveDealDetail(props) {
          
          setDeal(response.data[0])
 
-         setShowSpinner2("none");
+         setShowSpinner("none");
       })
       .catch(error => {
          console.log('getDeal error', error);
-         setShowSpinner2("none");
+         setShowSpinner("none");
       })
    }
 
-   const getSales = async () => {
-      setShowSpinner("block")
+   const getSalesList = async (offset, first_load) => {
+      if (first_load){
+         setShowSpinner2("none")
+      } else {
+         setShowSpinner2("block")
+      }
 
-      await axios.get(`${devEnv}/api/sales-deal/detail/${props.match.params.slug}`)
+      await axios.post(`${devEnv}/api/sales-deal/detail`,
+      {
+         dealId: props.match.params.slug,
+         perPage: perPage,
+         offset: offset
+      })
          .then(response => {
             console.log('sales', response.data);
 
-            setSales(response.data)
+            setSales(
+               response.data['sales_deal']
+            )
 
-            setShowSpinner("none")
+            setTotalrecords(
+               response.data['total_records']['@total_records']
+            )
+            
+            setResultsRecords(
+               response.data['sales_deal'].length
+            )
+   
+            setShowSpinner2("none")
          })
          .catch(error => {
-            console.log('getSales error', error);
-            setShowSpinner("none")
+            console.log('getSalesList error', error);
+            setShowSpinner2("none")
          })
    }
 
@@ -197,7 +230,11 @@ export default function ActiveDealDetail(props) {
 
    useEffect(() => {
       getDeal()
-      getSales()
+
+      var offset = 0;
+      var first_load = true;
+
+      getSalesList(offset, first_load)
    }, [])
 
    const {
@@ -220,110 +257,129 @@ export default function ActiveDealDetail(props) {
       <div className="deal-detail-main-wrapper">
          <NavigationBar />
 
-         <div className="deal-detail-info-chart">
-            <div className="deal-detail-info">
-               <div className="product-info">
-                  <p className="title">Product Info</p>
+         {showSpinner === "block" ? 
+            (
+               <div className="spinner" style={{ display: showSpinner }}>
+                  <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+               </div> 
+            )
+            :
+            (
+               <div>
+                  <div className="deal-detail-info-chart">
+                     <div className="deal-detail-info">
+                        <div className="product-info">
+                           <p className="title">Product Info</p>
 
-                  <div className="img-info">
-                     {Object.entries(deal).length > 0 ?
-                        (
-                           <img className="picture" src={picture_product} alt="picture" />
-                        ):
-                        (
-                           <div className="spinner" style={{ display: showSpinner2 }}>
-                              <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
-                           </div> 
-                        )
-                     }
+                           <div className="img-info">
+                              <img className="picture" src={picture_product} alt="picture" />
 
-                     <div className="info">
-                        <p className="product-title">{product_title}</p>
-                        <p className="description">{product_description}</p>
-                        <p className="stock">{`Stock: ${stock_quantity}`}</p>
-                        <p className="stock">{`Left: ${stock_left}`}</p>
-                        <p className="price">{`$${product_price}`}</p>
+                              <div className="info">
+                                 <p className="product-title">{product_title}</p>
+                                 <p className="description">{product_description}</p>
+                                 <p className="stock">{`Stock: ${stock_quantity}`}</p>
+                                 <p className="stock">{`Left: ${stock_left}`}</p>
+                                 <p className="price">{`$${product_price}`}</p>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div className="deal-info">
+                           <p className="title">Deal Info</p>
+                           <p className="url">{`Deal url: ${deal_url}`}</p>
+                           <p className="dates">{`Started Date: ${moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
+                           <p className="dates">{`Finished Date: ${moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
+                           <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
+                           <p className="status">{`Deal Status: ${deal_status}`}</p>
+                        </div>
+                     </div>
+
+                     <div className="deal-detail-chart">
+                        <Line
+                           data={state}
+                           width={100}
+                           height={40}
+                           options={{
+                              title: { 
+                                 display: true,
+                                 text: 'Average Rainfall per month',
+                                 fontSize: 15
+                              },
+                              legend: {
+                                 display: true,
+                                 position: 'right'
+                              },
+                              responsive: true,
+                              maintainAspectRatio: false
+                           }}
+                        />
                      </div>
                   </div>
-               </div>
 
-               <div className="deal-info">
-                  <p className="title">Deal Info</p>
-                  <p className="url">{`Deal url: ${deal_url}`}</p>
-                  <p className="dates">{`Started Date: ${moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
-                  <p className="dates">{`Finished Date: ${moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}`}</p>
-                  <p className="shipping">{`Shipping type: ${shipping_type_title}`}</p>
-                  <p className="status">{`Deal Status: ${deal_status}`}</p>
-               </div>
-            </div>
+                  <div className="deal-sales-details-list">
+                     <div className="title-export-csv">
+                        <h2>Deal Sales Details</h2>
 
-            <div className="deal-detail-chart">
-               <Line
-                  data={state}
-                  width={100}
-                  height={40}
-                  options={{
-                     title: { 
-                        display: true,
-                        text: 'Average Rainfall per month',
-                        fontSize: 15
-                     },
-                     legend: {
-                        display: true,
-                        position: 'right'
-                     },
-                     responsive: true,
-                     maintainAspectRatio: false
-                  }}
-               />
-            </div>
-         </div>
+                        <div className="export-csv">
+                           <CSVLink
+                              data={sales}
+                              headers={deal.shipping_type_title === "Shipping to customer's address" ?
+                                 csvHeadersShippingToCustomer
+                                 : deal.shipping_type_title === "Pick up to the store" ?
+                                    csvHeadersPickupToTheStore
+                                    : csvHeadersNotApplicable
+                              }
+                              filename={"my-file.csv"}
+                           >
+                              <p>Export to CSV</p>
+                           </CSVLink>
+                        </div>
+                     </div>            
 
+                     {showSpinner2 === "none" ? 
+                        (
+                           <table id='deal-sales-table'>
+                              <tbody>
+                                 <tr>{tableHeaderADealSales()}</tr>
+                                    {DealSales()}
+                              </tbody>
+                           </table>
+                        )
+                        :
+                        (
+                           <div>
+                              <table id='deal-sales-table'>
+                                 <tbody>
+                                    <tr>{tableHeaderADealSales()}</tr>
+                                 </tbody>
+                              </table>
+                              
+                              <div className="spinner2" style={{ display: showSpinner2 }}>
+                                 <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+                              </div>   
+                           </div>
+                        )
+                     }        
 
-         <div className="deal-sales-details-list">
-            <div className="title-export-csv">
-               <h2>Deal Sales Details</h2>
+                     <div className="results-pagination">
+                        <p>{`Results: ${resultsRecords} records`}</p>
 
-               <div className="export-csv">
-                  <CSVLink
-                     data={sales}
-                     headers={deal.shipping_type_title === "Shipping to customer's address" ?
-                        csvHeadersShippingToCustomer
-                        : deal.shipping_type_title === "Pick up to the store" ?
-                           csvHeadersPickupToTheStore
-                           : csvHeadersNotApplicable
-                     }
-                     filename={"my-file.csv"}
-                  >
-                     <p>Export to CSV</p>
-                  </CSVLink>
-               </div>
-            </div>            
-
-            {sales.length > 0 ? 
-               (
-                  <table id='deal-sales-table'>
-                     <tbody>
-                        <tr>{tableHeaderADealSales()}</tr>
-                           {DealSales()}
-                     </tbody>
-                  </table>
-               )
-               :
-               (
-                  <div className="no-sales">
-                     <div className="spinner" style={{ display: showSpinner }}>
-                        <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
-                     </div>   
-
-                     {showSpinner === "none" ? 
-                        <h3>There's no sales for this product yet</h3>
-                        : null
-                     }                  
+                        <Pagination
+                           prevPageText='<'
+                           nextPageText='>'
+                           firstPageText='<<'
+                           lastPageText='>>'
+                           activePage={activePage}
+                           itemsCountPerPage={perPage}
+                           totalItemsCount={totalRecords}
+                           pageRangeDisplayed={pageRange}
+                           onChange={handlePageChange}
+                        />
+                     </div>    
                   </div>
-               )
-            }            
-         </div>
+               </div>
+            )
+         }
       </div>
    )
 }

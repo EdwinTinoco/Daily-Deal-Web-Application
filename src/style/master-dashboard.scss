@@ -26,9 +26,6 @@
 
       .chart-deals{
          height: 250px;
-         // display: flex;
-         // justify-content: center;
-         // align-items: center;
          margin-left: 15px;
       }
 
@@ -36,12 +33,15 @@
          padding: 20px 45px;        
 
          .deals-total-sales{
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);  
+
             .title{
-               background-color: #4CAF50;
                text-align: center;
+               background-color: #7a7979;
+               border: 1px solid #ddd;
  
                h2{
-                  color: white;
+                  color: #facf57;
                }
             }
  
@@ -64,7 +64,7 @@
  
                 th {
                    text-align: center;
-                   background-color: #7a7979;
+                   background-color: #979797;
                    border: 1px solid #ddd;
                    color: white;
                    font-size: 1rem;
@@ -76,12 +76,14 @@
 
    .active-deals-wrapper{
       margin-top: 25px ;
+
       .title{
          background-color: #facf57;
          text-align: center;
 
          h2{
-            color: white;
+            color: #fff;
+
          }
       }
 
@@ -99,7 +101,7 @@
          }
 
          tr:nth-child(even){
-            background-color: #f2f2f2;
+            background-color: #f7f7f7;
          }
 
          th {
@@ -109,6 +111,63 @@
             color: white;
             font-size: 1rem;
          }  
+      }
+
+      .results-pagination{
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         background-color: #ebebeb;
+         border: 0.5px solid #cacaca;
+
+         p{
+            margin-left: 10px;
+            color: #545454;
+            font-size: 1.1rem;
+         }
+       
+         .pagination{   
+            margin-right: 10px;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            list-style-type: none;
+   
+            a{
+               padding: 0px 6px;
+               color: #545454;
+               font-size: 1.1rem;
+               border: 0.5px solid #cacaca;
+               text-decoration: none;
+               transition: 0.3s ease-in-out;
+   
+               &:hover{
+                  background-color: #545454;
+                  color: #fff;
+               }
+            }
+         }
+      }      
+
+      .spinner2{ 
+         position: relative;
+         top: 10%;
+         left: 50%;
+         margin-top: 5px;
+         margin-left: -50px;
+         width: 100px;
+         height: 100px;
+
+         svg{
+            color: $orange-buttons;
+            font-size: 3.5rem;
+         }
+   
+         p{
+            margin-top: 10px;
+            color: $gray-description;
+            font-size: 1.2rem;
+         }
       }
    }
 }
