@@ -4,6 +4,7 @@ import moment from 'moment';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
+import Pagination from "react-js-pagination";
 
 import NavigationBar from "../navigation-bar/navigation-bar"
 import ActiveDealsList from './active-deals-list'
@@ -59,9 +60,29 @@ export default function BusinessDashboard(props) {
    const [dataChart, setDataChart] = useState({})
    const [year, setYear] = useState("")
    const [showSpinner, setShowSpinner] = useState("none")
+   const [showSpinner2, setShowSpinner2] = useState("none")
+   const [activePage, setActivePage] = useState(1)
+   const [perPage] = useState(15)
+   const [pageRange] = useState(5)
+   const [totalRecords, setTotalrecords] = useState(0)
+   const [resultsRecords, setResultsRecords] = useState(0)
 
+   const handlePageChange = (pageNumber) => {
+      setActivePage(pageNumber);
 
-   const getBaDealsList = () => {
+      var offset = (pageNumber - 1) * perPage
+      var first_load = false;
+      
+      getBaDealsList(offset, first_load)
+    }
+
+   const getBaDealsList = async (offset, first_load) => {
+      if (first_load){
+         setShowSpinner2("none")
+      } else {
+         setShowSpinner2("block")
+      }
+
       let userCookie = Cookies.get("_sb%_user%_session")
       let temp = 0
       let userIdArr = []
@@ -81,23 +102,36 @@ export default function BusinessDashboard(props) {
 
          var userId = userIdArr.join('')
 
-         setUserId(userId)
+         setUserId(userId)         
 
          axios.post(`${devEnv}/api/ba/deals`,
             {
                userId: userId,
-               currentDate: moment.utc().format()
+               currentDate: moment.utc().format(),
+               perPage: perPage,
+               offset: offset
             }
          )
             .then(response => {
                console.log('deals list', response.data);
 
                setActiveDealsList(
-                  response.data
+                  response.data['deals']
                )
+   
+               setTotalrecords(
+                  response.data['total_records']['@total_records']
+               )
+               
+               setResultsRecords(
+                  response.data['deals'].length
+               )
+      
+               setShowSpinner2("none")
             })
             .catch(error => {
                console.log('getBaDealsList error', error);
+               setShowSpinner2("none")
             })
       }
    }
@@ -285,7 +319,11 @@ export default function BusinessDashboard(props) {
 
    useEffect(() => {
       getBaChartAllDealsTotalsSales()
-      getBaDealsList()
+
+      var offset = 0;
+      var first_load = true;
+
+      getBaDealsList(offset, first_load)
    }, [])
 
    return (
@@ -305,7 +343,7 @@ export default function BusinessDashboard(props) {
                      <div className="chart-deals">
                         <Bar
                            data={dataChart}
-                           width={120}
+                           width={150}
                            height={40}
                            options={{
                               title: {
@@ -358,12 +396,45 @@ export default function BusinessDashboard(props) {
                         <h2>Deals List</h2>
                      </div>
 
-                     <table id='active-deals-table'>
-                        <tbody>
-                           <tr>{tableHeaderActiveDeals()}</tr>
-                           {acitveDealsItems()}
-                        </tbody>
-                     </table>
+                     {showSpinner2 === "none" ? 
+                        (
+                           <table id='active-deals-table'>
+                              <tbody>
+                                 <tr>{tableHeaderActiveDeals()}</tr>
+                                 {acitveDealsItems()}
+                              </tbody>
+                           </table>                     
+                        ):
+                        (
+                           <div>
+                              <table id='active-deals-table'>
+                                 <tbody>
+                                    <tr>{tableHeaderActiveDeals()}</tr>
+                                 </tbody>
+                              </table>    
+
+                              <div className="spinner2" style={{ display: showSpinner2 }}>
+                                 <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
+                              </div> 
+                           </div>
+                        )
+                     }
+
+                     <div className="results-pagination">
+                        <p>{`Results: ${resultsRecords} records`}</p>
+
+                        <Pagination
+                           prevPageText='<'
+                           nextPageText='>'
+                           firstPageText='<<'
+                           lastPageText='>>'
+                           activePage={activePage}
+                           itemsCountPerPage={perPage}
+                           totalItemsCount={totalRecords}
+                           pageRangeDisplayed={pageRange}
+                           onChange={handlePageChange}
+                        />
+                     </div>
                   </div>
                </div>
             )
@@ -371,7 +442,6 @@ export default function BusinessDashboard(props) {
       </div>
    )
 }
-
 
 const ActiveDealsTotalsSalesList = (props) => {
    return (

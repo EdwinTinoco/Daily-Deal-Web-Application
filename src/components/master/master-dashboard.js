@@ -52,7 +52,7 @@ export default function MasterDashboard(props) {
 
       var offset = (pageNumber - 1) * perPage
       var first_load = false;
-      
+
       getAllActiveDealsList(offset, first_load)
     }
 
@@ -220,6 +220,7 @@ export default function MasterDashboard(props) {
                                  display: true,
                                  position: 'right'
                               },
+                              responsive: true,
                               maintainAspectRatio: false
                            }}
                         />
@@ -292,7 +293,6 @@ export default function MasterDashboard(props) {
       </div>
    )
 }
-
 
 const ActiveDealsTotalsSalesList = (props) => {
    return (

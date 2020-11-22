@@ -1,4 +1,25 @@
 .deal-detail-main-wrapper{  
+   .spinner{ 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -50px;
+      margin-left: -50px;
+      width: 100px;
+      height: 100px;
+
+      svg{
+         color: $orange-buttons;
+         font-size: 5.5rem;
+      }
+
+      p{
+         margin-top: 10px;
+         color: $gray-description;
+         font-size: 2rem;
+      }
+   }
+
    .deal-detail-info-chart{
       padding: 10px 0px 0px 10px;
       display: grid;
@@ -187,35 +208,62 @@
             color: white;
             font-size: 1rem;
          }  
-      }
+      }      
 
-      .no-sales{
-         text-align: center;
+      .results-pagination{
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         background-color: #ebebeb;
+         border: 0.5px solid #cacaca;
 
-         .spinner{ 
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -50px;
-            margin-left: -50px;
-            width: 100px;
-            height: 100px;
+         p{
+            margin-left: 10px;
+            color: #545454;
+            font-size: 1.1rem;
+         }
+       
+         .pagination{   
+            margin-right: 10px;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            list-style-type: none;
    
-            svg{
-               color: $orange-buttons;
-               font-size: 5.5rem;
-            }
-      
-            p{
-               margin-top: 10px;
-               color: $gray-description;
-               font-size: 2rem;
+            a{
+               padding: 0px 6px;
+               color: #545454;
+               font-size: 1.1rem;
+               border: 0.5px solid #cacaca;
+               text-decoration: none;
+               transition: 0.3s ease-in-out;
+   
+               &:hover{
+                  background-color: #545454;
+                  color: #fff;
+               }
             }
          }
+      }  
 
-         h3{
-            margin-top: 20px;
-            text-align: center;
+      .spinner2{ 
+         position: relative;
+         top: 10%;
+         left: 50%;
+         margin-top: 5px;
+         margin-left: -50px;
+         width: 100px;
+         height: 100px;
+
+         svg{
+            color: $orange-buttons;
+            font-size: 3.5rem;
+         }
+   
+         p{
+            margin-top: 10px;
+            color: $gray-description;
+            font-size: 1.2rem;
          }
       }
    }
