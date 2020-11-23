@@ -83,14 +83,14 @@ export default function NavigationBar() {
                   (
                      <div className="link">
                         <Link to="/ma/dashboard">Dashboard</Link>
-                        <Link to='/ma/create-business-account'>Add Business</Link>
+                        <Link to='/ma/create-business-account'>Create Business</Link>
                      </div>
                   )
                   : user.role_title === "business_admin" ?
                      (
                         <div className="link">
                            <Link to="/ba/dashboard">Dashboard</Link>
-                           <Link to="/ba/new-deal">Add Deal</Link>
+                           <Link to="/ba/new-deal">Create Deal</Link>
                         </div>
                      )
                      : null
