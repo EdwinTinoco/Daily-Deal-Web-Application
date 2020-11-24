@@ -413,7 +413,7 @@ export default function CreateNewDealProduct(props) {
          <div className="form-preview-deal-product">
             <div className="deal-form">
                <div className="title-clear-text">
-                  <p>Create new deal</p>
+                  <p>Create New Deal</p>
                   <button type="button" onClick={handleClearInputs}>Clear text</button>
                </div>
 
