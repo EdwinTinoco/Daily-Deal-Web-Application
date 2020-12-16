@@ -145,9 +145,10 @@
       
                .buy{
                   margin-top: 10px;
-                  padding: 10px 120px;
+                  width: 270px;
+                  height: 65px;
                   background-color:  #f85312;
-                  border: 1px solid #f85312;
+                  // border: 1px solid #f85312;
                   border-radius: 8px;
                   font-size: 3.3rem;
                   color: white;
@@ -159,7 +160,7 @@
          
                   &:hover{
                      cursor: pointer;
-                     border: 1.5px solid #cc3c04;
+                     // border: 1.5px solid #cc3c04;
                      background-color:  #cc3c04;
                   }
       
@@ -169,11 +170,7 @@
 
                   .spinner svg{
                      margin-right: 10px;
-                  }
-
-                  // .text-btn p{
-
-                  // }
+                  }                  
                }  
                
                .logout{
