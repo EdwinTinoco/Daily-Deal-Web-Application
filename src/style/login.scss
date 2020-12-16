@@ -137,31 +137,24 @@
                padding: 6px 80px;
                transition: all 0.3s ease-in-out;
                outline: none;
+               display: flex;
+               justify-content: center;
+               align-items: center;
       
                &:hover{
                   cursor: pointer;
                   background-color: #cc3c04;
                   border: 1px solid #cc3c04;
-               }              
-            }
+               }     
 
-            .spinner{    
-               margin-top: 10px;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-
-               svg{
-                  color: $orange-buttons;
-                  font-size: 2rem;
+               &:active {
+                  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
                }
-         
-               p{
-                  margin-left: 10px;
-                  color: $gray-description;
-                  font-size: 1.8rem;
-               }
-            }
+               
+               .spinner svg{
+                  margin-right: 10px;
+               }            
+            }            
          }
 
          .forgot-password{                        
