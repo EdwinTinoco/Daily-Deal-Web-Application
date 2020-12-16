@@ -122,7 +122,7 @@ export default function forgotPassword(props) {
                      </div>
 
                      <div className="text-btn">
-                        <p>Log In</p>
+                        <p>Submit</p>
                      </div>
                   </button>
                </form>
