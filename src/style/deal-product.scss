@@ -148,7 +148,7 @@
                   width: 270px;
                   height: 65px;
                   background-color:  #f85312;
-                  // border: 1px solid #f85312;
+                  border: 1px solid #f85312;
                   border-radius: 8px;
                   font-size: 3.3rem;
                   color: white;
@@ -160,7 +160,7 @@
          
                   &:hover{
                      cursor: pointer;
-                     // border: 1.5px solid #cc3c04;
+                     border: 1px solid #cc3c04;
                      background-color:  #cc3c04;
                   }
       
@@ -174,7 +174,7 @@
                }  
                
                .logout{
-                  margin-top: 10px;;
+                  margin-top: 10px;
                   padding: 6px 20px;
                   font-size: 1.5rem;
                   color: #b8b6b6;
@@ -225,9 +225,9 @@
                      margin-top: 10px;
                      width: 150px;
                      background-color: $orange-buttons;
-                     border: 1.5px solid $orange-buttons;
+                     border: 1px solid $orange-buttons;
                      padding: 10px 80px;
-                     border-radius: 8px;
+                     border-radius: 10px;
                      position: relative;
                      border-radius: 3px;
                      transition: 0.3s ease-in-out;
@@ -239,7 +239,8 @@
             
                      &:hover{
                         cursor: pointer;
-                        background-color: $orange-hover-buttons;           
+                        background-color: $orange-hover-buttons;    
+                        border: 1px solid $orange-hover-buttons;       
                      }
                   }
                }
