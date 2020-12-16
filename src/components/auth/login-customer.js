@@ -138,11 +138,15 @@ export default function LoginCustomer(props) {
                      <div className="error-validation">{errorsValidation.password}</div>
                   </div>
 
-                  <button className="btn" type="submit">Log In</button>
+                  <button className="btn" type="submit">
+                     <div className="spinner" style={{ display: this.state.showSpinner }}>
+                        <FontAwesomeIcon icon="spinner" spin />
+                     </div>
 
-                  <div className="spinner" style={{ display: showSpinner }}>
-                     <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
-                  </div>
+                     <div className="text-btn">
+                        <p>Log In</p>
+                     </div>
+                  </button>
                </form>
 
                <div className="forgot-password">
