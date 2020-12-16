@@ -205,9 +205,7 @@ export default function SignUpAdmin(props) {
                      <FontAwesomeIcon icon="spinner" spin />
                   </div>
 
-                  <div className="text-btn">
-                     <p>Sign up</p>
-                  </div>
+                  <p>Sign up</p>
                </button>               
             </form>
          </div>
