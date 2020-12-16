@@ -153,6 +153,9 @@
                   color: white;
                   outline: none;
                   transition: 0.3s ease-in-out; 
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
          
                   &:hover{
                      cursor: pointer;
@@ -163,6 +166,14 @@
                   &:active {
                      box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
                   }
+
+                  .spinner svg{
+                     margin-right: 10px;
+                  }
+
+                  // .text-btn p{
+
+                  // }
                }  
                
                .logout{
@@ -183,23 +194,23 @@
                   }
                }
 
-               .spinner{    
-                  margin-top: 10px;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
+               // .spinner{    
+               //    margin-top: 10px;
+               //    display: flex;
+               //    justify-content: center;
+               //    align-items: center;
 
-                  svg{
-                     color: $orange-buttons;
-                     font-size: 2rem;
-                  }
+               //    svg{
+               //       color: $orange-buttons;
+               //       font-size: 2rem;
+               //    }
             
-                  p{
-                     margin-left: 10px;
-                     color: $gray-description;
-                     font-size: 1.8rem;
-                  }
-               }
+               //    p{
+               //       margin-left: 10px;
+               //       color: $gray-description;
+               //       font-size: 1.8rem;
+               //    }
+               // }
             }
       
             .buy-link{

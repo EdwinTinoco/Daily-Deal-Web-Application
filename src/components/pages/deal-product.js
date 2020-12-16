@@ -274,16 +274,18 @@ export default function DealProduct(props) {
                            (
                               <div className="buy-button">
                                  <button id="checkout-button" className="buy" role="link" onClick={handleBuyButton}>
-                                    BUY
+                                       <div className="spinner" style={{ display: showSpinner }}>
+                                          <FontAwesomeIcon icon="spinner"  spin /> 
+                                       </div>
+
+                                       <div className="text-btn">
+                                          <p>BUY</p>
+                                       </div>
                                  </button>
 
                                  <button type="button" className="logout" onClick={handleLogout}>
                                     LOG OUT
                                  </button>
-
-                                 <div className="spinner" style={{ display: showSpinner }}>
-                                    <FontAwesomeIcon icon="spinner" spin /><p>Loading...</p>
-                                 </div>
                               </div>
                            )
                            :
