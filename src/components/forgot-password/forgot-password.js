@@ -117,7 +117,7 @@ export default function forgotPassword(props) {
                   </div>
 
                   <button className="btn" type="submit">
-                     <div className="spinner" style={{ display: this.state.showSpinner }}>
+                     <div className="spinner" style={{ display: showSpinner }}>
                         <FontAwesomeIcon icon="spinner" spin />
                      </div>
 
