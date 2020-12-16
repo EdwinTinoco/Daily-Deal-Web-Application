@@ -361,13 +361,17 @@ export default function CreateBusinessAccount(props) {
 
                <div className="message">
                   <p>{message}</p>
-               </div>
+               </div>               
 
-               <div className="spinner" style={{ display: showSpinner }}>
-                  <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
-               </div>
+               <button type='submit' className='add-button'>
+                  <div className="spinner" style={{ display: showSpinner }}>
+                     <FontAwesomeIcon icon="spinner" spin />
+                  </div>
 
-               <button type='submit' className='add-button'>Create Account</button>
+                  <div>
+                     <p>Create Account</p>
+                  </div>
+               </button>
             </form>
          </div>
       </div>
