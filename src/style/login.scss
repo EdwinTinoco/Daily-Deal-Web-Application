@@ -134,7 +134,8 @@
                border-radius: 5px;
                color: white;     
                font-size: 1.5rem;    
-               padding: 6px 80px;
+               width: 120px;
+               height: 30px;
                transition: all 0.3s ease-in-out;
                outline: none;
                display: flex;
@@ -153,6 +154,7 @@
                
                .spinner svg{
                   margin-right: 10px;
+                  font-size: 2rem;  
                }            
             }            
          }

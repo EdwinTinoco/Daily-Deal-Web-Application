@@ -158,12 +158,11 @@ export default class Login extends Component {
                         <div className="spinner" style={{ display: this.state.showSpinner }}>
                            <FontAwesomeIcon icon="spinner" spin />
                         </div>
-                        
+
                         <div className="text-btn">
                            <p>Log In</p>
                         </div>
                      </button>
-
                   </form>
 
                   <div className="forgot-password">
