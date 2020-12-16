@@ -181,11 +181,15 @@ export default function SignUpCustomer(props) {
                   <p>{message}</p>
                </div>
 
-               <button type='submit' className='signup-button'>Sign up</button>
+               <button type='submit' className='signup-button'>
+                  <div className="spinner" style={{ display: showSpinner }}>
+                     <FontAwesomeIcon icon="spinner" spin />
+                  </div>
 
-               <div className="spinner" style={{ display: showSpinner }}>
-                  <FontAwesomeIcon icon="spinner" spin /><p>Loading</p>
-               </div>
+                  <div className="text-btn">
+                     <p>Sign up</p>
+                  </div>
+               </button> 
             </form>
          </div>
       </div>
