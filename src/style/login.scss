@@ -93,7 +93,7 @@
 
          .login-form{   
             margin-top: 20px;
-            text-align: center;
+            // text-align: center;
             padding: 30px 2px;   
       
             .form-group{
@@ -138,9 +138,9 @@
                height: 30px;
                transition: 0.3s ease-in-out;
                outline: none;
-               display: flex;
-               justify-content: center;
-               align-items: center;
+               // display: flex;
+               // justify-content: center;
+               // align-items: center;
       
                &:hover{
                   cursor: pointer;
