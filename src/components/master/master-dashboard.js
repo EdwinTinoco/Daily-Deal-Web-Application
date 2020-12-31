@@ -147,8 +147,8 @@ export default function MasterDashboard(props) {
    const tableHeaderAllActiveDeals = () => {
       let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
 
-      return headerAllActiveDeals.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerAllActiveDeals.map((temp, index) => {
+         return <th key={index}>{temp.toUpperCase()}</th>
       })
    }
 
@@ -166,8 +166,8 @@ export default function MasterDashboard(props) {
    const tableHeaderActiveDealsTotals = () => {
       let headerActiveDealsTotals = ['Company', 'Sales', 'Total']
 
-      return headerActiveDealsTotals.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerActiveDealsTotals.map((temp, index) => {
+         return <th key={index}>{temp.toUpperCase()}</th>
       })
    }
 
@@ -296,7 +296,7 @@ export default function MasterDashboard(props) {
 
 const ActiveDealsTotalsSalesList = (props) => {
    return (
-      <tr key={props.key}>
+      <tr>
          <td>{props.item.user_name}</td>
          <td>{props.item.sales}</td>
          <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
