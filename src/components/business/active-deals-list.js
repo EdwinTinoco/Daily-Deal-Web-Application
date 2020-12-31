@@ -18,7 +18,7 @@ export default function ActiveDealsList(props) {
    } = props.item
 
    return (
-      <tr key={props.key}>
+      <tr>
          <td>
             <Link to={`/ba/active-deal/detail/${deal_id}`}>
                {product_title}

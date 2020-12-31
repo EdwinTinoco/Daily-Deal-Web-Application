@@ -164,8 +164,8 @@ export default function ActiveDealDetail(props) {
          headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Product", "Subtotal", "taxes", "Total", "Shipping Type"]
       }
 
-      return headerDealSales.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerDealSales.map((item, index) => {
+         return <th key={index}>{item.toUpperCase()}</th>
       })
    }
 

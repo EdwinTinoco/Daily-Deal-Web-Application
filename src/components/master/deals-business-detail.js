@@ -221,8 +221,8 @@ export default function BusinessDashboard(props) {
    const tableHeaderActiveDeals = () => {
       let headerActiveDeals = ["Product", "Deal #", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
 
-      return headerActiveDeals.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerActiveDeals.map((item, index) => {
+         return <th key={index}>{item.toUpperCase()}</th>
       })
    }
 
@@ -240,8 +240,8 @@ export default function BusinessDashboard(props) {
    const tableHeaderActiveDealsTotals = () => {
       let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
 
-      return headerActiveDealsTotals.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerActiveDealsTotals.map((item, index) => {
+         return <th key={index}>{item.toUpperCase()}</th>
       })
    }
 
@@ -380,7 +380,7 @@ export default function BusinessDashboard(props) {
 
 const ActiveDealsTotalsSalesList = (props) => {
    return (
-      <tr key={props.key}>
+      <tr>
          <td>{props.item.product_title}</td>
          <td>{props.item.sales}</td>
          <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
