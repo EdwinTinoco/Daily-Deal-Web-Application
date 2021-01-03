@@ -367,7 +367,7 @@ export default function MasterDashboard(props) {
 
                      <div className="deals-total-sales-info">
                         <div className="year-search">
-                           <label htmlFor="year_selected">Select Year:</label>
+                           <label htmlFor="year_selected">Year:</label>
                            <select className='new-entry-input'
                               value={yearSelected}
                               onChange={({ target }) => {
@@ -403,7 +403,7 @@ export default function MasterDashboard(props) {
 
                   <div className="active-deals-wrapper">
                      <div className="title">
-                        <h2>Deals List</h2>
+                        <h2>Detail Sales p/Deal</h2>
                      </div>
                     
                      {showSpinner2 === "none" ? 
