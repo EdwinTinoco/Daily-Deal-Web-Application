@@ -10,26 +10,19 @@ import AllActiveDealsList from './all-active-deals-list'
 import { devEnv } from "../../helpers/dev-env"
 
 // const state = {
-//    labels: ['January', 'February', 'March',
-//       'April', 'Nov'],
+//    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 //    datasets: [
 //       {
-//          label: 'Company 1',
+//          label: 'Nike',
 //          backgroundColor: '#facf57',
 //          borderColor: 'rgba(0,0,0,1)',
-//          data: [65, 59, 80, 81, 211]
+//          data: [0.0, 0.0, 0.0, 107.14, 59.99, 161.78]
 //       },
 //       {
-//          label: 'Company 2',
+//          label: 'Collection SS',
 //          backgroundColor: '#8d8c8c',
 //          borderColor: 'rgba(0,0,0,1)',
-//          data: [26, 148, 66, 247, 206]
-//       },
-//       {
-//          label: 'Company 3',
-//          backgroundColor: '#00A6B4',
-//          borderColor: 'rgba(0,0,0,1)',
-//          data: [79, 202, 115, 183, 166]
+//          data: [0.0, 0.0, 0.0, 0.0, 70.69, 214.28]
 //       }
 //    ]
 // }
@@ -46,17 +39,19 @@ export default function MasterDashboard(props) {
    const [pageRange] = useState(5)
    const [totalRecords, setTotalrecords] = useState(0)
    const [resultsRecords, setResultsRecords] = useState(0)
+   const [yearSelected, setYearSelected] = useState()
 
    const handlePageChange = (pageNumber) => {
       setActivePage(pageNumber);
 
       var offset = (pageNumber - 1) * perPage
       var first_load = false;
+      var yearToConsult = yearSelected
 
-      getAllActiveDealsList(offset, first_load)
+      getAllActiveDealsList(offset, first_load, yearToConsult)
     }
 
-   const getAllActiveDealsList = async (offset, first_load) => {
+   const getAllActiveDealsList = async (offset, first_load, yearToConsult) => {
       if (first_load){
          setShowSpinner2("none")
       }else {
@@ -67,7 +62,8 @@ export default function MasterDashboard(props) {
       {
          currentDate: moment.utc().format(),
          perPage: perPage,
-         offset: offset
+         offset: offset,
+         yearSelected: yearToConsult
       })
       .then(response => {
          console.log('all active deals', response.data);
@@ -92,60 +88,199 @@ export default function MasterDashboard(props) {
       })
    }
 
-   const getBaChartAllDealsTotalsSales = async () => {
+   const getMaChartAllDealsTotalsSalesMonth = async (yearToConsult) => {
       setShowSpinner("block")
-
-      let monthYear = []
-      let monthYearNoDuplicates = []
+      
+      let labels = []
+      let business = []
+      let businessNoDuplicates = []
+      let data = []
       let dataSet = []
+      var currentMonth = moment().month();
+      var currentYear = parseInt(moment().format('YYYY'));
 
-      await axios.get(`${devEnv}/api/ma/all-deals/totals`)
+      console.log('yeart to consult, current year', yearToConsult, currentYear, currentMonth);
+
+      await axios.get(`${devEnv}/api/ma/chart/totals-sales-month/${yearToConsult}`)
          .then(response => {
             console.log('all ma deals totals', response.data);
 
-            for (let obj of response.data) {
-               monthYear.push(obj.month_year)
+            if (yearToConsult < currentYear){
+               labels = []
+               labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+            }else if (yearToConsult === currentYear){
+               switch (currentMonth) {
+                  case 0:
+                     labels = []
+                     labels.push('Jan');
+                     break;
+                  case 1:
+                     labels = []
+                     labels.push('Jan', 'Feb');
+                     break;
+                  case 2:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar');
+                     break;
+                  case 3:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr');
+                     break;
+                  case 4:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May');
+                     break;
+                  case 5:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun');
+                     break;
+                  case 6:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul');
+                     break;
+                  case 7:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug');
+                     break;
+                  case 8:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep');
+                     break;
+                  case 9:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct');
+                     break;
+                  case 10:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov');
+                     break;
+                  case 11:
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+                     break;
+               }
+            }
 
-               console.log('total sales', obj.total_sales.toFixed(2));
+            business = []
+            businessNoDuplicates = []
+            for (var x of response.data) {
+               business.push(x.user_name)
+            }
+            businessNoDuplicates = [...new Set(business)];
 
-               var letters = "0123456789ABCDEF";
-               var color = '#';
-               for (var i = 0; i < 6; i++)
-                  color += letters[(Math.floor(Math.random() * 16))];
+            console.log('yeart to consult, current year', yearToConsult, currentYear, currentMonth);
+
+            dataSet = []
+            for (var bname of businessNoDuplicates){
+               if (yearToConsult < currentYear){
+                  console.log('entro year minor than current year');
+                  data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+               } else if (yearToConsult === currentYear){
+                  console.log('entro year igual than current year');
+                  data = []
+               }
+               
+               for (let obj of response.data) {
+                  if (bname === obj.user_name){
+
+                     switch (obj.month_sales) {
+                        case 1:    
+                        if (yearToConsult < currentYear){
+                           data[0] = parseFloat(obj.total_sales).toFixed(2) 
+                        } else if (yearToConsult === currentYear){
+                           data.push(parseFloat(obj.total_sales).toFixed(2) )
+                        }                
+                           break;
+                        case 2:
+                           data[1] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 3:
+                           data[2] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 4:
+                           data[3] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 5:
+                           data[4] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 6:
+                           data[5] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 7:
+                           data[6] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 8:
+                           data[7] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 9:
+                           data[8] = parseFloat(obj.total_sales).toFixed(2) 
+                           break;
+                        case 10:
+                           data[9] = parseFloat(obj.total_sales).toFixed(2)        
+                           break;
+                        case 11:
+                           if (yearToConsult < currentYear){
+                              data[10] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                        case 12:
+                           if (yearToConsult < currentYear){
+                              data[11] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                     }
+                  }
+               }
+
+               console.log('data', data);
+               
+               var colors = []
+               for (var j=0; j < labels.length; j++){
+                  var letters = "0123456789ABCDEF";
+                  var color = '#';
+                  for (var i = 0; i < 6; i++)
+                     color += letters[(Math.floor(Math.random() * 16))];
+                     colors.push(color)
+               }
 
                dataSet.push({
-                  label: obj.user_name,
-                  backgroundColor: [color],
+                  label: bname,
+                  backgroundColor: colors,
                   borderColor: 'rgba(0,0,0,1)',
-                  data: [parseFloat(obj.total_sales).toFixed(2)]
+                  data: data
                })
             }
 
-            monthYearNoDuplicates = [...new Set(monthYear)];
-
             setDataChart({
-               labels: monthYear,
+               labels: labels,
                datasets: dataSet
-            })
-
-            // let header = Object.keys(response.data[0])
-            // header.shift()
-            // setHeaderActiveDealsTotals(header)
-
-            setActiveDealsTotals(
-               response.data
-            )
+            }) 
 
             setShowSpinner("none")
          })
          .catch(error => {
-            console.log('getBaChartAllDealsTotalsSales error', error);
+            console.log('getMaChartAllDealsTotalsSalesMonth error', error);
             setShowSpinner("none")
          })
    }
 
+   const getPanelTotalSalesBusiness = async(yearToConsult) => {
+      await axios.get(`${devEnv}/api/ma/panel/total-sales-business/${yearToConsult}`)
+         .then(response => {
+            setActiveDealsTotals(
+               response.data
+            )
+         }).catch(error => {
+            console.log('getTotalSalesBusiness error', error);
+         })
+   }
+
    const tableHeaderAllActiveDeals = () => {
-      let headerAllActiveDeals = ["Deal Product", "Company/Name", "Email", "Deal Created Date", "Stock", "Stock left", "Price", "Status", "Actions"]
+      let headerAllActiveDeals = ["Deal Product", "Business", "Deal started Date", "Deal finished Date", "Stock", "Stock left", "Price", "Sales", "Total Sales", "Status"]
 
       return headerAllActiveDeals.map((temp, index) => {
          return <th key={index}>{temp.toUpperCase()}</th>
@@ -164,7 +299,7 @@ export default function MasterDashboard(props) {
    }
 
    const tableHeaderActiveDealsTotals = () => {
-      let headerActiveDealsTotals = ['Company', 'Sales', 'Total']
+      let headerActiveDealsTotals = ['Name', 'Total']
 
       return headerActiveDealsTotals.map((temp, index) => {
          return <th key={index}>{temp.toUpperCase()}</th>
@@ -175,7 +310,7 @@ export default function MasterDashboard(props) {
       return activeDealsTotals.map(item => {
          return (
             <ActiveDealsTotalsSalesList
-               key={item.product_id}
+               key={item.user_id}
                item={item}
             />
          )
@@ -183,12 +318,16 @@ export default function MasterDashboard(props) {
    }
 
    useEffect(() => {
-      getBaChartAllDealsTotalsSales()
+      var currentYear = parseInt(moment().format('YYYY'));
+      setYearSelected(currentYear)
+
+      getMaChartAllDealsTotalsSalesMonth(currentYear)
+      getPanelTotalSalesBusiness(currentYear)
 
       var offset = 0;
       var first_load = true;
 
-      getAllActiveDealsList(offset, first_load)
+      getAllActiveDealsList(offset, first_load, currentYear)
    }, [])
 
    return (
@@ -213,7 +352,7 @@ export default function MasterDashboard(props) {
                            options={{
                               title: {
                                  display: true,
-                                 text: 'Sales per Business Account',
+                                 text: `Sales p/month by Business in ${yearSelected}`,
                                  fontSize: 15
                               },
                               legend: {
@@ -227,9 +366,29 @@ export default function MasterDashboard(props) {
                      </div>
 
                      <div className="deals-total-sales-info">
+                        <div className="year-search">
+                           <label htmlFor="year_selected">Select Year:</label>
+                           <select className='new-entry-input'
+                              value={yearSelected}
+                              onChange={({ target }) => {
+                                 setYearSelected(parseInt(target.value))
+
+                                 getMaChartAllDealsTotalsSalesMonth(parseInt(target.value))
+                                 getPanelTotalSalesBusiness(parseInt(target.value))
+
+                                 var offset = 0;
+                                 var first_load = true;
+                                 getAllActiveDealsList(offset, first_load, parseInt(target.value))
+                              }}
+                              id="year_selected"
+                           >
+                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
+                              <option value={2020}>{2020}</option>
+                           </select>
+                        </div>
                         <div className="deals-total-sales">
                            <div className="title">
-                              <h2>Deals Sales</h2>
+                              <h2>Total Sales p/Business</h2>
                            </div>
 
                            <table id='totals-deals-sales-table'>
@@ -297,8 +456,7 @@ export default function MasterDashboard(props) {
 const ActiveDealsTotalsSalesList = (props) => {
    return (
       <tr>
-         <td>{props.item.user_name}</td>
-         <td>{props.item.sales}</td>
+         <td>{props.item.user_name}</td>         
          <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
       </tr>
    )

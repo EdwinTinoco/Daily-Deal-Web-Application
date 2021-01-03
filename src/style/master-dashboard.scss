@@ -32,6 +32,28 @@
       .deals-total-sales-info{
          padding: 20px 45px;        
 
+         .year-search{
+            padding: 5px 0;
+
+            label{
+               margin-right: 10px;
+               font-size: 2.5rem;
+               color: $orange-buttons;
+            }
+
+            .new-entry-input{
+               padding: 8px 20px;
+               font-size: 2rem;
+               border-radius: 5px;
+               border: 1px solid $gray-bg-dealproduct;    
+               
+               &:focus{
+                  outline: none;
+                  border: 1px solid $gray-description;    
+               }
+            }
+         }
+
          .deals-total-sales{
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);  
 
