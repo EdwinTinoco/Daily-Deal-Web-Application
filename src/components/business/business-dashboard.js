@@ -72,11 +72,12 @@ export default function BusinessDashboard(props) {
 
       var offset = (pageNumber - 1) * perPage
       var first_load = false;
+      var yearToConsult = yearSelected
       
-      getBaDealsList(offset, first_load)
+      getBaDealsList(offset, first_load, yearToConsult)
     }
 
-   const getBaDealsList = async (offset, first_load) => {
+   const getBaDealsList = async (offset, first_load, yearToConsult) => {
       if (first_load){
          setShowSpinner2("none")
       } else {
@@ -109,7 +110,8 @@ export default function BusinessDashboard(props) {
                userId: userId,
                currentDate: moment.utc().format(),
                perPage: perPage,
-               offset: offset
+               offset: offset,
+               yearSelected: yearToConsult
             }
          )
             .then(response => {
@@ -367,98 +369,18 @@ export default function BusinessDashboard(props) {
                datasets: dataSet
             }) 
 
+            // let granTotal = 0
+            // for (var total of response.data) {
+            //    granTotal += parseFloat(total.total_sales)
+            // }
+
+            // setActiveDealsGranTotal(granTotal.toFixed(2))
+
+            // setActiveDealsTotals(
+            //    response.data
+            // )
+
             setShowSpinner("none")
-
-               // setYear(response.data[0]['year'])
-
-               // for (let obj of response.data) {
-               //    month.push(obj.month)
-
-               //    // console.log('total sales', obj.total_sales.toFixed(2));
-
-               //    var letters = "0123456789ABCDEF";
-               //    var color = '#';
-               //    for (var i = 0; i < 6; i++)
-               //       color += letters[(Math.floor(Math.random() * 16))];
-
-               //    // data.push(parseFloat(obj.total_sales).toFixed(2))
-               //    // console.log('data array', data);
-
-               //    dataSet.push({
-               //       label: obj.product_title,
-               //       backgroundColor: [color],
-               //       borderColor: 'rgba(0,0,0,1)',
-               //       data: [parseFloat(obj.total_sales).toFixed(2)]
-               //    })
-               // }
-
-               // monthNoDuplicates = [...new Set(month)];
-               // console.log('labels', monthNoDuplicates);
-
-               // for (var item of monthNoDuplicates) {
-               //    switch (item) {
-               //       case 1:
-               //          monthWord.push('Jan');
-               //          break;
-               //       case 2:
-               //          monthWord.push('feb');
-               //          break;
-               //       case 3:
-               //          monthWord.push('Mar');
-               //          break;
-               //       case 4:
-               //          monthWord.push('Apr');
-               //          break;
-               //       case 5:
-               //          monthWord.push('May');
-               //          break;
-               //       case 6:
-               //          monthWord.push('Jun');
-               //          break;
-               //       case 7:
-               //          monthWord.push('Jul');
-               //          break;
-               //       case 8:
-               //          monthWord.push('Aug');
-               //          break;
-               //       case 9:
-               //          monthWord.push('Sep');
-               //          break;
-               //       case 10:
-               //          monthWord.push('Oct');
-               //          break;
-               //       case 11:
-               //          monthWord.push('Nov');
-               //          break;
-               //       case 12:
-               //          monthWord.push('Dec');
-               //          break;
-               //    }
-               // }
-
-               // console.log('month word', monthWord);
-
-               // setDataChart({
-               //    labels: monthWord,
-               //    datasets: dataSet
-               // })
-
-               // let granTotal = 0
-               // for (var total of response.data) {
-               //    granTotal += parseFloat(total.total_sales)
-               // }
-
-               // setActiveDealsGranTotal(granTotal.toFixed(2))
-
-               // let header = Object.keys(response.data[0])
-               // header.shift()
-               // setHeaderActiveDealsTotals(header)
-
-               // setActiveDealsTotals(
-               //    response.data
-               // )
-
-               // setShowSpinner("none")
             })
             .catch(error => {
                console.log('getBaChartAllDealsTotalsSales error', error);
@@ -468,7 +390,7 @@ export default function BusinessDashboard(props) {
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Deal #", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Sales", "Total Sales", "Shipping Type", "Deal Status"]
 
       return headerActiveDeals.map((item, index) => {
          return <th key={index}>{item.toUpperCase()}</th>
@@ -486,35 +408,35 @@ export default function BusinessDashboard(props) {
       })
    }
 
-   const tableHeaderActiveDealsTotals = () => {
-      let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
+   // const tableHeaderActiveDealsTotals = () => {
+   //    let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
 
-      return headerActiveDealsTotals.map((item, index) => {
-         return <th key={index}>{item.toUpperCase()}</th>
-      })
-   }
+   //    return headerActiveDealsTotals.map((item, index) => {
+   //       return <th key={index}>{item.toUpperCase()}</th>
+   //    })
+   // }
 
-   const acitveDealsTotals = () => {
-      return activeDealsTotals.map(item => {
-         return (
-            <ActiveDealsTotalsSalesList
-               key={item.product_id}
-               item={item}
-            />
-         )
-      })
-   }
+   // const acitveDealsTotals = () => {
+   //    return activeDealsTotals.map(item => {
+   //       return (
+   //          <ActiveDealsTotalsSalesList
+   //             key={item.product_id}
+   //             item={item}
+   //          />
+   //       )
+   //    })
+   // }
 
-   const checkStripeSkuStock = () => {
-      axios.get(`${devEnv}/api/check-stripe-sku/${"sku_IIx9ovOYhU3yne"}`)
-         .then(response => {
-            console.log('stripe sku', response.data);
-         })
-         .catch(error => {
-            console.log('checkSkuStock error', error);
+   // const checkStripeSkuStock = () => {
+   //    axios.get(`${devEnv}/api/check-stripe-sku/${"sku_IIx9ovOYhU3yne"}`)
+   //       .then(response => {
+   //          console.log('stripe sku', response.data);
+   //       })
+   //       .catch(error => {
+   //          console.log('checkSkuStock error', error);
 
-         })
-   }
+   //       })
+   // }
 
    useEffect(() => {
       var currentYear = parseInt(moment().format('YYYY'));
@@ -525,7 +447,7 @@ export default function BusinessDashboard(props) {
       var offset = 0;
       var first_load = true;
 
-      getBaDealsList(offset, first_load)
+      getBaDealsList(offset, first_load, currentYear)
    }, [])
 
    return (
@@ -542,6 +464,26 @@ export default function BusinessDashboard(props) {
             (
                <div>
                   <div className="chart-total-sales-info">
+                     <div className="year-search">
+                           <label htmlFor="year_selected">Year:</label>
+                           <select className='new-entry-input'
+                              value={yearSelected}
+                              onChange={({ target }) => {
+                                 setYearSelected(parseInt(target.value))
+
+                                 getBaChartAllDealsTotalsSalesMonth(parseInt(target.value))
+
+                                 var offset = 0;
+                                 var first_load = true;
+                                 getBaDealsList(offset, first_load, parseInt(target.value))
+                              }}
+                              id="year_selected"
+                           >
+                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
+                              <option value={2020}>{2020}</option>
+                           </select>
+                        </div>
+
                      <div className="chart-deals">
                         <Bar
                            data={dataChart}
@@ -564,28 +506,9 @@ export default function BusinessDashboard(props) {
                      </div>
 
                      <div className="deals-total-sales-info">
-                        <div className="year-search">
-                           <label htmlFor="year_selected">Year:</label>
-                           <select className='new-entry-input'
-                              value={yearSelected}
-                              onChange={({ target }) => {
-                                 setYearSelected(parseInt(target.value))
+                        
 
-                                 getBaChartAllDealsTotalsSalesMonth(parseInt(target.value))
-                                 // getPanelTotalSalesBusiness(parseInt(target.value))
-
-                                 // var offset = 0;
-                                 // var first_load = true;
-                                 // getAllActiveDealsList(offset, first_load, parseInt(target.value))
-                              }}
-                              id="year_selected"
-                           >
-                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
-                              <option value={2020}>{2020}</option>
-                           </select>
-                        </div>
-
-                        <div className="gran-total-sales">
+                        {/* <div className="gran-total-sales">
                            <div className="title">
                               <p>Total Sales</p>
                            </div>
@@ -593,9 +516,9 @@ export default function BusinessDashboard(props) {
                            <div className="total">
                               <p>{`$${activeDealsGranTotal}`}</p>
                            </div>
-                        </div>
+                        </div> */}
 
-                        <div className="deals-total-sales-list">
+                        {/* <div className="deals-total-sales-list">
                            <div className="title">
                               <h2>Deals Sales</h2>
                            </div>
@@ -606,7 +529,7 @@ export default function BusinessDashboard(props) {
                                  {acitveDealsTotals()}
                               </tbody>
                            </table>
-                        </div>
+                        </div> */}
                      </div>
                   </div>
 
@@ -666,12 +589,12 @@ export default function BusinessDashboard(props) {
    )
 }
 
-const ActiveDealsTotalsSalesList = (props) => {
-   return (
-      <tr>
-         <td>{props.item.product_title}</td>
-         <td>{props.item.sales}</td>
-         <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
-      </tr>
-   )
-}
+// const ActiveDealsTotalsSalesList = (props) => {
+//    return (
+//       <tr>
+//          <td>{props.item.product_title}</td>
+//          <td>{props.item.sales}</td>
+//          <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
+//       </tr>
+//    )
+// }
