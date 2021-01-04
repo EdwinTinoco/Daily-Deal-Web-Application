@@ -58,7 +58,6 @@ export default function BusinessDashboard(props) {
    const [activeDealsTotals, setActiveDealsTotals] = useState([])
    const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
    const [dataChart, setDataChart] = useState({})
-   const [year, setYear] = useState("")
    const [showSpinner, setShowSpinner] = useState("none")
    const [showSpinner2, setShowSpinner2] = useState("none")
    const [activePage, setActivePage] = useState(1)
@@ -66,6 +65,7 @@ export default function BusinessDashboard(props) {
    const [pageRange] = useState(5)
    const [totalRecords, setTotalrecords] = useState(0)
    const [resultsRecords, setResultsRecords] = useState(0)
+   const [yearSelected, setYearSelected] = useState()
 
    const handlePageChange = (pageNumber) => {
       setActivePage(pageNumber);
@@ -136,7 +136,7 @@ export default function BusinessDashboard(props) {
       }
    }
 
-   const getBaChartAllDealsTotalsSales = async () => {
+   const getBaChartAllDealsTotalsSalesMonth = async (yearToConsult) => {
       setShowSpinner("block")
 
       let userCookie = Cookies.get("_sb%_user%_session")
@@ -160,106 +160,305 @@ export default function BusinessDashboard(props) {
 
          setUserId(userId)
 
-         let month = []
-         let monthNoDuplicates = []
-         let monthWord = []
+         let labels = []
+         let deals = []
+         let dealsNoDuplicates = []
          let data = []
          let dataSet = []
+         var currentMonth = moment().month();
+         var currentYear = parseInt(moment().format('YYYY'));
 
-         await axios.get(`${devEnv}/api/ba/all-deals/totals/${userId}`)
+         await axios.post(`${devEnv}/api/ba/all-deals/totals`,
+         {
+            userId: userId,
+            yearToConsult: yearToConsult
+         })
             .then(response => {
-               console.log('all deals totals', response.data);
+               console.log('ba chart all deals totals', response.data);
 
-               setYear(response.data[0]['year'])
-
-               for (let obj of response.data) {
-                  month.push(obj.month)
-
-                  // console.log('total sales', obj.total_sales.toFixed(2));
-
-                  var letters = "0123456789ABCDEF";
-                  var color = '#';
-                  for (var i = 0; i < 6; i++)
-                     color += letters[(Math.floor(Math.random() * 16))];
-
-                  // data.push(parseFloat(obj.total_sales).toFixed(2))
-                  // console.log('data array', data);
-
-                  dataSet.push({
-                     label: obj.product_title,
-                     backgroundColor: [color],
-                     borderColor: 'rgba(0,0,0,1)',
-                     data: [parseFloat(obj.total_sales).toFixed(2)]
-                  })
-               }
-
-               monthNoDuplicates = [...new Set(month)];
-               console.log('labels', monthNoDuplicates);
-
-               for (var item of monthNoDuplicates) {
-                  switch (item) {
+               if (yearToConsult < currentYear){
+                  labels = []
+                  labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+               }else if (yearToConsult === currentYear){
+                  switch (currentMonth) {
+                     case 0:
+                        labels = []
+                        labels.push('Jan');
+                        break;
                      case 1:
-                        monthWord.push('Jan');
+                        labels = []
+                        labels.push('Jan', 'Feb');
                         break;
                      case 2:
-                        monthWord.push('feb');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar');
                         break;
                      case 3:
-                        monthWord.push('Mar');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr');
                         break;
                      case 4:
-                        monthWord.push('Apr');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May');
                         break;
                      case 5:
-                        monthWord.push('May');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun');
                         break;
                      case 6:
-                        monthWord.push('Jun');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul');
                         break;
                      case 7:
-                        monthWord.push('Jul');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug');
                         break;
                      case 8:
-                        monthWord.push('Aug');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep');
                         break;
                      case 9:
-                        monthWord.push('Sep');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct');
                         break;
                      case 10:
-                        monthWord.push('Oct');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov');
                         break;
                      case 11:
-                        monthWord.push('Nov');
-                        break;
-                     case 12:
-                        monthWord.push('Dec');
+                        labels = []
+                        labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
                         break;
                   }
                }
 
-               console.log('month word', monthWord);
+            deals = []
+            dealsNoDuplicates = []
+            for (var x of response.data) {
+               deals.push(x.product_title)
+            }
+            dealsNoDuplicates = [...new Set(deals)];
 
-               setDataChart({
-                  labels: monthWord,
-                  datasets: dataSet
-               })
+            console.log('yeart to consult, current year', yearToConsult, currentYear, currentMonth);
 
-               let granTotal = 0
-               for (var total of response.data) {
-                  granTotal += parseFloat(total.total_sales)
+            dataSet = []
+            for (var pname of dealsNoDuplicates){
+               if (yearToConsult < currentYear){
+                  console.log('entro year minor than current year');
+                  data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+               } else if (yearToConsult === currentYear){
+                  console.log('entro year igual than current year');
+                  data = []
+               }
+               
+               for (let obj of response.data) {
+                  if (pname === obj.product_title){
+
+                     switch (obj.month_sales) {
+                        case 1:    
+                           if (yearToConsult < currentYear){
+                              data[0] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }                
+                           break;
+                        case 2:
+                           if (yearToConsult < currentYear){
+                              data[1] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 3:
+                           if (yearToConsult < currentYear){
+                              data[2] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                        case 4:
+                           if (yearToConsult < currentYear){
+                              data[3] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 5:
+                           if (yearToConsult < currentYear){
+                              data[4] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 6:
+                           if (yearToConsult < currentYear){
+                              data[5] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 7:
+                           if (yearToConsult < currentYear){
+                              data[6] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 8:
+                           if (yearToConsult < currentYear){
+                              data[7] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 9:
+                           if (yearToConsult < currentYear){
+                              data[8] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 10:
+                           if (yearToConsult < currentYear){
+                              data[9] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }      
+                           break;
+                        case 11:
+                           if (yearToConsult < currentYear){
+                              data[10] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                        case 12:
+                           if (yearToConsult < currentYear){
+                              data[11] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                     }
+                  }
                }
 
-               setActiveDealsGranTotal(granTotal.toFixed(2))
+               console.log('data', data);
+               
+               var colors = []
+               for (var j=0; j < labels.length; j++){
+                  var letters = "0123456789ABCDEF";
+                  var color = '#';
+                  for (var i = 0; i < 6; i++)
+                     color += letters[(Math.floor(Math.random() * 16))];
+                     colors.push(color)
+               }
+
+               dataSet.push({
+                  label: pname,
+                  backgroundColor: colors,
+                  borderColor: 'rgba(0,0,0,1)',
+                  data: data
+               })
+            }
+
+            setDataChart({
+               labels: labels,
+               datasets: dataSet
+            }) 
+
+            setShowSpinner("none")
+
+               // setYear(response.data[0]['year'])
+
+               // for (let obj of response.data) {
+               //    month.push(obj.month)
+
+               //    // console.log('total sales', obj.total_sales.toFixed(2));
+
+               //    var letters = "0123456789ABCDEF";
+               //    var color = '#';
+               //    for (var i = 0; i < 6; i++)
+               //       color += letters[(Math.floor(Math.random() * 16))];
+
+               //    // data.push(parseFloat(obj.total_sales).toFixed(2))
+               //    // console.log('data array', data);
+
+               //    dataSet.push({
+               //       label: obj.product_title,
+               //       backgroundColor: [color],
+               //       borderColor: 'rgba(0,0,0,1)',
+               //       data: [parseFloat(obj.total_sales).toFixed(2)]
+               //    })
+               // }
+
+               // monthNoDuplicates = [...new Set(month)];
+               // console.log('labels', monthNoDuplicates);
+
+               // for (var item of monthNoDuplicates) {
+               //    switch (item) {
+               //       case 1:
+               //          monthWord.push('Jan');
+               //          break;
+               //       case 2:
+               //          monthWord.push('feb');
+               //          break;
+               //       case 3:
+               //          monthWord.push('Mar');
+               //          break;
+               //       case 4:
+               //          monthWord.push('Apr');
+               //          break;
+               //       case 5:
+               //          monthWord.push('May');
+               //          break;
+               //       case 6:
+               //          monthWord.push('Jun');
+               //          break;
+               //       case 7:
+               //          monthWord.push('Jul');
+               //          break;
+               //       case 8:
+               //          monthWord.push('Aug');
+               //          break;
+               //       case 9:
+               //          monthWord.push('Sep');
+               //          break;
+               //       case 10:
+               //          monthWord.push('Oct');
+               //          break;
+               //       case 11:
+               //          monthWord.push('Nov');
+               //          break;
+               //       case 12:
+               //          monthWord.push('Dec');
+               //          break;
+               //    }
+               // }
+
+               // console.log('month word', monthWord);
+
+               // setDataChart({
+               //    labels: monthWord,
+               //    datasets: dataSet
+               // })
+
+               // let granTotal = 0
+               // for (var total of response.data) {
+               //    granTotal += parseFloat(total.total_sales)
+               // }
+
+               // setActiveDealsGranTotal(granTotal.toFixed(2))
 
                // let header = Object.keys(response.data[0])
                // header.shift()
                // setHeaderActiveDealsTotals(header)
 
-               setActiveDealsTotals(
-                  response.data
-               )
+               // setActiveDealsTotals(
+               //    response.data
+               // )
 
-               setShowSpinner("none")
+               // setShowSpinner("none")
             })
             .catch(error => {
                console.log('getBaChartAllDealsTotalsSales error', error);
@@ -318,7 +517,10 @@ export default function BusinessDashboard(props) {
    }
 
    useEffect(() => {
-      getBaChartAllDealsTotalsSales()
+      var currentYear = parseInt(moment().format('YYYY'));
+      setYearSelected(currentYear)
+
+      getBaChartAllDealsTotalsSalesMonth(currentYear)
 
       var offset = 0;
       var first_load = true;
@@ -348,7 +550,7 @@ export default function BusinessDashboard(props) {
                            options={{
                               title: {
                                  display: true,
-                                 text: `Product deals totals per month in ${year}`,
+                                 text: `Product deals totals per month in ${yearSelected}`,
                                  fontSize: 15
                               },
                               legend: {
@@ -362,6 +564,27 @@ export default function BusinessDashboard(props) {
                      </div>
 
                      <div className="deals-total-sales-info">
+                        <div className="year-search">
+                           <label htmlFor="year_selected">Year:</label>
+                           <select className='new-entry-input'
+                              value={yearSelected}
+                              onChange={({ target }) => {
+                                 setYearSelected(parseInt(target.value))
+
+                                 getBaChartAllDealsTotalsSalesMonth(parseInt(target.value))
+                                 // getPanelTotalSalesBusiness(parseInt(target.value))
+
+                                 // var offset = 0;
+                                 // var first_load = true;
+                                 // getAllActiveDealsList(offset, first_load, parseInt(target.value))
+                              }}
+                              id="year_selected"
+                           >
+                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
+                              <option value={2020}>{2020}</option>
+                           </select>
+                        </div>
+
                         <div className="gran-total-sales">
                            <div className="title">
                               <p>Total Sales</p>

@@ -32,6 +32,28 @@
       .deals-total-sales-info{
          padding: 20px 45px;
 
+         .year-search{
+            padding: 5px 0;
+
+            label{
+               margin-right: 10px;
+               font-size: 1.5rem;
+               color: $orange-buttons;
+            }
+
+            .new-entry-input{
+               padding: 2px 15px;
+               font-size: 1.5rem;
+               border-radius: 5px;
+               border: 1px solid $gray-bg-dealproduct;    
+               
+               &:focus{
+                  outline: none;
+                  border: 1px solid $gray-description;    
+               }
+            }
+         }
+
          .gran-total-sales{
             text-align: center;
             margin-bottom: 30px;

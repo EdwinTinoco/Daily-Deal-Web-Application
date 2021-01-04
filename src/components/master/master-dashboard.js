@@ -185,38 +185,74 @@ export default function MasterDashboard(props) {
 
                      switch (obj.month_sales) {
                         case 1:    
-                        if (yearToConsult < currentYear){
-                           data[0] = parseFloat(obj.total_sales).toFixed(2) 
-                        } else if (yearToConsult === currentYear){
-                           data.push(parseFloat(obj.total_sales).toFixed(2) )
-                        }                
+                           if (yearToConsult < currentYear){
+                              data[0] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }                
                            break;
                         case 2:
-                           data[1] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[1] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 3:
-                           data[2] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[2] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
                            break;
                         case 4:
-                           data[3] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[3] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 5:
-                           data[4] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[4] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 6:
-                           data[5] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[5] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 7:
-                           data[6] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[6] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 8:
-                           data[7] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[7] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 9:
-                           data[8] = parseFloat(obj.total_sales).toFixed(2) 
+                           if (yearToConsult < currentYear){
+                              data[8] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
                            break;
                         case 10:
-                           data[9] = parseFloat(obj.total_sales).toFixed(2)        
+                           if (yearToConsult < currentYear){
+                              data[9] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }      
                            break;
                         case 11:
                            if (yearToConsult < currentYear){
@@ -386,6 +422,7 @@ export default function MasterDashboard(props) {
                               <option value={2020}>{2020}</option>
                            </select>
                         </div>
+                        
                         <div className="deals-total-sales">
                            <div className="title">
                               <h2>Total Sales p/Business</h2>
