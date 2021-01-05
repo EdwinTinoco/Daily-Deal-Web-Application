@@ -266,7 +266,7 @@ export default function ActiveDealDetail(props) {
             :
             (
                <div>
-                  <div className="deal-detail-info-chart">
+                  {/* <div className="deal-detail-info-chart"> */}
                      <div className="deal-detail-info">
                         <div className="product-info">
                            <p className="title">Product Info</p>
@@ -314,7 +314,7 @@ export default function ActiveDealDetail(props) {
                            }}
                         />
                      </div> */}
-                  </div>
+                  {/* </div> */}
 
                   <div className="deal-sales-details-list">
                      <div className="title-export-csv">
