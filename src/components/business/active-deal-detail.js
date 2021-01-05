@@ -164,8 +164,8 @@ export default function ActiveDealDetail(props) {
          headerDealSales = ["Customer Name", "Customer Email", "Sale Date", "Product", "Subtotal", "taxes", "Total", "Shipping Type"]
       }
 
-      return headerDealSales.map((key, index) => {
-         return <th key={index}>{key.toUpperCase()}</th>
+      return headerDealSales.map((item, index) => {
+         return <th key={index}>{item.toUpperCase()}</th>
       })
    }
 
@@ -266,7 +266,7 @@ export default function ActiveDealDetail(props) {
             :
             (
                <div>
-                  <div className="deal-detail-info-chart">
+                  {/* <div className="deal-detail-info-chart"> */}
                      <div className="deal-detail-info">
                         <div className="product-info">
                            <p className="title">Product Info</p>
@@ -294,7 +294,7 @@ export default function ActiveDealDetail(props) {
                         </div>
                      </div>
 
-                     <div className="deal-detail-chart">
+                     {/* <div className="deal-detail-chart">
                         <Line
                            data={state}
                            width={100}
@@ -313,8 +313,8 @@ export default function ActiveDealDetail(props) {
                               maintainAspectRatio: false
                            }}
                         />
-                     </div>
-                  </div>
+                     </div> */}
+                  {/* </div> */}
 
                   <div className="deal-sales-details-list">
                      <div className="title-export-csv">

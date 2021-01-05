@@ -20,6 +20,30 @@
       }
    }
 
+   .year-search{
+      text-align: right;
+      padding: 3px 0;
+      background-color:  #7a7979;
+
+      label{
+         margin-right: 10px;
+         font-size: 1.3rem;
+         color: #fff;
+      }
+
+      .new-entry-input{
+         margin-right: 15px;
+         font-size: 1.2rem;
+         border-radius: 5px;
+         border: 1px solid $gray-bg-dealproduct;   
+         
+         &:focus{
+            outline: none;
+            border: 1px solid $gray-description;    
+         }
+      }
+   }
+
    .chart-total-sales-info{     
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -30,7 +54,7 @@
       }
 
       .deals-total-sales-info{
-         padding: 20px 45px;        
+         padding: 20px 45px;               
 
          .deals-total-sales{
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);  

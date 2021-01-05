@@ -14,28 +14,31 @@ export default function ActiveDealsList(props) {
       product_price,
       stock_quantity,
       stock_left,
-      shipping_type_title
+      shipping_type_title,
+      sales,
+      total_sales
    } = props.item
 
    return (
-      <tr key={props.key}>
+      <tr>
          <td>
             <Link to={`/ba/active-deal/detail/${deal_id}`}>
                {product_title}
             </Link>
          </td>
-         <td>{deal_id}</td>
          <td>{deal_url}</td>
          <td>{moment.utc(deal_started_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
          <td>{moment.utc(deal_finished_date).local().format("MMMM Do YYYY, hh:mm:ss a")}</td>
          <td>{stock_quantity}</td>
          <td>{stock_left}</td>
-         <td>{`$${product_price}`}</td>
+         <td>{`$${parseFloat(product_price).toFixed(2)}`}</td>
+         <td>{sales}</td>
+         <td>{`$${parseFloat(total_sales).toFixed(2)}`}</td>
          <td>{shipping_type_title}</td>
          <td>{deal_status}</td>
-         <td>
+         {/* <td>
             <FontAwesomeIcon icon="edit" />
-         </td>
+         </td> */}
       </tr>
    )
 }
