@@ -22,12 +22,12 @@ export default function AllActiveDealsList(props) {
    return (
       <tr>
          <td>
-            <Link to={`/ba/active-deal/detail/${deal_id}`}>
+            <Link to={`/ba/active-deal/detail/${deal_id}`}>                        
                {product_title}
             </Link>
          </td>
          <td>
-            <Link to={`/ma/deals-business/detail/${deal_user_id}`}>
+            <Link to={{ pathname: `/ma/deals-business/detail/${deal_user_id}`, state: { yearSelected: props.yearSelected, business: user_name } }}>               
                {user_name}
             </Link>
          </td>

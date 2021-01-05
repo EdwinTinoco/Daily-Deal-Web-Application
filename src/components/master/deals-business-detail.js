@@ -53,10 +53,9 @@ import { devEnv } from "../../helpers/dev-env"
 
 export default function BusinessDashboard(props) {
    const [activeDealsList, setActiveDealsList] = useState([])
-   const [activeDealsTotals, setActiveDealsTotals] = useState([])
-   const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
+   // const [activeDealsTotals, setActiveDealsTotals] = useState([])
+   // const [activeDealsGranTotal, setActiveDealsGranTotal] = useState(0)
    const [dataChart, setDataChart] = useState({})
-   const [year, setYear] = useState("")
    const [showSpinner, setShowSpinner] = useState("none")
    const [showSpinner2, setShowSpinner2] = useState("none")
    const [activePage, setActivePage] = useState(1)
@@ -64,17 +63,19 @@ export default function BusinessDashboard(props) {
    const [pageRange] = useState(5)
    const [totalRecords, setTotalrecords] = useState(0)
    const [resultsRecords, setResultsRecords] = useState(0)
+   const [yearSelected, setYearSelected] = useState()
 
    const handlePageChange = (pageNumber) => {
       setActivePage(pageNumber);
 
       var offset = (pageNumber - 1) * perPage
       var first_load = false;
+      var yearToConsult = yearSelected
       
-      getBaDealsList(offset, first_load)
+      getBaDealsList(offset, first_load, yearToConsult)
     }
 
-   const getBaDealsList = async (offset, first_load) => {
+   const getBaDealsList = async (offset, first_load, yearToConsult) => {
       if (first_load){
          setShowSpinner2("none")
       } else {
@@ -86,7 +87,8 @@ export default function BusinessDashboard(props) {
             userId: props.match.params.slug,
             currentDate: moment.utc().format(),
             perPage: perPage,
-            offset: offset
+            offset: offset,
+            yearSelected: yearToConsult
          })
          .then(response => {
             console.log('deals', response.data);
@@ -111,115 +113,237 @@ export default function BusinessDashboard(props) {
          })
    }
 
-   const getBaChartAllDealsTotalsSales = async () => {
+   const getBaChartAllDealsTotalsSalesMonth = async (yearToConsult) => {
       setShowSpinner("block")
 
-      let month = []
-      let monthNoDuplicates = []
-      let monthWord = []
+      let labels = []
+      let deals = []
+      let dealsNoDuplicates = []
       let data = []
       let dataSet = []
+      var currentMonth = moment().month();
+      var currentYear = parseInt(moment().format('YYYY'));
 
-      await axios.get(`${devEnv}/api/ba/all-deals/totals/${props.match.params.slug}`)
+      await axios.post(`${devEnv}/api/ba/all-deals/totals`,
+      {
+         userId: props.match.params.slug,
+         yearToConsult: yearToConsult
+      })
          .then(response => {
-            console.log('all deals totals', response.data);
+            console.log('ba chart all deals totals', response.data);
 
-            setYear(response.data[0]['year'])
-
-            for (let obj of response.data) {
-               month.push(obj.month)
-
-               console.log('total sales', obj.total_sales.toFixed(2));
-
-               var letters = "0123456789ABCDEF";
-               var color = '#';
-               for (var i = 0; i < 6; i++)
-                  color += letters[(Math.floor(Math.random() * 16))];
-
-               dataSet.push({
-                  label: obj.product_title,
-                  backgroundColor: [color],
-                  borderColor: 'rgba(0,0,0,1)',
-                  data: [parseFloat(obj.total_sales).toFixed(2)]
-               })
-            }
-
-            monthNoDuplicates = [...new Set(month)];
-            console.log('labels', monthNoDuplicates);
-
-            for (var item of monthNoDuplicates) {
-               switch (item) {
+            if (yearToConsult < currentYear){
+               labels = []
+               labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+            }else if (yearToConsult === currentYear){
+               switch (currentMonth) {
+                  case 0:
+                     labels = []
+                     labels.push('Jan');
+                     break;
                   case 1:
-                     monthWord.push('Jan');
+                     labels = []
+                     labels.push('Jan', 'Feb');
                      break;
                   case 2:
-                     monthWord.push('feb');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar');
                      break;
                   case 3:
-                     monthWord.push('Mar');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr');
                      break;
                   case 4:
-                     monthWord.push('Apr');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May');
                      break;
                   case 5:
-                     monthWord.push('May');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun');
                      break;
                   case 6:
-                     monthWord.push('Jun');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul');
                      break;
                   case 7:
-                     monthWord.push('Jul');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug');
                      break;
                   case 8:
-                     monthWord.push('Aug');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep');
                      break;
                   case 9:
-                     monthWord.push('Sep');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct');
                      break;
                   case 10:
-                     monthWord.push('Oct');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov');
                      break;
                   case 11:
-                     monthWord.push('Nov');
-                     break;
-                  case 12:
-                     monthWord.push('Dec');
+                     labels = []
+                     labels.push('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
                      break;
                }
             }
 
-            console.log('month word', monthWord);
+            deals = []
+            dealsNoDuplicates = []
+            for (var x of response.data) {
+               deals.push(x.product_title)
+            }
+            dealsNoDuplicates = [...new Set(deals)];
 
-            setDataChart({
-               labels: monthWord,
-               datasets: dataSet
-            })
+            console.log('yeart to consult, current year', yearToConsult, currentYear, currentMonth);
 
-            let granTotal = 0
-            for (var total of response.data) {
-               granTotal += parseFloat(total.total_sales)
+            dataSet = []
+            for (var pname of dealsNoDuplicates){
+               if (yearToConsult < currentYear){
+                  console.log('entro year minor than current year');
+                  data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+               } else if (yearToConsult === currentYear){
+                  console.log('entro year igual than current year');
+                  data = []
+               }
+               
+               for (let obj of response.data) {
+                  if (pname === obj.product_title){
+
+                     switch (obj.month_sales) {
+                        case 1:    
+                           if (yearToConsult < currentYear){
+                              data[0] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }                
+                           break;
+                        case 2:
+                           if (yearToConsult < currentYear){
+                              data[1] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 3:
+                           if (yearToConsult < currentYear){
+                              data[2] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                        case 4:
+                           if (yearToConsult < currentYear){
+                              data[3] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 5:
+                           if (yearToConsult < currentYear){
+                              data[4] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 6:
+                           if (yearToConsult < currentYear){
+                              data[5] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 7:
+                           if (yearToConsult < currentYear){
+                              data[6] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 8:
+                           if (yearToConsult < currentYear){
+                              data[7] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 9:
+                           if (yearToConsult < currentYear){
+                              data[8] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }  
+                           break;
+                        case 10:
+                           if (yearToConsult < currentYear){
+                              data[9] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }      
+                           break;
+                        case 11:
+                           if (yearToConsult < currentYear){
+                              data[10] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                        case 12:
+                           if (yearToConsult < currentYear){
+                              data[11] = parseFloat(obj.total_sales).toFixed(2) 
+                           } else if (yearToConsult === currentYear){
+                              data.push(parseFloat(obj.total_sales).toFixed(2) )
+                           }   
+                           break;
+                     }
+                  }
+               }
+
+               console.log('data', data);
+               
+               var colors = []
+               for (var j=0; j < labels.length; j++){
+                  var letters = "0123456789ABCDEF";
+                  var color = '#';
+                  for (var i = 0; i < 6; i++)
+                     color += letters[(Math.floor(Math.random() * 16))];
+                     colors.push(color)
+               }
+
+               dataSet.push({
+                  label: pname,
+                  backgroundColor: colors,
+                  borderColor: 'rgba(0,0,0,1)',
+                  data: data
+               })
             }
 
-            setActiveDealsGranTotal(granTotal.toFixed(2))
+            setDataChart({
+               labels: labels,
+               datasets: dataSet
+            }) 
 
-            // let header = Object.keys(response.data[0])
-            // header.shift()
-            // setHeaderActiveDealsTotals(header)
+            // let granTotal = 0
+            // for (var total of response.data) {
+            //    granTotal += parseFloat(total.total_sales)
+            // }
 
-            setActiveDealsTotals(
-               response.data
-            )
+            // setActiveDealsGranTotal(granTotal.toFixed(2))
+
+            // setActiveDealsTotals(
+            //    response.data
+            // )
 
             setShowSpinner("none")
          })
          .catch(error => {
-            console.log('getChartAllDealsTotalsSales error', error);
+            console.log('getBaChartAllDealsTotalsSalesMonth error', error);
             setShowSpinner("none")
          })
    }
 
    const tableHeaderActiveDeals = () => {
-      let headerActiveDeals = ["Product", "Deal #", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Shipping Type", "Deal Status", "Actions"]
+      let headerActiveDeals = ["Product", "Deal URL", "Deal Started Date", "Deal Finished Date", "Stock", "Stock left", "Price", "Sales", "Total Sales", "Shipping Type", "Deal Status"]      
 
       return headerActiveDeals.map((item, index) => {
          return <th key={index}>{item.toUpperCase()}</th>
@@ -237,32 +361,35 @@ export default function BusinessDashboard(props) {
       })
    }
 
-   const tableHeaderActiveDealsTotals = () => {
-      let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
+   // const tableHeaderActiveDealsTotals = () => {
+   //    let headerActiveDealsTotals = ['Product Title', 'Sales', 'Total']
 
-      return headerActiveDealsTotals.map((item, index) => {
-         return <th key={index}>{item.toUpperCase()}</th>
-      })
-   }
+   //    return headerActiveDealsTotals.map((item, index) => {
+   //       return <th key={index}>{item.toUpperCase()}</th>
+   //    })
+   // }
 
-   const acitveDealsTotals = () => {
-      return activeDealsTotals.map(item => {
-         return (
-            <ActiveDealsTotalsSalesList
-               key={item.product_id}
-               item={item}
-            />
-         )
-      })
-   }
+   // const acitveDealsTotals = () => {
+   //    return activeDealsTotals.map(item => {
+   //       return (
+   //          <ActiveDealsTotalsSalesList
+   //             key={item.product_id}
+   //             item={item}
+   //          />
+   //       )
+   //    })
+   // }
 
    useEffect(() => {
-      getBaChartAllDealsTotalsSales()
+      var year_selected = props.location.state.yearSelected
+      setYearSelected(year_selected)
+
+      getBaChartAllDealsTotalsSalesMonth(year_selected)
 
       var offset = 0;
       var first_load = true;
 
-      getBaDealsList(offset, first_load)
+      getBaDealsList(offset, first_load, year_selected)
    }, [])
 
    return (
@@ -279,6 +406,32 @@ export default function BusinessDashboard(props) {
             (
                <div>
                   <div className="chart-total-sales-info">
+                     <div className="business-year-search">
+                        <div className="business-name">
+                           <p>{props.location.state.business}</p>
+                        </div>
+
+                        <div className="year-search">
+                           <label htmlFor="year_selected">Search:</label>
+                           <select className='new-entry-input'
+                              value={yearSelected}
+                              onChange={({ target }) => {
+                                 setYearSelected(parseInt(target.value))
+
+                                 getBaChartAllDealsTotalsSalesMonth(parseInt(target.value))
+
+                                 var offset = 0;
+                                 var first_load = true;
+                                 getBaDealsList(offset, first_load, parseInt(target.value))
+                              }}
+                              id="year_selected"
+                           >
+                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
+                              <option value={2020}>{2020}</option>
+                           </select>
+                        </div>
+                     </div>
+
                      <div className="chart-deals">
                         <Bar
                            data={dataChart}
@@ -287,7 +440,7 @@ export default function BusinessDashboard(props) {
                            options={{
                               title: {
                                  display: true,
-                                 text: `Product deals totals per month in ${year}`,
+                                 text: `Totals sales per deal per month in ${yearSelected}`,
                                  fontSize: 15
                               },
                               legend: {
@@ -301,7 +454,7 @@ export default function BusinessDashboard(props) {
                      </div>
 
                      <div className="deals-total-sales-info">
-                        <div className="gran-total-sales">
+                        {/* <div className="gran-total-sales">
                            <div className="title">
                               <p>Total Sales</p>
                            </div>
@@ -322,7 +475,7 @@ export default function BusinessDashboard(props) {
                                  {acitveDealsTotals()}
                               </tbody>
                            </table>
-                        </div>
+                        </div> */}
                      </div>
                   </div>
 
@@ -378,12 +531,12 @@ export default function BusinessDashboard(props) {
    )
 }
 
-const ActiveDealsTotalsSalesList = (props) => {
-   return (
-      <tr>
-         <td>{props.item.product_title}</td>
-         <td>{props.item.sales}</td>
-         <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
-      </tr>
-   )
-}
+// const ActiveDealsTotalsSalesList = (props) => {
+//    return (
+//       <tr>
+//          <td>{props.item.product_title}</td>
+//          <td>{props.item.sales}</td>
+//          <td>{`$${props.item.total_sales.toFixed(2)}`}</td>
+//       </tr>
+//    )
+// }

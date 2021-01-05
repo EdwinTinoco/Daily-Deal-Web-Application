@@ -329,6 +329,7 @@ export default function MasterDashboard(props) {
             <AllActiveDealsList
                key={item.deal_id}
                item={item}
+               yearSelected={yearSelected}
             />
          )
       })
