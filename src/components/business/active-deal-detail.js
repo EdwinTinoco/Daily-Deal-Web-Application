@@ -294,7 +294,7 @@ export default function ActiveDealDetail(props) {
                         </div>
                      </div>
 
-                     <div className="deal-detail-chart">
+                     {/* <div className="deal-detail-chart">
                         <Line
                            data={state}
                            width={100}
@@ -313,7 +313,7 @@ export default function ActiveDealDetail(props) {
                               maintainAspectRatio: false
                            }}
                         />
-                     </div>
+                     </div> */}
                   </div>
 
                   <div className="deal-sales-details-list">

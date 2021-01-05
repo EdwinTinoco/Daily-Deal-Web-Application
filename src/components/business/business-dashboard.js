@@ -543,7 +543,7 @@ export default function BusinessDashboard(props) {
 
                   <div className="active-deals-wrapper">
                      <div className="title">
-                        <h2>Deals List</h2>
+                        <h2>Detail Sales p/Deal</h2>
                      </div>
 
                      {showSpinner2 === "none" ? 
