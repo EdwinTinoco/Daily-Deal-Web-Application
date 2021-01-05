@@ -380,6 +380,27 @@ export default function MasterDashboard(props) {
             :
             (
                <div>
+                  <div className="year-search">
+                     <label htmlFor="year_selected">Search:</label>
+                     <select className='new-entry-input'
+                        value={yearSelected}
+                        onChange={({ target }) => {
+                           setYearSelected(parseInt(target.value))
+
+                           getMaChartAllDealsTotalsSalesMonth(parseInt(target.value))
+                           getPanelTotalSalesBusiness(parseInt(target.value))
+
+                           var offset = 0;
+                           var first_load = true;
+                           getAllActiveDealsList(offset, first_load, parseInt(target.value))
+                        }}
+                        id="year_selected"
+                     >
+                        <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
+                        <option value={2020}>{2020}</option>
+                     </select>
+                  </div>
+
                   <div className="chart-total-sales-info">
                      <div className="chart-deals">
                         <Bar
@@ -403,27 +424,6 @@ export default function MasterDashboard(props) {
                      </div>
 
                      <div className="deals-total-sales-info">
-                        <div className="year-search">
-                           <label htmlFor="year_selected">Year:</label>
-                           <select className='new-entry-input'
-                              value={yearSelected}
-                              onChange={({ target }) => {
-                                 setYearSelected(parseInt(target.value))
-
-                                 getMaChartAllDealsTotalsSalesMonth(parseInt(target.value))
-                                 getPanelTotalSalesBusiness(parseInt(target.value))
-
-                                 var offset = 0;
-                                 var first_load = true;
-                                 getAllActiveDealsList(offset, first_load, parseInt(target.value))
-                              }}
-                              id="year_selected"
-                           >
-                              <option value={parseInt(moment().format('YYYY'))}>{parseInt(moment().format('YYYY'))}</option>
-                              <option value={2020}>{2020}</option>
-                           </select>
-                        </div>
-                        
                         <div className="deals-total-sales">
                            <div className="title">
                               <h2>Total Sales p/Business</h2>
